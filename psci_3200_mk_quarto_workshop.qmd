@@ -4,6 +4,7 @@ author: "Makenzie Kerneckel"
 date: last-modified
 institute: "University of Pennsylvannia" 
 toc: true 
+bibliography: references.bib
 format: 
   html:
     self-contained: true
@@ -11,23 +12,66 @@ editor: source
 
 ---
 
-## Quarto
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
-## Running Code
+## Formatting 
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+We created the first section. 
 
-```{r}
-1 + 1
+### Subsection 
+
+How to do math mode things. 
+
+
+$$
+\widehat{ATE} = \overline{Y}
+$$
+
+
+### Creating Lists 
+
+<!-- # there always has to be a blank line above the list  -->
+
+- Bullet one 
+- Bullet two 
+  + bullet 2.5 
+  
+This works in a *italics* sentence. 
+
+**bold**
+
+## Code Chunks 
+
+``` {r}
+
+# imagine a ggplot here 
+
+10 + 15 
+
 ```
 
-You can add options to executable code like this
+### Only print your output 
 
 ```{r}
 #| echo: false
-2 * 2
+
+# just print the output 
+
+10 + 15
+
+data <- c(10,11) 
+
+
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+
+
+
+##
+
+Use code within the text to describe your data (n = `r sum(data)`).
+
+
+[@grossman2022government]
+
+
