@@ -1,0 +1,222 @@
+---
+title: "Causal Inference Workshop"
+author: "Makenzie Kerneckel"
+date: last-modified
+institute: "University of Pennsylvannia" 
+toc: true 
+bibliography: references.bib
+format: 
+  html:
+    self-contained: true
+editor: source
+---
+
+```{r, include=FALSE}
+
+
+library(ggplot2)
+library(ggdag)
+library(dplyr)
+library(gt)
+library(tidyverse)
+library(modelsummary)
+
+```
+
+## Confounders 
+
+- A confounder variable is something that affects both the probability of recieving treatment and the value of the outcome variable. 
+- To account for confounders we must control for the in our model! 
+
+
+```{r, echo=FALSE, fig.width=9}
+
+
+causal_coords <- list(x = c(Treatment = 2, 
+                            Outcome = 4, 
+                            Confounder = 3), 
+                      y =c(Treatment = 2, 
+                           Outcome = 2, 
+                           Confounder = 3))
+causal_coords
+confounder_dag = dagify(
+  Outcome ~ Treatment + Confounder,
+  Treatment ~ Confounder,
+  exposure = "Treatment",
+  outcome = "Outcome",
+  latent = "Confounder",
+  coords = causal_coords) 
+
+confounder_dag %>%
+  tidy_dagitty() %>% 
+  node_status() %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_edges() +
+  geom_dag_point(aes(color = status), size = 14) +
+  geom_dag_text(color = "black", size = 5, angle = 25) +
+  scale_color_manual(values = c("#FF4136", "grey60", "#0074D9")) +
+  guides(color = "none") +
+  theme_dag()
+
+```
+
+### Confounders Histogram: 
+
+```{r}
+set.seed(1234568)
+
+## Confounders: generating data according to a confounder structure
+n = 1000 # sample size
+
+# Generate a treatment variable
+x1 = rnorm(n, mean = 1, sd = 0.1)
+
+# look at the data
+ggplot() +
+  geom_histogram(aes(x = x1), bins = 30, fill = "skyblue", color = "black") +
+  geom_vline(xintercept = mean(x1), linetype = "dashed", color = "red", linewidth = 1) +
+  labs(x = "x1", y = "Frequency", title = "Histogram of x1") +
+  annotate("text", x = mean(x1) + 0.04, y = 100, label = paste0("Mean = ",round(mean(x1), digits = 0)), color = "red", size = 4)
+
+```
+
+```{r}
+# Generate a confounder
+z = rnorm(n, mean = 3, sd = 0.3)
+
+# Generate an outcome variable
+y = 2*x1 + 3*z + rnorm(n, mean = 0, sd = 1)
+
+
+# create a table showing estimates of x1 with and without x2
+modelsummary::modelsummary(
+  list(lm(y ~ x1), lm(y ~ x1 + z)),
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+```
+
+## Colliders 
+
+
+```{r, echo=FALSE, fig.width= 9}
+
+
+causal_coords <- list(x = c(Treatment = 2, 
+                            Outcome = 4, 
+                            Collider = 3), 
+                      y =c(Treatment = 2, 
+                           Outcome = 2, 
+                           Collider = 4))
+
+collider_dag = dagify(
+  Collider ~ Treatment,
+  Collider ~ Outcome,
+  exposure = "Treatment",
+  outcome = "Outcome",
+  coords = causal_coords) 
+
+
+collider_dag |> 
+  tidy_dagitty() |> 
+  node_status() |> 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_edges() +
+  geom_dag_point(aes(color = status), size = 14) +
+  geom_dag_text(color = "black", size = 5, angle = 25) +
+  scale_color_manual(values = c("#FF4136", "grey60", "#0074D9")) +
+  guides(color = "none") +
+  theme_dag()
+```
+## What is the correlation between treatment and outcome? 
+
+```{r}
+## colliders: generating data according to a collider structure
+n = 1000 
+
+# Generate a treatment variable
+x1 = rnorm(n, mean = 1, sd = 0.1)
+
+# Generate an outcome variable
+y =  rnorm(n, mean = 3, sd = 0.1) # random values for target variable y
+
+cor(x1, y)
+
+
+```
+
+
+```{r}
+# Generate a collider
+x2 = 2 * x1 + 2 * y + rnorm(n,sd = 0.1) # x2 is a collider, no influence on y, but influenced by y and x1
+
+# create a table showing estimates of x1 with and without x2
+modelsummary::modelsummary(
+  list(lm(y ~ x1), lm(y ~ x1 + x2)),
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+```
+
+# Post-Treatment Mechanism Bias 
+
+```{r, echo=FALSE, fig.width= 9}
+
+causal_coords <- list(x = c(Treatment = 2, Outcome = 4, Mechanism = 3),
+                        y = c(Treatment = 2, Outcome = 2, Mechanism = 4))  
+  
+confounder_dag = dagify(
+  Outcome ~ Treatment + Mechanism,
+  Mechanism ~ Treatment,
+  exposure = "Treatment",
+  outcome = "Outcome",
+  latent = "Mechanism",
+  coords = causal_coords) 
+
+confounder_dag |> 
+  tidy_dagitty() |> 
+  node_status() |> 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_edges() +
+  geom_dag_point(aes(color = status), size = 14) +
+  geom_dag_text(color = "black", size = 5, angle = 25) +
+  scale_color_manual(values = c("#FF4136", "grey60", "#0074D9")) +
+  guides(color = "none") +
+  theme_dag()
+
+```
+
+
+```{r, echo=FALSE, warning=FALSE}
+
+set.seed(2233)
+
+
+## Confounders: generating data according to a confounder structure
+n = 1000 # sample size
+
+# Generate a treatment variable
+x1 = rbinom(n, 1, 0.5)
+
+# Generate a mechanism
+mechanism = rnorm(n, mean = x1 * 2, sd = 1)
+
+# Generate an outcome variable
+y =  0.5 * x1 + .7 * mechanism + rnorm(n)
+
+# create a table showing estimates of x1 with and without x2
+modelsummary::modelsummary(
+  list(lm(y ~ x1), lm(y ~ x1 + mechanism)),
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+
+```
+# Reverse Causality
+
+- Way to get around this you need over time data. 
+
+
+
