@@ -1,0 +1,28 @@
+---
+title: "Final Project Proposal"
+author: "Makenzie Kerneckel"
+date: last-modified
+institute: "University of Pennsylvannia" 
+toc: true 
+bibliography: references.bib
+format: 
+  html:
+    self-contained: true
+editor: source
+---
+
+
+## Briefly describes your idea for a research question
+
+    -   This should be at least 3-4 sentences describing some relationship in the world that you want to investigate. This should involve at least two things in the world that can be measured with existing quantitative data.
+
+    -   You are welcome to submit more than 1 idea.
+
+## Proposes a dataset and measures that will help you answer it
+
+    -   This should include a specific, existing dataset that you can access
+
+    -   This should also include mention of the specific variables within that dataset that will be used to answer the research question
+
+
+
