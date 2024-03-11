@@ -48,11 +48,20 @@ election_returns %<>% rename( "ent_mun" = "inegi")
   
 # Check for municipal codes present in df1 but not in df2
 
-# these are missing election returns 
+# these are missing election returns/ newly created municipalities 
 
 records_only_in_df1 <- anti_join(election_returns, homicide_rates, by = "ent_mun")
 
-records_only_in_df1 
+# drop these municipalities since they don't have corresponding homicide rates 
+
+ent_mun_drops_er <- records_only_in_df1$ent_mun
+
+# 34,634 rows at start 
+
+election_returns %<>% filter(!is.na(ent_mun)) %>%
+                      filter(! ent_mun %in% ent_mun_drops_er)
+
+# 34,624 after, dropped 10 rows 
 
 
 # Check for municipal codes present in df2 but not in df1
@@ -60,22 +69,59 @@ records_only_in_df1
 # these are missing homicide rates
 
 records_only_in_df2 <- anti_join(homicide_rates, election_returns, by = "ent_mun")
-          
 
-# next steps
+# drop these municipalities since they don't have corresponding election returns 
 
-# drop rows from anti_join
+ent_mun_drops_hr <- records_only_in_df2$ent_mun
 
-# drop ent_mun NAs
+# 651,288 rows at start 
+
+homicide_rates %<>% filter(!is.na(ent_mun)) %>%
+  filter(! ent_mun %in% ent_mun_drops_hr)
+
+# 650,232 after, dropped 1056 rows
+
+# pick rows we need
+
+election_returns %<>% select(-c(1,3,5,8)) 
+
+# break election date into month and year so we can merge on these variables to match monthly homicide rates
+
+election_returns$date<- as.character(election_returns$date)
+  
+election_returns %<>% mutate( date = as.Date(election_returns$date, format = "%Y%m%d"),
+                              year = format(date, "%Y"),
+                              month = format(date, "%m"))
+
+# pick rows we need, again
+
+election_returns %<>% select(-c(1,4))
+
+# filter years bc homicide data starts at 2000
+
+election_returns %<>% filter(year >= 2000)
+
+# add leading zeros to homicide month col.
 
 
-# calc. pan/pri vote variable 
+add_leading_zeros_2 <- function(x) {
+  ifelse(nchar(x) == 1, paste0("0", x), as.character(x))
+}
 
-# pick columns you need
+# Apply the function to the column
 
-# pick time frame 
+
+homicide_rates$month <- as.numeric(homicide_rates$month)
+
+homicide_rates$month <- sapply(homicide_rates$month, add_leading_zeros_2) 
+
 
 # merge 
+
+election_returns$year <- as.numeric(election_returns$year )
+
+test <- full_join(homicide_rates,election_returns, by = c("ent_mun", "month", "year")) %>%
+        filter(!is.na(mun))
 
 
 

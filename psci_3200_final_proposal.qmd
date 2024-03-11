@@ -16,13 +16,24 @@ editor: source
 
     -   This should be at least 3-4 sentences describing some relationship in the world that you want to investigate. This should involve at least two things in the world that can be measured with existing quantitative data.
 
-    -   You are welcome to submit more than 1 idea.
 
+    - For my final project, I want to examine the relationship between political events, specifically close election outcomes between rivial political parties in Mexico, and homicide rates at the municipal level. My research question aims to contribute to Melissa Dell's findings in her 2015 paper "Trafficking Networks and the Mexican Drug War". 
+    
+    - The close election variable refers to mayoral elections that were closely contested between the conservative PAN party and other political parties in Mexico during the period of 2007-2010. These close elections serve as a quasi-experimental setting to isolate the exogenous variation in drug enforcement policy and political leadership changes, allowing for the examination of the impact of PAN party victories on drug trade-related violence in municipalities
+    - Melissa Dell employs a Regression Discontinuity Design (RDD) in her study to estimate the impact of PAN party victories on drug trade-related violence in Mexican municipalities. The RDD strategy takes advantage of the fact that the party affiliation of a municipality's mayor changes discontinuously at the threshold between a PAN victory and loss. By comparing municipalities where the PAN party won by a small margin to those where it lost by a small margin, Dell can isolate the causal effect of PAN victories on drug-related violence. 
+    
 ## Proposes a dataset and measures that will help you answer it
 
     -   This should include a specific, existing dataset that you can access
 
     -   This should also include mention of the specific variables within that dataset that will be used to answer the research question
+    
+    - Homicide Rates Data
+    
+    - Election Returns Data 
+    
+    - Determine the total votes cast for the PAN party (PAN_votes) and the total votes cast for all other parties (other_votes). Calculate the margin of victory or defeat for each election as the absolute difference between PAN_votes and other_votes.Define a threshold for what constitutes a "closely contested" election. This could be a fixed number of votes or a percentage of the total votes cast. Filter the elections where the margin of victory or defeat is within the defined threshold.
+
 
 
 
