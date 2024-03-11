@@ -11,6 +11,7 @@ editor: source
 ---
 
 
+
 ## Research question
 
 - For my final project, I want to examine the relationship between political events, specifically close election outcomes between rival political parties in Mexico, and homicide rates at the municipal level. My research question aims to contribute to Melissa Dell's findings in her 2015 paper "Trafficking Networks and the Mexican Drug War". The homicide rate data I will use comes from a github that aggregates data from the National Institute of Statistics and Geography (INEGI). The homicide data spans from 2000 to 2021. The election returns data comes from a github made by Eric Magar who compiled official vote returns from Mexico. Unlike Dell, I do not have access to drug-related homicides. 
@@ -26,6 +27,7 @@ editor: source
 ## Dataset
 
 - Data Cleaning: 
+
 
 ``` {r}
  
@@ -154,8 +156,10 @@ test <- full_join(homicide_rates,election_returns, by = c("ent_mun", "month", "y
 ```
 
 
+
 - Final Dataset:
     
+
 ``` {r}
 
 # take a small random sample of the merged data 
@@ -166,12 +170,14 @@ set.seed(1244)
 sample_frac(test, 0.00001)
 
 ```
+
     
  - I will need to calculate a vote share variable. I will do this in the following steps:
     - Determine the total votes cast for the PAN party (PAN_votes) and the total votes cast for all other parties (other_votes). 
     - Calculate the margin of victory or defeat for each election as the absolute difference between PAN_votes and other_votes.
     - Define a threshold for what constitutes a "closely contested" election.
     - Filter the elections where the margin of victory or defeat is within the defined threshold.
+
 
 
 

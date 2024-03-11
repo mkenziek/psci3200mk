@@ -10,7 +10,6 @@ onUser<-function(x){
 }
 
 if(onUser("kenziekmac")){
-  setwd("~/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk")
   figures<-"~/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Figures"
   tables<-"~/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Tables"
 }
@@ -120,10 +119,15 @@ homicide_rates$month <- sapply(homicide_rates$month, add_leading_zeros_2)
 
 election_returns$year <- as.numeric(election_returns$year )
 
-test <- full_join(homicide_rates,election_returns, by = c("ent_mun", "month", "year")) %>%
-        filter(!is.na(mun))
+test <- full_join(homicide_rates,election_returns, by = c("ent_mun", "month", "year"))
 
+# take homicide rates in months after an election occurs 
+# i would expect the main impact to be concentrated in x time after election 
+# how long does it take them to occupy office - 6 months after ? 
+# is there places where this relationship should be strong or weak?
 
+# long-term power base? or entrenched power base 
+# split up time so examine power base from 2000-2015 then analyze 2015-present 
 
 
 
