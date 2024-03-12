@@ -4,6 +4,7 @@ author: "Makenzie Kerneckel"
 date: last-modified
 institute: "University of Pennsylvannia" 
 toc: true 
+
 format: 
   html:
     self-contained: true

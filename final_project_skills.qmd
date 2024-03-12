@@ -1,0 +1,233 @@
+---
+title: "Final Report Essentials"
+author: "Makenzie Kerneckel"
+
+institute: "University of Pennsylvania"
+date: last-modified
+toc: true
+
+format: 
+  html:
+    self-contained: true
+
+editor: source
+---
+
+
+```{r }
+#| include: false
+#| warning: false
+#| message: false
+
+library(ggplot2)
+library(readr)
+library(ggdag)
+library(tidyverse)
+library(gt)
+library(modelsummary)
+
+
+``` 
+
+
+```{r}
+
+#| include: false
+#| warning: false
+#| message: false
+
+# read-in data
+cdat <- read_csv("https://raw.githubusercontent.com/jrspringman/psci3200-globaldev/main/workshops/cambodia_ngos/data.csv")
+dat <- read_csv("https://raw.githubusercontent.com/jrspringman/psci3200-globaldev/main/workshops/aau_survey/clean_endline_did.csv" ) %>%
+    # clean home region variable
+  mutate(q8_baseline = ifelse(q8_baseline == "Southern Nations, Nationalities, and Peoples Region", "SNNPR", q8_baseline), 
+         q8_baseline = str_remove(q8_baseline, " Region"))
+# create color palette for plotting
+palette <- MetBrewer::met.brewer(name = "Cross")
+
+```
+
+### Creating Index Measures 
+
+- Create an index measure when you have many variables measuring a single concept. This can be for outcomes, treatments, and covariates. 
+- Benefits: simplifies graphs and hypotheses. 
+- An additive scale is a sum across columns (index = col_1 + col_2)
+- Use additive when variables are measured on a common scale 
+
+
+### Additive Scale
+
+```{r}
+#| echo: false
+#| warning: false
+
+
+# Contacted gov't official
+# Signed a petition
+
+## Find participation measures that are based on a count
+add_ecols <- grep("q13_4_1$|q13_5_1$", names(dat), value = T)
+
+dat <- dat %>%
+  mutate(add_participation_end =  rowSums(across(add_ecols) ) )
+  #mutate(add_participation_end =  rowSums(across(add_ecols), na.rm = T) )
+
+#dat$add_participation_end = dat$q13_4_1 + dat$q13_5_1
+
+```
+
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+
+# participation
+participate <- dat %>% 
+  select(`Additive Index` = add_participation_end, 
+         `Signed petition` = q13_5_1, 
+         `Contact official` = q13_4_1) %>% 
+  drop_na() %>% 
+  pivot_longer(everything()) %>% 
+  group_by(name, value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n))
+
+
+
+ggplot(participate, aes(x = value, y = pct)) + 
+  geom_col(fill = palette[9]) + 
+  facet_wrap(vars(name), scales = "free") + 
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = "Percent of respondents", x = NULL, 
+       title = "How do youth participate?", 
+       subtitle = glue::glue("Number of respondents = {scales::comma(sum(participate$n)/7)}")) 
+
+```
+
+
+### Z-score notes
+
+- Standardized: Mean of 0 and standard deviation of 1
+- Use Z-scores when variables have different scales or when variables cannot be summed 
+
+### Averaged Z-Scores
+
+
+```{r}
+#| echo: false
+#| warning: false
+
+
+## Find participation measures that are based on likert
+# baseline
+bcols = grep("^q13_.*_baseline$", names(dat), value = T)
+dat[, paste0(bcols, "_st")] = dat[, bcols]
+bcols = paste0(bcols,"_st")
+
+# endline
+ecols = grep("^q13_[1-7]_\\d$", names(dat), value = T)
+dat[, paste0(ecols, "_st")] = dat[, ecols]
+ecols = paste0(ecols,"_st")
+
+
+# Create treatment variable
+dat = dat %>% mutate(moved = case_when(q8_baseline == "Addis Ababa" ~ 0, TRUE ~ 1) )
+
+# clean q13_
+levels = c("Never", "Once or Twice", "More than twice", "More than 5 times", 
+           "More than 10 times")
+dat = dat %>% 
+  mutate(across(c(bcols), 
+                .fns = ~ factor(.x, levels = levels)))
+
+# Create z-score function from Kling, Liberman, and Katz (2007)
+z_score = function(x, y){
+  # calculate mean and sd of control group
+  c_mean = mean( as.numeric( unlist(x[x["moved"] == 0, y])) , na.rm = T)
+  c_sd = sd( as.numeric( unlist(x[x["moved"] == 0, y])) , na.rm = T)
+  # subtract control group mean; divide by control group SD
+  ( as.numeric(x[, y, drop = TRUE]) - c_mean) / c_sd
+}
+
+# calculate z-scores
+for (i in c(bcols, ecols)) {
+  dat[,i] = z_score(dat, i)
+}
+
+dat = dat %>% 
+  rowwise() %>% 
+  mutate( z_participation_end = mean(c_across(all_of(bcols)), na.rm = TRUE)) %>% 
+  mutate( z_participation_base = mean(c_across(all_of(ecols)), na.rm = TRUE)) %>%
+  ungroup()
+
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+
+
+# raw
+participate = dat %>% 
+  select(`Attend meeting` = q13_1_baseline, 
+         `Protest` = q13_2_baseline, 
+         `NGO event` = q13_3_baseline, 
+         `Signed petition` = q13_4_baseline, 
+         `Contact official` = q13_5_baseline, 
+         `Contact student representative` = q13_6_baseline, 
+         `Contact an NGO` = q13_7_baseline) %>% 
+  drop_na() %>% 
+  pivot_longer(everything()) %>% 
+  group_by(name, value) %>% 
+  tally() %>% 
+  mutate(pct = n/sum(n)) %>% 
+  mutate(value = fct_relevel(value, "Never", after = Inf), 
+         value = fct_rev(value))
+
+ggplot(participate , aes(x = value, y = pct)) + 
+  geom_col(fill = palette[9]) + 
+  facet_wrap(vars(name), scales = "free", ncol = 2) + 
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = "Percent of respondents", x = NULL, 
+       title = "How do youth participate?", 
+       subtitle = glue::glue("Number of respondents = {scales::comma(sum(participate$n)/7)}")) + 
+  scale_x_discrete(labels = scales::label_wrap(10))
+
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+
+# standardized
+participate = dat %>% 
+  select(`Z-Score Index` = z_participation_base,
+         `Attend meeting` = q13_1_baseline_st, 
+         `Protest` = q13_2_baseline_st, 
+         `NGO event` = q13_3_baseline_st, 
+         `Signed petition` = q13_4_baseline_st, 
+         `Contact official` = q13_5_baseline_st, 
+         `Contact student representative` = q13_6_baseline_st, 
+         `Contact an NGO` = q13_7_baseline_st) %>% 
+  drop_na() %>% 
+  pivot_longer(everything()) 
+
+
+ggplot(participate , aes(x = value )) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), 
+                 binwidth=.5, fill = palette[9]) +
+  #geom_col(fill = palette[9]) + 
+  facet_wrap(vars(name),  ncol = 2) + 
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = "Percent of respondents", x = NULL, 
+       title = "How do youth participate?")
+
+
+```
+
+
+
