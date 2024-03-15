@@ -2,6 +2,7 @@
 library(foreign)
 library(tidyverse)
 library(magrittr)
+library(rio)
 
 onUser<-function(x){
   user<-Sys.info()["user"]
@@ -19,6 +20,20 @@ if(onUser("kenziekmac")){
 election_returns <- read.csv("Data/aymu1970-on.coalSplit.csv")
 
 homicide_rates <- readr::read_delim("Data/mexico-muni-month-homicide-rates-2000-2021.csv", delim = "|")
+
+acled <- import("/Users/kenziekmac/Downloads/LatinAmerica_2018-2024_Mar08.xlsx") %>%
+         filter(COUNTRY == "Mexico")
+
+unique(acled$SUB_EVENT_TYPE)
+
+unique(acled$AC)
+
+unique(acled$ACTOR1)
+
+sum(acled$ACTOR2 == "Local Administrators")
+
+blH <- filter(acled, grepl(" local administrators",TAGS))
+
 
 # have leading zeros so all municipal level identifiers are 5 digits
 
