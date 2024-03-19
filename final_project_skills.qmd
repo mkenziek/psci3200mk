@@ -231,3 +231,221 @@ ggplot(participate , aes(x = value )) +
 
 
 
+# Interaction Terms
+
+- Asks whether the relationship between the target and the independent variable changes depending on the value of another independent variable. 
+- Think heterogeneous treatment effects 
+- Example: effect of age on actors' income is different for male actors than for female actors.
+
+```{r}
+#| echo: false
+#| warning: false
+
+table(dat$class_year)
+
+dat <- dat %>% mutate(year = as.numeric(case_when(class_year == "Year I" ~ 0,
+                                                 class_year == "Year II" ~ NA,
+                                                 class_year == "Year III" ~ 1 )) )
+table(dat$year)
+
+models <- list()
+models[['Bivariate']] = lm(z_participation_base ~ moved, dat)
+models[['Multivariate']] = lm(z_participation_base ~ moved + year, dat)
+models[['Interaction']] = lm(z_participation_base ~ moved + year + moved*year, dat)
+
+modelsummary(
+  models,
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+# Predict values based on the model
+predictions <- predict(lm(z_participation_base ~ moved * year, dat), newdata = dat)
+
+# Create a dataframe with predictions
+prediction_df <- data.frame(year = dat$year, moved = dat$moved, prediction = predictions)
+
+# Plot the interaction
+ggplot(prediction_df, aes(x = year, y = prediction, color = factor(moved))) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = c(0, 1, 2), labels=c("Y1", "Y2", "Y3")) +
+  labs(x = "Year", y = "Predicted z_participation_base", color = "Moved") +
+  ggtitle("Interaction Plot of z_participation_base by Year and Moved")
+
+```
+
+### More complex
+
+
+```{r}
+#| echo: false
+#| warning: false
+
+dat = dat %>% mutate(year1 = as.numeric(case_when(class_year == "Year I" ~ 1,
+                                                 class_year == "Year II" ~ 0,
+                                                 class_year == "Year III" ~ 0 )),
+                     year2 = as.numeric(case_when(class_year == "Year I" ~ 0,
+                                                 class_year == "Year II" ~ 1,
+                                                 class_year == "Year III" ~ 0 )),
+                     year3 = as.numeric(case_when(class_year == "Year I" ~ 0,
+                                                 class_year == "Year II" ~ 0,
+                                                 class_year == "Year III" ~ 1 )),)
+table(dat$year)
+
+models <- list()
+models[['Bivariate']] = lm(z_participation_base ~ moved, dat)
+models[['Multivariate']] = lm(z_participation_base ~ moved + year2 + year3, dat)
+models[['Interaction']] = lm(z_participation_base ~ moved + year2 + year2*moved + year3 + year3*moved , dat)
+
+modelsummary(
+  models,
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+
+# Assuming dat already has year2 and year3 as binary indicators
+# If not, create them based on your criteria for what constitutes year2 and year3
+
+# Model including interactions
+model <- lm(z_participation_base ~ moved + year2 + year2*moved + year3 + year3*moved, dat)
+
+# Generate new data for predictions
+# This data should cover all combinations of moved, year2, and year3
+newdata <- expand.grid(moved = c(0, 1), year2 = c(0, 1), year3 = c(0, 1))
+
+# Exclude impossible combinations (e.g., year2 and year3 both being 1)
+newdata <- newdata[!with(newdata, year2 == 1 & year3 == 1),]
+
+# Predict values
+predictions <- predict(model, newdata = newdata)
+
+# Add predictions to the newdata dataframe
+newdata$prediction <- predictions
+
+# Convert year2 and year3 back to a single year variable for plotting
+newdata$year <- with(newdata, ifelse(year2 == 1, "1", ifelse(year3 == 1, "2", "0")))
+
+# Plot
+library(ggplot2)
+ggplot(newdata, aes(x = as.numeric(year), y = prediction, color = factor(moved))) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = c(0, 1, 2), labels=c("Y1", "Y2", "Y3")) +
+  labs(x = "Year", y = "Predicted z_participation_base", color = "Moved") +
+  ggtitle("Interaction Plot of z_participation_base by Year and Moved")
+
+
+```
+
+### Cross-Sectional
+
+```{r}
+#| echo: false
+#| warning: false
+
+regd = dat %>% select(z_participation_end, z_participation_base, moved, response_id ) %>%
+  pivot_longer(cols = c(z_participation_end, z_participation_base),
+               names_to = "time",
+               values_to = "z_participation") %>%
+  mutate(time = case_when(time == "z_participation_end" ~ 1, 
+                          TRUE ~ 0))
+
+models <- list()
+models[['Bivariate']] = lm(z_participation ~ moved, regd)
+models[['Multivariate']] = lm(z_participation ~ moved + time, regd)
+models[['Interaction']] = lm(z_participation ~ moved + time + moved*time, regd)
+
+modelsummary(
+  models,
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+```
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+# Predict values based on the model
+predictions <- predict(lm(z_participation ~ moved*time, regd), newdata = regd)
+
+# Create a dataframe with predictions
+prediction_df <- data.frame(time = regd$time, moved = regd$moved, prediction = predictions)
+
+# Plot the interaction
+ggplot(prediction_df, aes(x = time, y = prediction, color = factor(moved))) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(x = "Year", y = "Predicted z_participation", color = "Moved") +
+  ggtitle("Interaction Plot of z_participation_base by Year and Moved")
+
+```
+
+
+### Fixed Effects
+
+
+```{r}
+#| echo: false
+#| warning: false
+
+table(regd$time, regd$moved)
+
+models <- list()
+models[['Interaction']] = lm(z_participation ~ moved + time + moved*time + factor(response_id), regd)
+
+modelsummary(
+  models,
+  coef_omit = "factor\\(.*",
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+```
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| 
+
+# Predict values based on the model
+predictions <- predict(lm(z_participation ~ moved + time + moved*time + factor(response_id), regd), newdata = regd)
+
+# Create a dataframe with predictions
+prediction_df <- data.frame(time = regd$time, moved = regd$moved, prediction = predictions) %>%
+  group_by(time, moved) %>%
+  summarise(prediction = mean(prediction))
+
+# Plot the interaction
+ggplot(prediction_df, aes(x = time, y = prediction, color = factor(moved))) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(x = "Year", y = "Predicted z_participation", color = "Moved") +
+  ggtitle("Interaction Plot of z_participation_base by Year and Moved")
+
+```
+
+
+
+
+
