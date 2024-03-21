@@ -1,0 +1,157 @@
+---
+title: "Assignment 1"
+author: "Makenzie Kerneckel"
+
+institute: "University of Pennsylvania"
+date: last-modified
+toc: true
+
+format: 
+  html:
+    self-contained: true
+
+editor: source
+---
+
+In this assignment, you will be required to:
+
+Create index variables to summarize variation on key outcomes
+Estimate and interpret linear models and interaction effects
+Describe your reasoning and demonstrate understanding of core concepts
+We are using a representative survey of students from Addis Ababa University in Ethiopia collected by DevLab researchers. This data contains two waves collected in May-June and October-November of 2022. A total of 825 students completed both waves of the survey. This data was part of a randomized experiment inviting students to participate in a one-day workshop that connected them with opportunities to interact with leaders of civil society, sign-up as volunteers in civil society organizations, and engage in structured dialogue about politics with a diverse group of peers.
+
+# Part 1: Read-in data and prepare for analysis
+
+```{r }
+library(ggplot2)
+library(readr)
+library(ggdag)
+library(tidyverse)
+library(gt)
+library(modelsummary)
+
+# read-in data
+# dat = read_csv(here::here("workshops/aau_survey/clean_endline_did.csv" )) %>%
+dat = read_csv("https://raw.githubusercontent.com/jrspringman/psci3200-globaldev/main/workshops/aau_survey/clean_endline_did.csv" ) %>%
+    # clean home region variable
+  mutate(q8_baseline = ifelse(q8_baseline == "Southern Nations, Nationalities, and Peoples Region", "SNNPR", q8_baseline), 
+         q8_baseline = str_remove(q8_baseline, " Region"))
+# create color palette for plotting
+palette = MetBrewer::met.brewer(name = "Cross")
+
+```
+
+
+
+The dataset has a number of variables that you might use for the assignment. For each respondent, we have two observations made at different points in time (baseline and endline). The dataset is currently in ‘wide’ format, meaning that each respondent has one row and baseline and endline measurements for the same variable are stored in separate columns. Measurements taken at baseline have the suffix _baseline included in the column name; for example, q11_3 is the endline measurement and q11_3_baseline is the baseline measurement.
+
+Some of these variables are described below:
+
+response_id: A unique identifier for each respondent
+treatment_status: A binary indicator taking a value of 1 for respondents assigned to receive an invitation to the treatment workshop
+user_language: A categorical variable indicating whether the respondent took the survey in English, Ahmaric, or Afan
+q3_baseline: A categorical variable indicating whether the respondent identifies as Male or Female
+Future plans for a career in public sector or civil society
+q26_civ: Plan to work in civil society
+q26_politics: Plan to work in politics
+q26_public: Plan to work in public sector
+q27_1: Plan to run for political office
+q27_3: Plan to start a non-governmental organization
+Feelings of political efficacy
+q17_3: Your participation can bring positive change
+q17_1: Youth are given opportunities to engage
+q17_2: Youth participation can bring positive change
+
+# Requirement 1 (10%)
+
+For all variables after user_language, please rename the column with a descriptive name that better conveys their meaning. Column names should never contain spaces and should be as easy to type as possible. Do this for both their baseline and endline values, making sure to indicate which columns are baseline measures and which are endline measures in the names you assign.
+
+```{R}
+
+
+eth_svy <- dat %>%
+  rename("gender_base"= "q3_baseline",
+         "civil_base" = "q26_civ_baseline",
+         "politics_base" = "q26_politics_baseline",
+         "public_base" = "q26_public_baseline",
+         "poloffice_base" =  "q27_1_baseline",
+         "ngo_base" = "q27_3_baseline",
+         "positive_indv_base" = "q17_3_baseline",
+         "youth_engage_base" = "q17_1_baseline",
+         "positive_youth_base" = "q17_2_baseline",
+         "civil_end" = "q26_civ",
+         "politics_end" = "q26_politics",
+         "public_end" = "q26_public",
+         "poloffice_end" = "q27_1",
+         "ngo_end" = "q27_3",
+         "positive_indv_end" = "q17_3",
+         "youth_engage_end" = "q17_1",
+         "positive_youth_end" = "q17_2",
+         )
+
+
+``` 
+
+
+Part 2: Create Index Measures
+Next, you’ll need to create index measures for different types of variables. We will use the two types of index methods described during the in-class workshop.
+
+Requirement 2 (10%)
+
+First, in your own words, explain the concept of an additive index and an averaged z-score, including how they are calculated, when you should use them, and when you cannot use them. What are the benefits of each approach?
+
+Requirement 3 (20%)
+
+Next, you’ll need to:
+
+Create an additive index for the baseline and endline measures of the “Future plans for a career in public sector or civil society” variables. This should correspond to seperate counts of the number of future plans that each individual has at baseline and endline.
+
+Create an averaged z-scores for the baseline and endline values of the “Future plans for a career in public sector or civil society” and “Feelings of political efficacy” variables.
+Note
+Since many of these are ordered categorical values, you will need to convert them to numeric values that assign higher numbers to certain values and lower numbers to certain values. Make sure that your numeric assignments correspond with the direction of the ordered categorical values.
+
+```{R}
+
+# four ggplots should show endline and baseline for each question 
+
+
+      
+      
+```
+
+Requirement 4 (20%)
+
+To make sure that these scores look as you’d expect, create a ggplot visualizing the distribution of the z-scores at baseline and endline. You should have 4 figures: one corresponding to each z-score at baseline and endline. In words, describe whether the figures tell us anything about changes over time.
+
+Part 3: Estimating models
+Now, let’s estimate some models to assess the relationship between the two index measures. Before we get started, subset your data to include only response_id, q3_baseline (which you should have renamed), and the baseline and endline measures for each z-score. You should end up with 6 variables in your dataframe.
+
+Requirement 5 (15%)
+
+Using baseline values only, estimate a model regressing your “Future plans” index on your “Feelings of political efficacy” index. Your model should take the following form:
+
+Use the modelsummary()package to visualize the results as a table. In your own words, interpret the meaning of 
+ and 
+. Substantively, how should we interpret the relationship described in the data? What does this tell us about the world? What assumptions would we need in order to interpret the relationship as causal?
+
+Requirement 6 (15%)
+
+For your baseline and endline values of the “Feelings of political efficacy” index, convert this index to a binary indicator taking a value of 1 of the individual has a value greater than or equal to the sample mean and a value of 0 if the individual has a value below the sample mean.
+
+Using baseline values only, estimate the same model, but interact your binary “Feelings of political efficacy” indicator with the gender indicator. Your model should take the following form:
+
+Use the modelsummary()package to visualize the results as a table. In your own words, interpret the meaning of 
+, 
+, 
+, and 
+. Substantively, how should we interpret the interactive relationship described in the data?
+
+Requirement 7 (10%)
+
+Convert the data from ‘wide’ to ‘long’ format, so that each respondent (response_id) has two rows of data; one row is baseline and one row is endline.
+
+Using this new ‘long’ format, estimate the original model, but add unit (response_id) fixed effects. Your model should take the following form:
+
+
+In your own words, tell us how the meaning of 
+ has changed now that we’ve added fixed effects.

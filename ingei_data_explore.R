@@ -4,22 +4,12 @@ library(tidyverse)
 library(magrittr)
 library(rio)
 
-onUser<-function(x){
-  user<-Sys.info()["user"]
-  onD<-grepl(x,user,ignore.case=TRUE)
-  return(onD)
-}
-
-if(onUser("kenziekmac")){
-  figures<-"~/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Figures"
-  tables<-"~/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Tables"
-}
 
 
 
-election_returns <- read.csv("Data/aymu1970-on.coalSplit.csv")
+election_returns <- read.csv("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/aymu1970-on.coalSplit.csv")
 
-homicide_rates <- readr::read_delim("Data/mexico-muni-month-homicide-rates-2000-2021.csv", delim = "|")
+homicide_rates <- readr::read_delim("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/mexico-muni-month-homicide-rates-2000-2021.csv", delim = "|")
 
 acled <- import("/Users/kenziekmac/Downloads/LatinAmerica_2018-2024_Mar08.xlsx") %>%
          filter(COUNTRY == "Mexico")
@@ -34,6 +24,9 @@ sum(acled$ACTOR2 == "Local Administrators")
 
 blH <- filter(acled, grepl(" local administrators",TAGS))
 
+
+unique(blH$ADMIN1)
+mun_names <- unique(election_returns$mun)
 
 # have leading zeros so all municipal level identifiers are 5 digits
 

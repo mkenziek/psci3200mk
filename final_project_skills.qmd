@@ -237,15 +237,64 @@ ggplot(participate , aes(x = value )) +
 - Think heterogeneous treatment effects 
 - Example: effect of age on actors' income is different for male actors than for female actors.
 
+## Differences across groups
+
+### Binary
+
 ```{r}
 #| echo: false
 #| warning: false
 
 table(dat$class_year)
 
-dat <- dat %>% mutate(year = as.numeric(case_when(class_year == "Year I" ~ 0,
+dat = dat %>% mutate(year = as.numeric(case_when(class_year == "Year I" ~ 0,
                                                  class_year == "Year II" ~ NA,
                                                  class_year == "Year III" ~ 1 )) )
+table(dat$year)
+
+models <- list()
+models[['Bivariate']] = lm(z_participation_base ~ moved, dat)
+models[['Multivariate']] = lm(z_participation_base ~ moved + year, dat)
+models[['Interaction']] = lm(z_participation_base ~ moved + year + moved*year, dat)
+
+modelsummary(
+  models,
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| 
+# Predict values based on the model
+predictions <- predict(lm(z_participation_base ~ moved * year, dat), newdata = dat)
+
+# Create a dataframe with predictions
+prediction_df <- data.frame(year = dat$year, moved = dat$moved, prediction = predictions)
+
+# Plot the interaction
+ggplot(prediction_df, aes(x = year, y = prediction, color = factor(moved))) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = c(0, 1), labels=c("Y1", "Y3")) +
+  labs(x = "Year", y = "Predicted z_participation_base", color = "Moved") +
+  ggtitle("Interaction Plot of z_participation_base by Year and Moved")
+
+```
+
+### Continuous-ish
+
+```{r}
+#| echo: false
+#| warning: false
+
+dat = dat %>% mutate(year = as.numeric(case_when(class_year == "Year I" ~ 0,
+                                                 class_year == "Year II" ~ 1,
+                                                 class_year == "Year III" ~ 2 )) )
 table(dat$year)
 
 models <- list()
@@ -351,6 +400,9 @@ ggplot(newdata, aes(x = as.numeric(year), y = prediction, color = factor(moved))
 
 ```
 
+
+## Differences over time
+
 ### Cross-Sectional
 
 ```{r}
@@ -409,6 +461,7 @@ ggplot(prediction_df, aes(x = time, y = prediction, color = factor(moved))) +
 table(regd$time, regd$moved)
 
 models <- list()
+models[['Fixed Effects']] = lm(z_participation ~ time + factor(response_id), regd)
 models[['Interaction']] = lm(z_participation ~ moved + time + moved*time + factor(response_id), regd)
 
 modelsummary(
@@ -444,6 +497,10 @@ ggplot(prediction_df, aes(x = time, y = prediction, color = factor(moved))) +
   ggtitle("Interaction Plot of z_participation_base by Year and Moved")
 
 ```
+
+
+
+
 
 
 
