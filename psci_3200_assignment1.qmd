@@ -70,7 +70,7 @@ For all variables after user_language, please rename the column with a descripti
 
 
 eth_svy <- dat %>%
-  rename("gender_base"= "q3_baseline",
+ select("gender_base" = "q3_baseline",
          "civil_base" = "q26_civ_baseline",
          "politics_base" = "q26_politics_baseline",
          "public_base" = "q26_public_baseline",
@@ -100,15 +100,68 @@ Requirement 2 (10%)
 
 First, in your own words, explain the concept of an additive index and an averaged z-score, including how they are calculated, when you should use them, and when you cannot use them. What are the benefits of each approach?
 
+- Create an index measure when you have many variables measuring a single concept. This can be for outcomes, treatments, and covariates. 
+- Benefits: simplifies graphs and hypotheses. 
+- An additive scale is a sum across columns (index = col_1 + col_2)
+- Use additive when variables are measured on a common scale 
+
 Requirement 3 (20%)
 
 Next, you’ll need to:
 
 Create an additive index for the baseline and endline measures of the “Future plans for a career in public sector or civil society” variables. This should correspond to seperate counts of the number of future plans that each individual has at baseline and endline.
 
+```{R}
+
+
+future_plans <- eth_svy %>% 
+  mutate(across(c(2:6), ~+as.logical(.x))) %>%
+  mutate(across(c(10:14), ~+as.logical(.x))) 
+
+future_plans <- future_plans %>%
+  mutate(add_plans_end =  rowSums(across(10:14), na.rm = T)) %>%
+   mutate(add_plans_base =  rowSums(across(2:6), na.rm = T))
+
+# what about NAs should we make them zeros 
+
+
+```
+
 Create an averaged z-scores for the baseline and endline values of the “Future plans for a career in public sector or civil society” and “Feelings of political efficacy” variables.
 Note
-Since many of these are ordered categorical values, you will need to convert them to numeric values that assign higher numbers to certain values and lower numbers to certain values. Make sure that your numeric assignments correspond with the direction of the ordered categorical values.
+
+```{R}
+
+## Find participation measures that are based on likert
+
+ecols <- future_plans[10:14]
+
+# Function to calculate Z-scores
+z_score <- function(x) {
+  mean_val <- mean(x, na.rm = TRUE)
+  sd_val <- sd(x, na.rm = TRUE)
+  z_scores <- (x - mean_val) / sd_val
+  return(z_scores)
+}
+
+# Apply the function across columns
+z_scores_list <- lapply(ecols, z_score)
+
+# Convert the list of Z-scores to a dataframe
+z_scores_df <- as.data.frame(z_scores_list)
+
+
+
+dat = dat %>% 
+  rowwise() %>% 
+  mutate( z_participation_end = mean(c_across(all_of(bcols)), na.rm = TRUE)) %>% 
+  mutate( z_participation_base = mean(c_across(all_of(ecols)), na.rm = TRUE)) %>%
+  ungroup()
+
+      
+      
+```
+
 
 ```{R}
 
