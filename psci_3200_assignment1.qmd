@@ -69,8 +69,8 @@ For all variables after user_language, please rename the column with a descripti
 ```{R}
 
 
-eth_svy <- dat %>%
- select("gender_base" = "q3_baseline",
+dat <- dat %>%
+ select(1,"gender_base" = "q3_baseline",
          "civil_base" = "q26_civ_baseline",
          "politics_base" = "q26_politics_baseline",
          "public_base" = "q26_public_baseline",
@@ -114,13 +114,13 @@ Create an additive index for the baseline and endline measures of the “Future 
 ```{R}
 
 
-future_plans <- eth_svy %>% 
-  mutate(across(c(2:6), ~+as.logical(.x))) %>%
-  mutate(across(c(10:14), ~+as.logical(.x))) 
+eth_svy <- dat %>% 
+  mutate(across(c(3:7), ~+as.logical(.x))) %>%
+  mutate(across(c(11:15), ~+as.logical(.x))) 
 
-future_plans <- future_plans %>%
-  mutate(add_plans_end =  rowSums(across(10:14), na.rm = T)) %>%
-   mutate(add_plans_base =  rowSums(across(2:6), na.rm = T))
+eth_svy <- eth_svy %>%
+  mutate(add_plans_end =  rowSums(across(11:15), na.rm = T)) %>%
+   mutate(add_plans_base =  rowSums(across(3:7), na.rm = T))
 
 # what about NAs should we make them zeros 
 
@@ -132,35 +132,54 @@ Note
 
 ```{R}
 
-## Find participation measures that are based on likert
+# baseline
+bcols = grep("base", names(eth_svy), value = T)
+bcols = bcols[-c(1)]
+eth_svy[, paste0(bcols, "_st")] = eth_svy[, bcols]
+bcols = paste0(bcols,"_st")
 
-ecols <- future_plans[10:14]
+# endline
+ecols = grep("base", names(eth_svy), value = T, invert = T)
+ecols = ecols[-c(1)]
+eth_svy[, paste0(ecols, "_st")] = eth_svy[, ecols]
+ecols = paste0(ecols,"_st")
 
-# Function to calculate Z-scores
-z_score <- function(x) {
-  mean_val <- mean(x, na.rm = TRUE)
-  sd_val <- sd(x, na.rm = TRUE)
-  z_scores <- (x - mean_val) / sd_val
-  return(z_scores)
+
+
+
+# z-score function from Kling, Liberman, and Katz (2007)
+z_score = function(x, y){
+  # calculate mean and sd of control group
+  c_mean = mean( as.numeric( unlist(x, y)) , na.rm = T)
+  c_sd = sd( as.numeric( unlist(x, y)) , na.rm = T)
+  # subtract control group mean; divide by control group SD
+  ( as.numeric(x[, y, drop = TRUE]) - c_mean) / c_sd
 }
 
-# Apply the function across columns
-z_scores_list <- lapply(ecols, z_score)
-
-# Convert the list of Z-scores to a dataframe
-z_scores_df <- as.data.frame(z_scores_list)
-
+# calculate z-scores
+for (i in c(bcols, ecols)) {
+  eth_svy[,i] = z_score(eth_svy, i)
+}
 
 
-dat = dat %>% 
+eth_svy <- eth_svy %>% 
   rowwise() %>% 
-  mutate( z_participation_end = mean(c_across(all_of(bcols)), na.rm = TRUE)) %>% 
-  mutate( z_participation_base = mean(c_across(all_of(ecols)), na.rm = TRUE)) %>%
+  mutate( z_future_end = mean(c_across(all_of(ecols[1:5])), na.rm = TRUE)) %>% 
+  mutate( z_future_base = mean(c_across(all_of(bcols[1:5])), na.rm = TRUE)) %>%
+  mutate( z_pol_end = mean(c_across(all_of(ecols[6:8])), na.rm = TRUE)) %>% 
+  mutate( z_pol_base = mean(c_across(all_of(bcols[6:8])), na.rm = TRUE)) %>%
   ungroup()
 
+
+# does the additive index have anything to do with this part? 
       
       
 ```
+
+
+Requirement 4 (20%)
+
+To make sure that these scores look as you’d expect, create a ggplot visualizing the distribution of the z-scores at baseline and endline. You should have 4 figures: one corresponding to each z-score at baseline and endline. In words, describe whether the figures tell us anything about changes over time.
 
 
 ```{R}
@@ -168,16 +187,57 @@ dat = dat %>%
 # four ggplots should show endline and baseline for each question 
 
 
-      
+
+ggplot(eth_svy , aes(x = z_future_base )) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), 
+                 binwidth=0.5, fill = palette[9]) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = "Percent of respondents", x = NULL, 
+       title = "Distriubtion of Public Sector or Civil Society Career Plans (Baseline)")
+
+
+ggplot(eth_svy , aes(x = z_future_end )) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), 
+                 binwidth=0.5, fill = palette[9]) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = "Percent of respondents", x = NULL, 
+      title = "Distriubtion of Public Sector or Civil Society Career Plans (Endline)")
+
+
+ggplot(eth_svy , aes(x = z_pol_base )) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), 
+                 binwidth=0.5, fill = palette[9]) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = "Percent of respondents", x = NULL, 
+       title = "Feelings of political efficacy (Baseline)")
+
+
+ggplot(eth_svy , aes(x = z_pol_end )) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), 
+                 binwidth=0.5, fill = palette[9]) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = "Percent of respondents", x = NULL, 
+      title = "Feelings of political efficacy (Endline)")
       
 ```
 
-Requirement 4 (20%)
-
-To make sure that these scores look as you’d expect, create a ggplot visualizing the distribution of the z-scores at baseline and endline. You should have 4 figures: one corresponding to each z-score at baseline and endline. In words, describe whether the figures tell us anything about changes over time.
 
 Part 3: Estimating models
+
 Now, let’s estimate some models to assess the relationship between the two index measures. Before we get started, subset your data to include only response_id, q3_baseline (which you should have renamed), and the baseline and endline measures for each z-score. You should end up with 6 variables in your dataframe.
+
+```{r}
+
+eth_model <- eth_svy %>%
+             select( response_id, 
+                     gender_base, 
+                     z_future_end, 
+                     z_future_base,
+                     z_pol_end,
+                     z_pol_base)
+
+```
+
 
 Requirement 5 (15%)
 
@@ -187,17 +247,27 @@ Use the modelsummary()package to visualize the results as a table. In your own w
  and 
 . Substantively, how should we interpret the relationship described in the data? What does this tell us about the world? What assumptions would we need in order to interpret the relationship as causal?
 
+```{r}
+
+models <- list()
+models[['Bivariate']] = lm(z_future_base ~ z_pol_base, eth_model)
+
+modelsummary(
+  models,
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+
+```
+
 Requirement 6 (15%)
 
 For your baseline and endline values of the “Feelings of political efficacy” index, convert this index to a binary indicator taking a value of 1 of the individual has a value greater than or equal to the sample mean and a value of 0 if the individual has a value below the sample mean.
 
 Using baseline values only, estimate the same model, but interact your binary “Feelings of political efficacy” indicator with the gender indicator. Your model should take the following form:
 
-Use the modelsummary()package to visualize the results as a table. In your own words, interpret the meaning of 
-, 
-, 
-, and 
-. Substantively, how should we interpret the interactive relationship described in the data?
+Use the modelsummary()package to visualize the results as a table. In your own words, interpret the meaning of and Substantively, how should we interpret the interactive relationship described in the data?
 
 Requirement 7 (10%)
 
