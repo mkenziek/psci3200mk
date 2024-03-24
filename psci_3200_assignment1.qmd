@@ -100,10 +100,10 @@ Requirement 2 (10%)
 
 First, in your own words, explain the concept of an additive index and an averaged z-score, including how they are calculated, when you should use them, and when you cannot use them. What are the benefits of each approach?
 
-- Create an index measure when you have many variables measuring a single concept. This can be for outcomes, treatments, and covariates. 
-- Benefits: simplifies graphs and hypotheses. 
-- An additive scale is a sum across columns (index = col_1 + col_2)
-- Use additive when variables are measured on a common scale 
+- An additive index adds individual values or variables into a single score. It should be used when you have many variables measuring a single concept and these variables are measured on a common scale. This can be for outcome, treatment, and covariate variables. The main benefits of the additive index are that it simplifies graphs and hypotheses by condensing multiple variables into one metric. This makes it easier to compare individuals or groups. 
+  - To calculate an additive scale you simply sum across columns (index = col_1 + col_2...).
+- A z-score tells you the number of standard deviations a value is from the mean of the given distribution of your data. It is thus a standardized score. An averaged z-score combines each standardized score for your values by averaging them. Average z-scores should be used when variables have different scales or when variables cannot be summed in a dataset.  
+  - To calculate an averaged z-score, you first standardize the scores for each variable (subtract the mean and divide by the standard deviation), then you average these standardized scores.
 
 Requirement 3 (20%)
 
@@ -122,7 +122,6 @@ eth_svy <- eth_svy %>%
   mutate(add_plans_end =  rowSums(across(11:15), na.rm = T)) %>%
    mutate(add_plans_base =  rowSums(across(3:7), na.rm = T))
 
-# what about NAs should we make them zeros 
 
 
 ```
@@ -171,8 +170,7 @@ eth_svy <- eth_svy %>%
   ungroup()
 
 
-# does the additive index have anything to do with this part? 
-      
+
       
 ```
 
@@ -190,7 +188,7 @@ To make sure that these scores look as you’d expect, create a ggplot visualizi
 
 ggplot(eth_svy , aes(x = z_future_base )) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), 
-                 binwidth=0.5, fill = palette[9]) +
+                 binwidth=1, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
   labs(y = "Percent of respondents", x = NULL, 
        title = "Distriubtion of Public Sector or Civil Society Career Plans (Baseline)")
@@ -198,7 +196,7 @@ ggplot(eth_svy , aes(x = z_future_base )) +
 
 ggplot(eth_svy , aes(x = z_future_end )) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), 
-                 binwidth=0.5, fill = palette[9]) +
+                 binwidth=1, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
   labs(y = "Percent of respondents", x = NULL, 
       title = "Distriubtion of Public Sector or Civil Society Career Plans (Endline)")
@@ -220,6 +218,10 @@ ggplot(eth_svy , aes(x = z_pol_end )) +
       title = "Feelings of political efficacy (Endline)")
       
 ```
+
+- This data contains two waves collected in May-June and October-November of 2022. A total of 825 students completed both waves of the survey. This data was part of a randomized experiment inviting students to participate in a one-day workshop that connected them with opportunities to interact with leaders of civil society, sign-up as volunteers in civil society organizations, and engage in structured dialogue about politics with a diverse group of peers.
+
+-  If your z-score is 0, it means you scored exactly average. A positive z-score means you scored above average, and a negative z-score means you scored below average. The further away from 0 your z-score is, the more different your score is from the average.
 
 
 Part 3: Estimating models
@@ -249,11 +251,11 @@ Use the modelsummary()package to visualize the results as a table. In your own w
 
 ```{r}
 
-models <- list()
-models[['Bivariate']] = lm(z_future_base ~ z_pol_base, eth_model)
+pol_model <- list()
+pol_model[['Bivariate']] = lm(z_future_base ~ z_pol_base, eth_model)
 
 modelsummary(
-  models,
+  pol_model,
   estimate  = "{estimate}{stars} ({std.error})",
              statistic = NULL,
   gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
@@ -269,6 +271,24 @@ Using baseline values only, estimate the same model, but interact your binary �
 
 Use the modelsummary()package to visualize the results as a table. In your own words, interpret the meaning of and Substantively, how should we interpret the interactive relationship described in the data?
 
+```{r}
+
+eth_model <- eth_model %>%
+             mutate(bi_pol_end = ifelse(z_pol_end > 0, 1,0),
+                    bi_pol_base = ifelse(z_pol_base > 0, 1,0))
+
+bi_pol_model <- list()
+bi_pol_model[['Multivariate']] = lm(z_future_base ~ z_pol_base + bi_pol_base*gender_base, eth_model)
+
+modelsummary(
+  bi_pol_model,
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+            
+```
+
 Requirement 7 (10%)
 
 Convert the data from ‘wide’ to ‘long’ format, so that each respondent (response_id) has two rows of data; one row is baseline and one row is endline.
@@ -278,3 +298,29 @@ Using this new ‘long’ format, estimate the original model, but add unit (res
 
 In your own words, tell us how the meaning of 
  has changed now that we’ve added fixed effects.
+ 
+```{r}
+
+eth_model_long <- eth_model %>%
+  pivot_longer(cols = c(z_pol_end, z_pol_base, z_future_end, z_future_base),
+               names_to = c(".value", "time"),
+               names_pattern = "z_(\\w+)_(\\w+)",
+               values_to = c("z_pol", "z_future")) %>%
+  mutate(time = ifelse(time == "end", 1, 0))
+
+
+fixed_model <- list()
+fixed_model[['Fixed Effects']] = lm(future ~ pol + time + factor(response_id), eth_model_long)
+
+modelsummary(
+  fixed_model,
+  coef_omit = "factor\\(.*",
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+```
+ 
+ 
+ 
+ 
