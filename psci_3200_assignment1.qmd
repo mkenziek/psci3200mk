@@ -68,6 +68,7 @@ For all variables after user_language, please rename the column with a descripti
 
 ```{R}
 
+# rename and select responseid ,gender,q26, q27, q 17 columns 
 
 dat <- dat %>%
  select(1,"gender_base" = "q3_baseline",
@@ -113,14 +114,21 @@ Create an additive index for the baseline and endline measures of the “Future 
 
 ```{R}
 
+# convert future plans columns into binary values of 1 and 0 using as.logical 
 
 eth_svy <- dat %>% 
   mutate(across(c(3:7), ~+as.logical(.x))) %>%
   mutate(across(c(11:15), ~+as.logical(.x))) 
 
+# create an additive index variable called add_plans for baseline and endline 
+
+# in this case na values represent no anwser so we drop them from the sum
+
 eth_svy <- eth_svy %>%
+  # baseline sums across all future plans questions at baseline 
   mutate(add_plans_end =  rowSums(across(11:15), na.rm = T)) %>%
-   mutate(add_plans_base =  rowSums(across(3:7), na.rm = T))
+  # baseline sums across all future plans questions at baseline 
+  mutate(add_plans_base =  rowSums(across(3:7), na.rm = T))
 
 
 
@@ -131,41 +139,65 @@ Note
 
 ```{R}
 
-# baseline
+# did you include poloffice and ngo in this part?
+
+# create a list of baseline column names 
+
+# select all the columns with base in the name
+
 bcols = grep("base", names(eth_svy), value = T)
+
+# drop gender_base
+
 bcols = bcols[-c(1)]
+
 eth_svy[, paste0(bcols, "_st")] = eth_svy[, bcols]
+
 bcols = paste0(bcols,"_st")
 
-# endline
-ecols = grep("base", names(eth_svy), value = T, invert = T)
+# do the procedure above but for endline
+
+ecols = grep("base", names(eth_svy), value = T, invert = T) 
+
+# invert function gives everything without base in the name
+
+# drop response id column 
+
 ecols = ecols[-c(1)]
+
 eth_svy[, paste0(ecols, "_st")] = eth_svy[, ecols]
+
 ecols = paste0(ecols,"_st")
 
 
 
-
 # z-score function from Kling, Liberman, and Katz (2007)
+
 z_score = function(x, y){
-  # calculate mean and sd of control group
-  c_mean = mean( as.numeric( unlist(x, y)) , na.rm = T)
-  c_sd = sd( as.numeric( unlist(x, y)) , na.rm = T)
-  # subtract control group mean; divide by control group SD
-  ( as.numeric(x[, y, drop = TRUE]) - c_mean) / c_sd
+  # calculate mean and sd
+  mean = mean( as.numeric( unlist(x, y)) , na.rm = T)
+  sd = sd( as.numeric( unlist(x, y)) , na.rm = T)
+  # subtract mean; divide by SD
+  ( as.numeric(x[, y, drop = TRUE]) - mean) / sd
 }
 
-# calculate z-scores
+# calculate z-scores using for loop
+
 for (i in c(bcols, ecols)) {
   eth_svy[,i] = z_score(eth_svy, i)
 }
 
+# create average z-score columns 
 
 eth_svy <- eth_svy %>% 
   rowwise() %>% 
+  # avg. z score for future plans question endline 
   mutate( z_future_end = mean(c_across(all_of(ecols[1:5])), na.rm = TRUE)) %>% 
+  # avg. z score for future plans question baseline 
   mutate( z_future_base = mean(c_across(all_of(bcols[1:5])), na.rm = TRUE)) %>%
+  # avg. z score for political question endline 
   mutate( z_pol_end = mean(c_across(all_of(ecols[6:8])), na.rm = TRUE)) %>% 
+  # avg. z score for political question baseline 
   mutate( z_pol_base = mean(c_across(all_of(bcols[6:8])), na.rm = TRUE)) %>%
   ungroup()
 
@@ -182,8 +214,7 @@ To make sure that these scores look as you’d expect, create a ggplot visualizi
 
 ```{R}
 
-# four ggplots should show endline and baseline for each question 
-
+# create four histograms to show endline and baseline distribution on average z scores for future plans and political question
 
 
 ggplot(eth_svy , aes(x = z_future_base )) + 
@@ -229,6 +260,8 @@ Part 3: Estimating models
 Now, let’s estimate some models to assess the relationship between the two index measures. Before we get started, subset your data to include only response_id, q3_baseline (which you should have renamed), and the baseline and endline measures for each z-score. You should end up with 6 variables in your dataframe.
 
 ```{r}
+
+# select 6 variables needed, create new dataset for modeling 
 
 eth_model <- eth_svy %>%
              select( response_id, 
