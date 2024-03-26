@@ -173,23 +173,17 @@ eth_svy[, paste0(ecols, "_st")] = eth_svy[, ecols]
 ecols = paste0(ecols,"_st")
 
 
-
-# z-score function from Kling, Liberman, and Katz (2007)
-
-z_score = function(x, y){
-  # calculate mean and sd
-  mean = mean( as.numeric( unlist(x, y)) , na.rm = T)
-  sd = sd( as.numeric( unlist(x, y)) , na.rm = T)
-  # subtract mean; divide by SD
-  ( as.numeric(x[, y, drop = TRUE]) - mean) / sd
+# Modified z-score function
+z_score <- function(x) {
+  mean_val <- mean(x, na.rm = TRUE)
+  sd_val <- sd(x, na.rm = TRUE)
+  (x - mean_val) / sd_val
 }
 
-# calculate z-scores using for loop
-
+# Calculate z-scores using a loop
 for (i in c(bcols, ecols)) {
-  eth_svy[,i] = z_score(eth_svy, i)
+  eth_svy[[i]] <- z_score(eth_svy[[i]])
 }
-
 # create average z-score columns 
 
 eth_svy <- eth_svy %>% 
@@ -220,7 +214,7 @@ To make sure that these scores look as you’d expect, create a ggplot visualizi
 
 ggplot(eth_svy , aes(x = z_future_base )) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), 
-                 binwidth= 1, fill = palette[9]) +
+                 binwidth= 0.5, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
   labs(y = "Percent of respondents", x = NULL, 
        title = "Distriubtion of Public Sector or Civil Society Career Plans (Baseline)") +
@@ -231,7 +225,7 @@ ggplot(eth_svy , aes(x = z_future_base )) +
 
 ggplot(eth_svy , aes(x = z_future_end )) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), 
-                 binwidth=1, fill = palette[9]) +
+                 binwidth= 0.5, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
   labs(y = "Percent of respondents", x = NULL, 
       title = "Distriubtion of Public Sector or Civil Society Career Plans (Endline)") +
@@ -262,6 +256,7 @@ ggplot(eth_svy , aes(x = z_pol_end )) +
    # Add a vertical line at the mean value of the data with a red dashed line
   geom_vline(xintercept = mean(eth_svy$z_pol_end, na.rm = T), col = 'red', lwd = 1, linetype = 'dashed')
       
+
 
 
 ```
