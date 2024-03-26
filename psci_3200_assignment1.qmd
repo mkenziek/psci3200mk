@@ -139,7 +139,10 @@ Note
 
 ```{R}
 
-# did you include poloffice and ngo in this part?
+#| echo: false
+#| warning: false
+
+
 
 # create a list of baseline column names 
 
@@ -201,8 +204,6 @@ eth_svy <- eth_svy %>%
   mutate( z_pol_base = mean(c_across(all_of(bcols[6:8])), na.rm = TRUE)) %>%
   ungroup()
 
-
-
       
 ```
 
@@ -219,10 +220,13 @@ To make sure that these scores look as you’d expect, create a ggplot visualizi
 
 ggplot(eth_svy , aes(x = z_future_base )) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), 
-                 binwidth=1, fill = palette[9]) +
+                 binwidth= 1, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
   labs(y = "Percent of respondents", x = NULL, 
-       title = "Distriubtion of Public Sector or Civil Society Career Plans (Baseline)")
+       title = "Distriubtion of Public Sector or Civil Society Career Plans (Baseline)") +
+  # Add a vertical line at the mean value of the data with a red dashed line
+  geom_vline(xintercept = mean(eth_svy$z_future_base, na.rm = T), col = 'red', lwd = 1, linetype = 'dashed')
+
 
 
 ggplot(eth_svy , aes(x = z_future_end )) + 
@@ -230,7 +234,11 @@ ggplot(eth_svy , aes(x = z_future_end )) +
                  binwidth=1, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
   labs(y = "Percent of respondents", x = NULL, 
-      title = "Distriubtion of Public Sector or Civil Society Career Plans (Endline)")
+      title = "Distriubtion of Public Sector or Civil Society Career Plans (Endline)") +
+  # Add a vertical line at the mean value of the data with a red dashed line
+  geom_vline(xintercept = mean(eth_svy$z_future_end, na.rm = T), col = 'red', lwd = 1, linetype = 'dashed')
+
+
 
 
 ggplot(eth_svy , aes(x = z_pol_base )) + 
@@ -238,21 +246,35 @@ ggplot(eth_svy , aes(x = z_pol_base )) +
                  binwidth=0.5, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
   labs(y = "Percent of respondents", x = NULL, 
-       title = "Feelings of political efficacy (Baseline)")
+       title = "Feelings of political efficacy (Baseline)") +
+     # Add a vertical line at the mean value of the data with a red dashed line
+  geom_vline(xintercept = mean(eth_svy$z_pol_base, na.rm = T), col = 'red', lwd = 1, linetype = 'dashed')
 
 
+
+ 
 ggplot(eth_svy , aes(x = z_pol_end )) + 
   geom_histogram(aes(y = after_stat(count / sum(count))), 
                  binwidth=0.5, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
   labs(y = "Percent of respondents", x = NULL, 
-      title = "Feelings of political efficacy (Endline)")
+      title = "Feelings of political efficacy (Endline)") +
+   # Add a vertical line at the mean value of the data with a red dashed line
+  geom_vline(xintercept = mean(eth_svy$z_pol_end, na.rm = T), col = 'red', lwd = 1, linetype = 'dashed')
       
+
+
 ```
 
-- This data contains two waves collected in May-June and October-November of 2022. A total of 825 students completed both waves of the survey. This data was part of a randomized experiment inviting students to participate in a one-day workshop that connected them with opportunities to interact with leaders of civil society, sign-up as volunteers in civil society organizations, and engage in structured dialogue about politics with a diverse group of peers.
+- Given that this survey data contains two waves, the baseline histograms represent student responses collected in May-June whereas the endline histograms represent student responses collected in October-November of 2022. 
 
--  If your z-score is 0, it means you scored exactly average. A positive z-score means you scored above average, and a negative z-score means you scored below average. The further away from 0 your z-score is, the more different your score is from the average.
+- In words, describe whether the figures tell us anything about changes over time.
+
+- The baseline and endline histograms for question 26 and 27 on how students' future plans in having a public sector or civil society career show that the average Z-score increased from approximately -0.6 to -0.45. This means that on average, a student in the spring of 2022 had a Z-score measuring whether they will have a future career in the public or civil sector -0.6 standard deviations below the mean and students in fall of 2022 had a Z-score measuring whether they will have a future career in the public or civil sector standard -0.45 standard deviations below the mean. We can conclude that the
+
+
+- The baseline and endline histograms for question 17 on how students feel about youth political efficacy show that the average Z-score increased from approximately 1.2 to 1.6. This means that on average, students in the spring of 2022 had a Z-score measuring their feeling of political efficacy 1.2 standard deviations above the mean and students in fall of 2022 had a Z-score measuring their feeling of political efficacy 1.6 standard deviations above the mean. We can conclude that the feelings of political efficacy thus increased over time. 
+
 
 
 Part 3: Estimating models
@@ -275,6 +297,7 @@ eth_model <- eth_svy %>%
 
 
 Requirement 5 (15%)
+
 
 Using baseline values only, estimate a model regressing your “Future plans” index on your “Feelings of political efficacy” index. Your model should take the following form:
 
@@ -307,11 +330,13 @@ Use the modelsummary()package to visualize the results as a table. In your own w
 ```{r}
 
 eth_model <- eth_model %>%
-             mutate(bi_pol_end = ifelse(z_pol_end > 0, 1,0),
+             mutate(bi_pol_end = ifelse(z_pol_end >= 0, 1,0),
                     bi_pol_base = ifelse(z_pol_base > 0, 1,0))
 
+# help 
+
 bi_pol_model <- list()
-bi_pol_model[['Multivariate']] = lm(z_future_base ~ z_pol_base + bi_pol_base*gender_base, eth_model)
+bi_pol_model[['Multivariate']] = lm(z_future_base ~ bi_pol_base*gender_base, eth_model)
 
 modelsummary(
   bi_pol_model,
@@ -319,6 +344,7 @@ modelsummary(
              statistic = NULL,
   gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
 
+# why is only male showing in the model
             
 ```
 
