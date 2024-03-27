@@ -101,9 +101,9 @@ Requirement 2 (10%)
 
 First, in your own words, explain the concept of an additive index and an averaged z-score, including how they are calculated, when you should use them, and when you cannot use them. What are the benefits of each approach?
 
-- An additive index adds individual values or variables into a single score. It should be used when you have many variables measuring a single concept and these variables are measured on a common scale. This can be for outcome, treatment, and covariate variables. The main benefits of the additive index are that it simplifies graphs and hypotheses by condensing multiple variables into one metric. This makes it easier to compare individuals or groups. 
+- An additive index adds individual values or variables into a single score. It should be used when you have many variables measuring a single concept and these variables are measured on a common scale. It should also be used when you are interested in measuring the accumulation of something. This can be for outcome, treatment, and covariate variables. The main benefits of the additive index are that it simplifies graphs and hypotheses by condensing multiple variables into one metric. This makes it easier to compare individuals or groups. 
   - To calculate an additive scale you simply sum across columns (index = col_1 + col_2...).
-- A z-score tells you the number of standard deviations a value is from the mean of the given distribution of your data. It is thus a standardized score. An averaged z-score combines each standardized score for your values by averaging them. Average z-scores should be used when variables have different scales or when variables cannot be summed in a dataset.  
+- A z-score tells you the number of standard deviations a value is from the mean of the given distribution of your data. A z-score is a standardized score. An averaged z-score combines each standardized score for your values by averaging them. Average z-scores should be used when variables have different scales or when variables cannot be summed in a dataset. The benefit of average z-scores is that it allows you to interpret a variable through standard deviations.  
   - To calculate an averaged z-score, you first standardize the scores for each variable (subtract the mean and divide by the standard deviation), then you average these standardized scores.
 
 Requirement 3 (20%)
@@ -192,13 +192,12 @@ eth_svy <- eth_svy %>%
   mutate( z_future_end = mean(c_across(all_of(ecols[1:5])), na.rm = TRUE)) %>% 
   # avg. z score for future plans question baseline 
   mutate( z_future_base = mean(c_across(all_of(bcols[1:5])), na.rm = TRUE)) %>%
-  # avg. z score for political question endline 
+  # avg. z score for political efficacy question endline 
   mutate( z_pol_end = mean(c_across(all_of(ecols[6:8])), na.rm = TRUE)) %>% 
-  # avg. z score for political question baseline 
+  # avg. z score for political efficacy question baseline 
   mutate( z_pol_base = mean(c_across(all_of(bcols[6:8])), na.rm = TRUE)) %>%
   ungroup()
 
-      
 ```
 
 
@@ -259,9 +258,29 @@ ggplot(eth_svy , aes(x = z_pol_end )) +
 
 
 
+ggplot(eth_svy, aes(x = z_pol_base, fill = "Baseline")) +
+  geom_density(alpha = 0.5) +
+  geom_density(data = eth_svy, aes(x = z_pol_end, fill = "Endline"), alpha = 0.5) +
+  labs(y = "Percent of respondents", x = NULL, 
+       title = "Comparison of Feelings of Political Efficacy") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = c("Baseline" = palette[9], "Endline" = palette[5])) +
+  theme_minimal()
+                 
+
+ggplot(eth_svy, aes(x = z_future_base, fill = "Baseline")) +
+  geom_density(alpha = 0.5) +
+  geom_density(data = eth_svy, aes(x = z_future_end, fill = "Endline"), alpha = 0.5) +
+  labs(y = "Percent of respondents", x = NULL, 
+       title = "Comparison of Public Sector or Civil Society Career Plans") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = c("Baseline" = palette[9], "Endline" = palette[5])) +
+  theme_minimal()
+
+
 ```
 
-- Given that this survey data contains two waves, the baseline histograms represent student responses collected in May-June whereas the endline histograms represent student responses collected in October-November of 2022. 
+- Given that this survey data contains two waves, the baseline graphs represent student responses collected in May-June whereas the endline graphs represent student responses collected in October-November of 2022. 
 
 - In words, describe whether the figures tell us anything about changes over time.
 
@@ -294,14 +313,13 @@ eth_model <- eth_svy %>%
 Requirement 5 (15%)
 
 
-Using baseline values only, estimate a model regressing your “Future plans” index on your “Feelings of political efficacy” index. Your model should take the following form:
+Using baseline values only, estimate a model regressing your “Future plans” index on your “Feelings of political efficacy” index. 
 
-Use the modelsummary()package to visualize the results as a table. In your own words, interpret the meaning of 
- and 
-. Substantively, how should we interpret the relationship described in the data? What does this tell us about the world? What assumptions would we need in order to interpret the relationship as causal?
+
 
 ```{r}
 
+ 
 pol_model <- list()
 pol_model[['Bivariate']] = lm(z_future_base ~ z_pol_base, eth_model)
 
@@ -313,6 +331,14 @@ modelsummary(
 
 
 ```
+
+- Substantively, how should we interpret the relationship described in the data? What does this tell us about the world? What assumptions would we need in order to interpret the relationship as causal?
+
+
+- The regression coefficient for the "Feelings of political efficacy" index (z_pol_base) shows a increase by 0.083 units in the "Future plans in Public Sector or Civil Society" index (z_future_end) for a one-unit increase in "Feelings of political efficacy" index, holding all other variables constant. In other words, students who report higher levels of political efficacy tend to have, on average, slightly more future plans in the public sector or civil society compared to those with lower levels of political efficacy, assuming all other factors remain unchanged.
+
+- We need two main assumptions to interpret the relationship as casual. First, we assume there is no reverse causality or that future plans does not cause changes in political efficacy. Second, we assume that there are no unobserved variables (confounders) that simultaneously affect both political efficacy and future plans. Unobserved confounding occurs when there are variables that influence both the independent and dependent variables but are not included in the analysis. This can lead to biased estimates of the relationship between political efficacy and future plans.
+
 
 Requirement 6 (15%)
 
@@ -339,10 +365,41 @@ modelsummary(
              statistic = NULL,
   gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
 
-# why is only male showing in the model
             
 ```
 
+- Continuous outcome with two binary predictors
+
+- α
+: Intercept when Xi1
+ and Xi2
+ are 0
+β1
+ Slope when Xi2=0
+β2
+ Difference in α
+ between Xi2=0
+ and Xi2=1
+β3
+ Difference in β1
+ between Xi2=0
+ and  Xi2=1
+ 
+ 
+- Interpreting the coefficients from the model:
+
+Intercept (-0.108): This represents the estimated baseline outcome (future plans index) for individuals who are female (gender_baseMale = 0) and have "Feelings of political efficacy" below the sample mean.
+
+bi_pol_base (0.111): This represents the estimated change in the outcome for individuals with "Feelings of political efficacy" above the sample mean compared to those below the mean, but only for females (gender_baseMale = 0). However, the p-value (0.066) indicates that this coefficient is not statistically significant at conventional levels.
+
+gender_baseMale (0.068): This represents the estimated difference in the outcome between males (gender_baseMale = 1) and females (gender_baseMale = 0) for individuals with "Feelings of political efficacy" below the sample mean.
+
+bi_pol_base × gender_baseMale (-0.011): This represents the difference in the effect of "Feelings of political efficacy" on the outcome between males and females. A negative coefficient indicates that the effect of "Feelings of political efficacy" on future plans is slightly weaker for males compared to females, but this interaction effect is not statistically significant according to the p-value (0.077).
+
+Substantive Interpretation:
+
+The interactive relationship described in the data suggests that the effect of "Feelings of political efficacy" on future plans may vary by gender, but the evidence for this interaction effect is not strong. While individuals with higher "Feelings of political efficacy" tend to have slightly more positive future plans, this effect does not significantly differ between males and females in this dataset.
+ 
 Requirement 7 (10%)
 
 Convert the data from ‘wide’ to ‘long’ format, so that each respondent (response_id) has two rows of data; one row is baseline and one row is endline.
