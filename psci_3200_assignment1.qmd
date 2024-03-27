@@ -284,6 +284,8 @@ ggplot(eth_svy, aes(x = z_future_base, fill = "Baseline")) +
 
 - In words, describe whether the figures tell us anything about changes over time.
 
+- The data is standarized so you can't see changes in the mean or standard deviation over time. You would only be able to see skew and peaks but that doesn't really change in this case. 
+
 - The baseline and endline histograms for question 26 and 27 on how students' future plans in having a public sector or civil society career show that the average Z-score increased from approximately -0.6 to -0.45. This means that on average, a student in the spring of 2022 had a Z-score measuring whether they will have a future career in the public or civil sector -0.6 standard deviations below the mean and students in fall of 2022 had a Z-score measuring whether they will have a future career in the public or civil sector standard -0.45 standard deviations below the mean. We can conclude that the
 
 
@@ -335,9 +337,11 @@ modelsummary(
 - Substantively, how should we interpret the relationship described in the data? What does this tell us about the world? What assumptions would we need in order to interpret the relationship as causal?
 
 
-- The regression coefficient for the "Feelings of political efficacy" index (z_pol_base) shows a increase by 0.083 units in the "Future plans in Public Sector or Civil Society" index (z_future_end) for a one-unit increase in "Feelings of political efficacy" index, holding all other variables constant. In other words, students who report higher levels of political efficacy tend to have, on average, slightly more future plans in the public sector or civil society compared to those with lower levels of political efficacy, assuming all other factors remain unchanged.
+- The regression coefficient for the "Feelings of political efficacy" index (z_pol_base) shows a increase by 0.083 units in the "Future plans in Public Sector or Civil Society" index (z_future_end) for a one-unit increase (or an increase of one standard deviation) in "Feelings of political efficacy" index, holding all other variables constant. In other words, students who report higher levels of political efficacy tend to have, on average, slightly more future plans in the public sector or civil society compared to those with lower levels of political efficacy, assuming all other factors remain unchanged.
 
 - We need two main assumptions to interpret the relationship as casual. First, we assume there is no reverse causality or that future plans does not cause changes in political efficacy. Second, we assume that there are no unobserved variables (confounders) that simultaneously affect both political efficacy and future plans. Unobserved confounding occurs when there are variables that influence both the independent and dependent variables but are not included in the analysis. This can lead to biased estimates of the relationship between political efficacy and future plans.
+
+- Those who believe in the efficacy of political action must be indentifical in all possible ways to those who do not. 
 
 
 Requirement 6 (15%)
@@ -352,12 +356,12 @@ Use the modelsummary()package to visualize the results as a table. In your own w
 
 eth_model <- eth_model %>%
              mutate(bi_pol_end = ifelse(z_pol_end >= 0, 1,0),
-                    bi_pol_base = ifelse(z_pol_base > 0, 1,0))
+                    bi_pol_base = ifelse(z_pol_base >= 0, 1,0))
 
 # help 
 
 bi_pol_model <- list()
-bi_pol_model[['Multivariate']] = lm(z_future_base ~ bi_pol_base*gender_base, eth_model)
+bi_pol_model[['Interaction']] = lm(z_future_base ~ bi_pol_base*gender_base, eth_model)
 
 modelsummary(
   bi_pol_model,
@@ -390,11 +394,15 @@ modelsummary(
 
 Intercept (-0.108): This represents the estimated baseline outcome (future plans index) for individuals who are female (gender_baseMale = 0) and have "Feelings of political efficacy" below the sample mean.
 
-bi_pol_base (0.111): This represents the estimated change in the outcome for individuals with "Feelings of political efficacy" above the sample mean compared to those below the mean, but only for females (gender_baseMale = 0). However, the p-value (0.066) indicates that this coefficient is not statistically significant at conventional levels.
+bi_pol_base (0.111): This represents the estimated change in the outcome (future plans index) for individuals with "Feelings of political efficacy" above the sample mean compared to those below the mean, but only for females (gender_baseMale = 0). However, the p-value (0.066) indicates that this coefficient is not statistically significant at conventional levels.
 
-gender_baseMale (0.068): This represents the estimated difference in the outcome between males (gender_baseMale = 1) and females (gender_baseMale = 0) for individuals with "Feelings of political efficacy" below the sample mean.
+- The sample mean in this case is zero because its standardized.
 
-bi_pol_base × gender_baseMale (-0.011): This represents the difference in the effect of "Feelings of political efficacy" on the outcome between males and females. A negative coefficient indicates that the effect of "Feelings of political efficacy" on future plans is slightly weaker for males compared to females, but this interaction effect is not statistically significant according to the p-value (0.077).
+gender_baseMale (0.068): This represents the estimated difference in the outcome (future plans index) between males (gender_baseMale = 1) and females (gender_baseMale = 0) for individuals with "Feelings of political efficacy" below the sample mean.
+
+bi_pol_base × gender_baseMale (-0.011): This represents the difference in the effect of "Feelings of political efficacy" on the outcome (future plans index) between males and females. A negative coefficient indicates that the effect of "Feelings of political efficacy" on future plans is slightly weaker for males compared to females, but this interaction effect is not statistically significant according to the p-value (0.077).
+
+- gender does not have and impact on the relationship between feelings of effiacy and the outcome. 
 
 Substantive Interpretation:
 
@@ -421,7 +429,7 @@ eth_model_long <- eth_model %>%
 
 
 fixed_model <- list()
-fixed_model[['Fixed Effects']] = lm(future ~ pol + time + factor(response_id), eth_model_long)
+fixed_model[['Fixed Effects']] = lm(future ~ pol + factor(response_id), eth_model_long)
 
 modelsummary(
   fixed_model,
@@ -431,7 +439,8 @@ modelsummary(
   gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
 
 ```
- 
- 
- 
+
+- In the original model, the regression coefficient represents the increase in the future plans index for a one-unit increase (or an increase of one standard deviation) in "Feelings of political efficacy" index, holding all other variables constant. In this model, the regression coefficent represents the change in the "Future plans in Public Sector or Civil Society" index variable (future) associated with a one-unit increase in "Feelings of political efficacy" index variable (pol), while accounting for within-individual variation over time. Specifically, for each individual, a one-unit increase (or increase of one standard deviation) in feelings of political efficacy is associated with an average increase of 0.016 units in the future plans in the public sector or civil service average z-score index, holding constant individual-specific effects that remain constant over time.
+
+
  
