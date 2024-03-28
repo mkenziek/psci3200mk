@@ -13,16 +13,13 @@ format:
 editor: source
 ---
 
-In this assignment, you will be required to:
-
-Create index variables to summarize variation on key outcomes
-Estimate and interpret linear models and interaction effects
-Describe your reasoning and demonstrate understanding of core concepts
-We are using a representative survey of students from Addis Ababa University in Ethiopia collected by DevLab researchers. This data contains two waves collected in May-June and October-November of 2022. A total of 825 students completed both waves of the survey. This data was part of a randomized experiment inviting students to participate in a one-day workshop that connected them with opportunities to interact with leaders of civil society, sign-up as volunteers in civil society organizations, and engage in structured dialogue about politics with a diverse group of peers.
 
 # Part 1: Read-in data and prepare for analysis
 
 ```{r }
+#| warning: false
+#| message: false
+
 library(ggplot2)
 library(readr)
 library(ggdag)
@@ -42,27 +39,7 @@ palette = MetBrewer::met.brewer(name = "Cross")
 ```
 
 
-
-The dataset has a number of variables that you might use for the assignment. For each respondent, we have two observations made at different points in time (baseline and endline). The dataset is currently in ‘wide’ format, meaning that each respondent has one row and baseline and endline measurements for the same variable are stored in separate columns. Measurements taken at baseline have the suffix _baseline included in the column name; for example, q11_3 is the endline measurement and q11_3_baseline is the baseline measurement.
-
-Some of these variables are described below:
-
-response_id: A unique identifier for each respondent
-treatment_status: A binary indicator taking a value of 1 for respondents assigned to receive an invitation to the treatment workshop
-user_language: A categorical variable indicating whether the respondent took the survey in English, Ahmaric, or Afan
-q3_baseline: A categorical variable indicating whether the respondent identifies as Male or Female
-Future plans for a career in public sector or civil society
-q26_civ: Plan to work in civil society
-q26_politics: Plan to work in politics
-q26_public: Plan to work in public sector
-q27_1: Plan to run for political office
-q27_3: Plan to start a non-governmental organization
-Feelings of political efficacy
-q17_3: Your participation can bring positive change
-q17_1: Youth are given opportunities to engage
-q17_2: Youth participation can bring positive change
-
-# Requirement 1 (10%)
+## Requirement 1 
 
 For all variables after user_language, please rename the column with a descriptive name that better conveys their meaning. Column names should never contain spaces and should be as easy to type as possible. Do this for both their baseline and endline values, making sure to indicate which columns are baseline measures and which are endline measures in the names you assign.
 
@@ -94,10 +71,9 @@ dat <- dat %>%
 ``` 
 
 
-Part 2: Create Index Measures
-Next, you’ll need to create index measures for different types of variables. We will use the two types of index methods described during the in-class workshop.
+# Part 2: Create Index Measures
 
-Requirement 2 (10%)
+## Requirement 2 (10%)
 
 First, in your own words, explain the concept of an additive index and an averaged z-score, including how they are calculated, when you should use them, and when you cannot use them. What are the benefits of each approach?
 
@@ -106,9 +82,7 @@ First, in your own words, explain the concept of an additive index and an averag
 - A z-score tells you the number of standard deviations a value is from the mean of the given distribution of your data. A z-score is a standardized score. An averaged z-score combines each standardized score for your values by averaging them. Average z-scores should be used when variables have different scales or when variables cannot be summed in a dataset. The benefit of average z-scores is that it allows you to interpret a variable through standard deviations.  
   - To calculate an averaged z-score, you first standardize the scores for each variable (subtract the mean and divide by the standard deviation), then you average these standardized scores.
 
-Requirement 3 (20%)
-
-Next, you’ll need to:
+## Requirement 3 (20%)
 
 Create an additive index for the baseline and endline measures of the “Future plans for a career in public sector or civil society” variables. This should correspond to seperate counts of the number of future plans that each individual has at baseline and endline.
 
@@ -131,15 +105,13 @@ eth_svy <- eth_svy %>%
   mutate(add_plans_base =  rowSums(across(3:7), na.rm = T))
 
 
-
 ```
 
 Create an averaged z-scores for the baseline and endline values of the “Future plans for a career in public sector or civil society” and “Feelings of political efficacy” variables.
-Note
+
 
 ```{R}
 
-#| echo: false
 #| warning: false
 
 
@@ -201,7 +173,7 @@ eth_svy <- eth_svy %>%
 ```
 
 
-Requirement 4 (20%)
+## Requirement 4 (20%)
 
 To make sure that these scores look as you’d expect, create a ggplot visualizing the distribution of the z-scores at baseline and endline. You should have 4 figures: one corresponding to each z-score at baseline and endline. In words, describe whether the figures tell us anything about changes over time.
 
@@ -215,8 +187,8 @@ ggplot(eth_svy , aes(x = z_future_base )) +
   geom_histogram(aes(y = after_stat(count / sum(count))), 
                  binwidth= 0.5, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
-  labs(y = "Percent of respondents", x = NULL, 
-       title = "Distriubtion of Public Sector or Civil Society Career Plans (Baseline)") +
+  labs(y = "Percent of respondents", x = "Z-Score", 
+       title = "Public Sector or Civil Society Career Plans (Baseline)") +
   # Add a vertical line at the mean value of the data with a red dashed line
   geom_vline(xintercept = mean(eth_svy$z_future_base, na.rm = T), col = 'red', lwd = 1, linetype = 'dashed')
 
@@ -226,8 +198,8 @@ ggplot(eth_svy , aes(x = z_future_end )) +
   geom_histogram(aes(y = after_stat(count / sum(count))), 
                  binwidth= 0.5, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
-  labs(y = "Percent of respondents", x = NULL, 
-      title = "Distriubtion of Public Sector or Civil Society Career Plans (Endline)") +
+  labs(y = "Percent of respondents", x = "Z-Score", 
+      title = "Public Sector or Civil Society Career Plans (Endline)") +
   # Add a vertical line at the mean value of the data with a red dashed line
   geom_vline(xintercept = mean(eth_svy$z_future_end, na.rm = T), col = 'red', lwd = 1, linetype = 'dashed')
 
@@ -238,8 +210,8 @@ ggplot(eth_svy , aes(x = z_pol_base )) +
   geom_histogram(aes(y = after_stat(count / sum(count))), 
                  binwidth=0.5, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
-  labs(y = "Percent of respondents", x = NULL, 
-       title = "Feelings of political efficacy (Baseline)") +
+  labs(y = "Percent of respondents", x = "Z-Score", 
+       title = "Feelings of Political Efficacy (Baseline)") +
      # Add a vertical line at the mean value of the data with a red dashed line
   geom_vline(xintercept = mean(eth_svy$z_pol_base, na.rm = T), col = 'red', lwd = 1, linetype = 'dashed')
 
@@ -250,50 +222,28 @@ ggplot(eth_svy , aes(x = z_pol_end )) +
   geom_histogram(aes(y = after_stat(count / sum(count))), 
                  binwidth=0.5, fill = palette[9]) +
   scale_y_continuous(labels = scales::percent) +
-  labs(y = "Percent of respondents", x = NULL, 
-      title = "Feelings of political efficacy (Endline)") +
+  labs(y = "Percent of respondents", x = "Z-Score", 
+      title = "Feelings of Political Efficacy (Endline)") +
    # Add a vertical line at the mean value of the data with a red dashed line
   geom_vline(xintercept = mean(eth_svy$z_pol_end, na.rm = T), col = 'red', lwd = 1, linetype = 'dashed')
       
 
 
 
-ggplot(eth_svy, aes(x = z_pol_base, fill = "Baseline")) +
-  geom_density(alpha = 0.5) +
-  geom_density(data = eth_svy, aes(x = z_pol_end, fill = "Endline"), alpha = 0.5) +
-  labs(y = "Percent of respondents", x = NULL, 
-       title = "Comparison of Feelings of Political Efficacy") +
-  scale_y_continuous(labels = scales::percent) +
-  scale_fill_manual(values = c("Baseline" = palette[9], "Endline" = palette[5])) +
-  theme_minimal()
-                 
-
-ggplot(eth_svy, aes(x = z_future_base, fill = "Baseline")) +
-  geom_density(alpha = 0.5) +
-  geom_density(data = eth_svy, aes(x = z_future_end, fill = "Endline"), alpha = 0.5) +
-  labs(y = "Percent of respondents", x = NULL, 
-       title = "Comparison of Public Sector or Civil Society Career Plans") +
-  scale_y_continuous(labels = scales::percent) +
-  scale_fill_manual(values = c("Baseline" = palette[9], "Endline" = palette[5])) +
-  theme_minimal()
-
 
 ```
 
-- Given that this survey data contains two waves, the baseline graphs represent student responses collected in May-June whereas the endline graphs represent student responses collected in October-November of 2022. 
 
-- In words, describe whether the figures tell us anything about changes over time.
+In words, describe whether the figures tell us anything about changes over time.
 
-- The data is standarized so you can't see changes in the mean or standard deviation over time. You would only be able to see skew and peaks but that doesn't really change in this case. 
+- Given that this survey data contains two waves, the baseline graphs represent student responses collected in May-June whereas the endline graphs represent student responses collected in October-November of 2022. The data is standardized so you can't see obvious changes in the mean or standard deviation over time. You are able see changes in skew and peaks in standardized data but in this case the distributions of z-scores does not change over time from baseline to endline for the future plans or political efficacy variables. 
 
-- The baseline and endline histograms for question 26 and 27 on how students' future plans in having a public sector or civil society career show that the average Z-score increased from approximately -0.6 to -0.45. This means that on average, a student in the spring of 2022 had a Z-score measuring whether they will have a future career in the public or civil sector -0.6 standard deviations below the mean and students in fall of 2022 had a Z-score measuring whether they will have a future career in the public or civil sector standard -0.45 standard deviations below the mean. We can conclude that the
-
-
-- The baseline and endline histograms for question 17 on how students feel about youth political efficacy show that the average Z-score increased from approximately 1.2 to 1.6. This means that on average, students in the spring of 2022 had a Z-score measuring their feeling of political efficacy 1.2 standard deviations above the mean and students in fall of 2022 had a Z-score measuring their feeling of political efficacy 1.6 standard deviations above the mean. We can conclude that the feelings of political efficacy thus increased over time. 
+- If anything, the future plans variable has a right-skewed distribution of z-scores which indicates that the data is not normally distributed and is characterized by a tail extending to the right of the peak of the distribution. In this context the mean of the future plans z-scores is slightly greater than 0, indicating that the average value of the future plans variable is shifted towards the higher end of the scale.
 
 
 
-Part 3: Estimating models
+
+# Part 3: Estimating models
 
 Now, let’s estimate some models to assess the relationship between the two index measures. Before we get started, subset your data to include only response_id, q3_baseline (which you should have renamed), and the baseline and endline measures for each z-score. You should end up with 6 variables in your dataframe.
 
@@ -312,7 +262,7 @@ eth_model <- eth_svy %>%
 ```
 
 
-Requirement 5 (15%)
+## Requirement 5 (15%)
 
 
 Using baseline values only, estimate a model regressing your “Future plans” index on your “Feelings of political efficacy” index. 
@@ -334,23 +284,20 @@ modelsummary(
 
 ```
 
-- Substantively, how should we interpret the relationship described in the data? What does this tell us about the world? What assumptions would we need in order to interpret the relationship as causal?
+Substantively, how should we interpret the relationship described in the data? What does this tell us about the world? What assumptions would we need in order to interpret the relationship as causal?
 
 
 - The regression coefficient for the "Feelings of political efficacy" index (z_pol_base) shows a increase by 0.083 units in the "Future plans in Public Sector or Civil Society" index (z_future_end) for a one-unit increase (or an increase of one standard deviation) in "Feelings of political efficacy" index, holding all other variables constant. In other words, students who report higher levels of political efficacy tend to have, on average, slightly more future plans in the public sector or civil society compared to those with lower levels of political efficacy, assuming all other factors remain unchanged.
 
-- We need two main assumptions to interpret the relationship as casual. First, we assume there is no reverse causality or that future plans does not cause changes in political efficacy. Second, we assume that there are no unobserved variables (confounders) that simultaneously affect both political efficacy and future plans. Unobserved confounding occurs when there are variables that influence both the independent and dependent variables but are not included in the analysis. This can lead to biased estimates of the relationship between political efficacy and future plans.
-
-- Those who believe in the efficacy of political action must be indentifical in all possible ways to those who do not. 
+- We need two main assumptions to interpret the relationship as casual. First, we assume there is no reverse causality or that future plans does not cause changes in political efficacy. Second, we assume that there are no unobserved variables (confounders) that simultaneously affect both political efficacy and future plans. Unobserved confounding occurs when there are variables that influence both the independent and dependent variables but are not included in the analysis. This can lead to biased estimates of the relationship between political efficacy and future plans. In this case, we need to assume that those who believe in political efficacy must be identical in all possible ways to those who do not. 
 
 
-Requirement 6 (15%)
+## Requirement 6 (15%)
 
 For your baseline and endline values of the “Feelings of political efficacy” index, convert this index to a binary indicator taking a value of 1 of the individual has a value greater than or equal to the sample mean and a value of 0 if the individual has a value below the sample mean.
 
 Using baseline values only, estimate the same model, but interact your binary “Feelings of political efficacy” indicator with the gender indicator. Your model should take the following form:
 
-Use the modelsummary()package to visualize the results as a table. In your own words, interpret the meaning of and Substantively, how should we interpret the interactive relationship described in the data?
 
 ```{r}
 
@@ -358,7 +305,6 @@ eth_model <- eth_model %>%
              mutate(bi_pol_end = ifelse(z_pol_end >= 0, 1,0),
                     bi_pol_base = ifelse(z_pol_base >= 0, 1,0))
 
-# help 
 
 bi_pol_model <- list()
 bi_pol_model[['Interaction']] = lm(z_future_base ~ bi_pol_base*gender_base, eth_model)
@@ -372,61 +318,44 @@ modelsummary(
             
 ```
 
-- Continuous outcome with two binary predictors
+In your own words, interpret the meaning of the model and Substantively, how should we interpret the interactive relationship described in the data?
 
-- α
-: Intercept when Xi1
- and Xi2
- are 0
-β1
- Slope when Xi2=0
-β2
- Difference in α
- between Xi2=0
- and Xi2=1
-β3
- Difference in β1
- between Xi2=0
- and  Xi2=1
- 
- 
-- Interpreting the coefficients from the model:
 
-Intercept (-0.108): This represents the estimated baseline outcome (future plans index) for individuals who are female (gender_baseMale = 0) and have "Feelings of political efficacy" below the sample mean.
+α: The intercept indicates the estimated baseline outcome, which is the average z-score index for future plans, for individuals who are female (gender_baseMale = 0) and have "Feelings of political efficacy" below the sample mean (bi_pol_base = 0), with a value of -0.108. 
 
-bi_pol_base (0.111): This represents the estimated change in the outcome (future plans index) for individuals with "Feelings of political efficacy" above the sample mean compared to those below the mean, but only for females (gender_baseMale = 0). However, the p-value (0.066) indicates that this coefficient is not statistically significant at conventional levels.
+β1: This coefficient (0.111) represents the change in the baseline outcome (future plans average z-score index) for individuals whose values on the "Feelings of political efficacy" index change from below the mean (bi_pol_base = 0) to above or equal to the mean (bi_pol_base = 1) at the base time period but only for females (gender_baseMale = 0). However, the p-value (0.066) suggests that this coefficient is not statistically significant at conventional levels.
 
-- The sample mean in this case is zero because its standardized.
+β2: Gender_baseMale represents the difference in α between gender_baseMale = 0 (females) and gender_baseMale = 1 (males). It shows the change in the intercept (α) when gender changes from its reference category female to male. In simpler terms, it's asking how much the baseline (starting point) of the outcome variable (future plans average z-score index) changes when we switch from one gender category to another. A coefficient of 0.068 for β2 means that, holding all other variables constant (meaning that we are only looking at individuals with "Feelings of political efficacy" below the sample mean (bi_pol_base = 0), males tend to have an outcome value (future plans average z-score index) that is 0.068 units (standard deviations) higher on average compared to females.
 
-gender_baseMale (0.068): This represents the estimated difference in the outcome (future plans index) between males (gender_baseMale = 1) and females (gender_baseMale = 0) for individuals with "Feelings of political efficacy" below the sample mean.
 
-bi_pol_base × gender_baseMale (-0.011): This represents the difference in the effect of "Feelings of political efficacy" on the outcome (future plans index) between males and females. A negative coefficient indicates that the effect of "Feelings of political efficacy" on future plans is slightly weaker for males compared to females, but this interaction effect is not statistically significant according to the p-value (0.077).
+β3: Represents the coefficient associated with the interaction between gender and political efficacy. The difference in β1 between Gender=0 and Gender=1 is asking about the change in the coefficient for political efficacy (b1) when gender changes from female to male. Specifically, it's asking how much the effect of political efficacy (b1) on the outcome variable changes when we switch from female to male. A coefficient of -0.011 for β3 indicates the effect of the interaction between gender and political efficacy on the outcome variable, holding all other variables constant. In practical terms, it suggests that the relationship between political efficacy and the future plans variable differs between genders by -0.011 units. Here, the negative coefficient implies that the effect of political efficacy on the outcome variable is weaker (or less positive) for males compared to females, or stronger (or more negative) for females compared to males. However, it's important to note that the interaction effect is not statistically significant according to the p-value (0.077). 
 
-- gender does not have and impact on the relationship between feelings of effiacy and the outcome. 
+Substantively, the coefficient for the interaction between gender and political efficacy (β3) suggests that the effect of political efficacy on future plans may vary slightly between males and females. However, the non-significant p-value associated with this coefficient (0.077) indicates that this observed difference may not be reliable or meaningful. In other words, the variation in the effect of political efficacy on future plans between genders could be due to chance or random variability in the data rather than a true difference in the relationship.
 
-Substantive Interpretation:
 
-The interactive relationship described in the data suggests that the effect of "Feelings of political efficacy" on future plans may vary by gender, but the evidence for this interaction effect is not strong. While individuals with higher "Feelings of political efficacy" tend to have slightly more positive future plans, this effect does not significantly differ between males and females in this dataset.
- 
-Requirement 7 (10%)
+
+
+## Requirement 7 (10%)
 
 Convert the data from ‘wide’ to ‘long’ format, so that each respondent (response_id) has two rows of data; one row is baseline and one row is endline.
 
 Using this new ‘long’ format, estimate the original model, but add unit (response_id) fixed effects. Your model should take the following form:
 
-
-In your own words, tell us how the meaning of 
- has changed now that we’ve added fixed effects.
  
 ```{r}
 
-eth_model_long <- eth_model %>%
-  pivot_longer(cols = c(z_pol_end, z_pol_base, z_future_end, z_future_base),
-               names_to = c(".value", "time"),
-               names_pattern = "z_(\\w+)_(\\w+)",
-               values_to = c("z_pol", "z_future")) %>%
-  mutate(time = ifelse(time == "end", 1, 0))
+# This code is transforming a dataset by pivoting it from wide to long format, specifically for columns related to political efficacy and future plans variables
 
+# It then adds a new column 'time' to indicate whether the data corresponds to the endline (1) or the baseline (0) of the time period
+
+eth_model_long <- eth_model %>%
+  pivot_longer(
+    cols = c(z_pol_end, z_pol_base, z_future_end, z_future_base), # Pivot columns related to political efficacy and future plans variables
+    names_to = c(".value", "time"), # Split column names into '.value' (which will become the new column name) and 'time' (which indicates end or base)
+    names_pattern = "z_(\\w+)_(\\w+)", # Use regex pattern to extract variable names and time periods from original column names
+    values_to = c("z_pol", "z_future") # Define new column names for the pivoted values
+  ) %>%
+  mutate(time = ifelse(time == "end", 1, 0)) # Create a new 'time' column where 'end' corresponds to 1 and 'base' corresponds to 0
 
 fixed_model <- list()
 fixed_model[['Fixed Effects']] = lm(future ~ pol + factor(response_id), eth_model_long)
@@ -440,7 +369,10 @@ modelsummary(
 
 ```
 
-- In the original model, the regression coefficient represents the increase in the future plans index for a one-unit increase (or an increase of one standard deviation) in "Feelings of political efficacy" index, holding all other variables constant. In this model, the regression coefficent represents the change in the "Future plans in Public Sector or Civil Society" index variable (future) associated with a one-unit increase in "Feelings of political efficacy" index variable (pol), while accounting for within-individual variation over time. Specifically, for each individual, a one-unit increase (or increase of one standard deviation) in feelings of political efficacy is associated with an average increase of 0.016 units in the future plans in the public sector or civil service average z-score index, holding constant individual-specific effects that remain constant over time.
+
+In your own words, tell us how the meaning of has changed now that we’ve added fixed effects.
+
+- In the original model, the regression coefficient represents the change in the future plans index for a one-unit increase (or an increase of one standard deviation) in "Feelings of political efficacy" index, holding all other variables constant. In this model, the regression coefficient represents the change in the "Future plans in Public Sector or Civil Society" index variable (future) associated with going from below the mean to above the mean in "Feelings of political efficacy" index variable (pol), while accounting for within-individual variation over time. Specifically, a one-unit increase in feelings of political efficacy (or an increase of one standard deviation) is associated with an average increase of 0.016 units in the future plans in the public sector or civil service average z-score index across respondents, holding constant individual-specific effects that remain constant over time. In simple terms, the first model averages across time and different types of people while this model controls for all variables that don't change over time for respondents.
 
 
  
