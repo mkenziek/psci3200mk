@@ -11,22 +11,6 @@ election_returns <- read.csv("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psc
 
 homicide_rates <- readr::read_delim("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/mexico-muni-month-homicide-rates-2000-2021.csv", delim = "|")
 
-acled <- import("/Users/kenziekmac/Downloads/LatinAmerica_2018-2024_Mar08.xlsx") %>%
-         filter(COUNTRY == "Mexico")
-
-unique(acled$SUB_EVENT_TYPE)
-
-unique(acled$AC)
-
-unique(acled$ACTOR1)
-
-sum(acled$ACTOR2 == "Local Administrators")
-
-blH <- filter(acled, grepl(" local administrators",TAGS))
-
-
-unique(blH$ADMIN1)
-mun_names <- unique(election_returns$mun)
 
 # have leading zeros so all municipal level identifiers are 5 digits
 
@@ -123,11 +107,91 @@ homicide_rates$month <- as.numeric(homicide_rates$month)
 homicide_rates$month <- sapply(homicide_rates$month, add_leading_zeros_2) 
 
 
-# merge 
+# v01, v02, … = raw vote for candidate 1, 2, etc.
 
-election_returns$year <- as.numeric(election_returns$year )
+# l01, l02, … = label of candidate 1's, 2's, … party or coalition.
+
+# i want the data to have a col name pri_vote and show raw vote for pri candidate,
+# right now the raw vote and party are seperate columns 
+
+# Fix candidate columns 
+
+typeof(election_returns$l25)
+typeof(election_returns$l01)
+
+election_returns %<>%
+  mutate_at(vars(starts_with("l")), ~replace(., . == 0, NA)) %>%
+  mutate_at(vars(starts_with("l")), as.character)
+
+
+typeof(election_returns$l25)
+typeof(election_returns$l01)
+
+
+
+# drop all candidates and their votes that aren't number 1 or number 2
+
+# Selecting only the desired columns
+
+election_returns <- election_returns[, c(1,2,3,4,5,6,55,59,58)]%>% 
+  filter(!is.na(l01) & !is.na(l02)) %>%
+      filter( (l01 == "pri" |l01 == "pan") & (l02 == "pri" | l02 == "pan" )) # 12705 rows
+
+
+# pri wins only 
+
+pri_winners <- test_2 %>%
+  filter(l01 == "pri") %>%
+  rename( "pri_raw_votes" = "v01",
+          "pan_raw_votes" = "v02") %>%
+  select(-c(l01, l02))
+
+
+# pan winners only 
+
+pan_winners <- test_2 %>%
+  filter(l01 == "pan") %>%
+  rename( "pan_raw_votes" = "v01",
+          "pri_raw_votes" = "v02") %>%
+  select(-c(l01, l02))
+
+
+election_returns <- rbind(pri_winners, pan_winners)
+
+
+
+# calc. vote shares
+
+
+election_returns$year <- as.numeric(election_returns$year)
 
 test <- full_join(homicide_rates,election_returns, by = c("ent_mun", "month", "year"))
+
+# missing homicide rates 
+
+sum(is.na(test$homicide_rate))
+
+election_returns %<>% 
+  mutate( pri_vote_share = pri_raw_votes/efec,
+          pan_vote_share = pan_raw_votes/efec)
+
+
+big_rates <- test %>% 
+  filter (homicide_rate > 1500)
+
+# example of how homicide rate is calc. 
+
+(3 / ((1852 / 365.25) * 31)) * 100000
+
+test %>%
+  mutate(`Party Won` = ifelse(pan_vote_share < .5, "PRI", "PAN")) %>% 
+  filter(!is.na(`Party Won`)) %>% 
+  filter(pan_vote_share >= .4 & pan_vote_share <= .6) %>% 
+  ggplot(aes(x = pan_vote_share, y = homicide_rate, group=`Party Won`, color=`Party Won`)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  ylim(0,25)
+
 
 # take homicide rates in months after an election occurs 
 # i would expect the main impact to be concentrated in x time after election 
@@ -135,8 +199,14 @@ test <- full_join(homicide_rates,election_returns, by = c("ent_mun", "month", "y
 # is there places where this relationship should be strong or weak?
 
 # long-term power base? or entrenched power base 
-# split up time so examine power base from 2000-2015 then analyze 2015-present 
 
+# split up time so examine power base from 2000-2015 then analyze 2015-present 
+# 
+# I will need to calculate a vote share variable. I will do this in the following steps:
+# Determine the total votes cast for the PAN party (PAN_votes) and the total votes cast for all other parties (other_votes). 
+# Calculate the margin of victory or defeat for each election as the absolute difference between PAN_votes and other_votes.
+# Define a threshold for what constitutes a "closely contested" election.
+# Filter the elections where the margin of victory or defeat is within the defined threshold.
 
 
 
