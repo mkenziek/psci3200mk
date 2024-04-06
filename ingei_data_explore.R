@@ -140,7 +140,7 @@ election_returns <- election_returns[, c(1,2,3,4,5,6,55,59,58)]%>%
 
 # pri wins only 
 
-pri_winners <- test_2 %>%
+pri_winners <- election_returns %>%
   filter(l01 == "pri") %>%
   rename( "pri_raw_votes" = "v01",
           "pan_raw_votes" = "v02") %>%
@@ -149,7 +149,7 @@ pri_winners <- test_2 %>%
 
 # pan winners only 
 
-pan_winners <- test_2 %>%
+pan_winners <- election_returns %>%
   filter(l01 == "pan") %>%
   rename( "pan_raw_votes" = "v01",
           "pri_raw_votes" = "v02") %>%
@@ -158,6 +158,24 @@ pan_winners <- test_2 %>%
 
 election_returns <- rbind(pri_winners, pan_winners)
 
+
+min(election_returns$year)
+
+max(election_returns$year)
+
+election_returns %<>% arrange(year) 
+
+test <- election_returns%>%
+  filter(year == 2013) %>%
+  filter(l01 == "pan")
+
+test_2 <- election_returns%>%
+  filter(year == 2004) %>%
+  filter(is.na(l01 ))
+
+
+test_3 <- election_returns%>%
+  filter(year == 2001)
 
 
 # calc. vote shares

@@ -1,0 +1,82 @@
+---
+title: "Final Project Research Design"
+author: "Makenzie Kerneckel"
+
+institute: "University of Pennsylvania"
+date: last-modified
+toc: true
+
+format: 
+  html:
+    self-contained: true
+
+editor: source
+---
+
+
+# Part 1: Describe your research question and provide some background on why you find it interesting or important. Be sure to incorporate the feedback provided on the first assignment. Include references to at least two pieces of existing research that illustrate what has already been discovered about the relationship you are investigating. This could be articles published in academic journals, policy reports and white papers, articles published by think tanks and other credible organizations (ex. Brookings, the United Nations High Commissioner for Refugees, etc.), or pieces of data journalism. A full-credit response will probably be around 150-200 words. (40%)
+
+## Trejo Paper
+
+- According to Trejo and Ley (2018), the rotation of political parties in state gubernatorial power in Mexico between 1991 and 2006 significantly contributed to the outbreak of intercartel violence and large-scale criminal wars. The paper focuses on analyzing the period from 1991 to 2006, prior to Mexico's federal intervention or war on Drugs by PAN president Felipe Calderon. Trejo and Ley highlight the role of top- and mid-level officials' removal from key state-level institutions, such as the state attorney's office and the state judicial police, in disrupting informal protections for drug cartels previously provided under the one-party rule of the PRI. From its founding in 1929 to 1988, PRI had won every gubernatorial election in Mexico’s 31 states and nearly all municipal races. The study's key findings reveal a 55.3% increase in violence in municipalities from states experiencing party alternation at the governor level compared to those under PRI hegemony, indicating a loss of cartel protection. Economic factors and organizational dynamics further strengthen this relationship. Time trend analysis suggests a surge in violence during the initial year of opposition governors, reflecting a disruption in government protection networks. In this study, the dependent variable is the number of intercartel murders in Mexican municipalities and the independent variable is subnational party alternation in gubernatorial power. 
+
+- Broad Question: What happens to intercartel violence when PRI loses power at the state level?
+
+- Broad Hypothesis: An instability hypothesis which argues that when the PRI party lost power at the state level a informal network of cartel protection was thrown off leading to an outbreak of intercartel violence. 
+
+## Dell Paper
+
+- Unlike Trejo and Ley (2018), Dell (2015) focuses on the major outbreak of violence that followed the Mexican government’s War on Drugs between 2007 and 2012. Dell argues that drug trade-related violence has escalated in Mexico since 2007 due to rival traffickers' attempts to usurp territories after crackdowns initiated by PAN mayors have weakened the incumbent traffickers. The network model of trafficking routes developed in the study shows that PAN victories divert drug traffic, increasing violence along alternative drug routes. The main finding is that close victories for the PAN party in municipal elections in Mexico led to a significant increase in drug trade-related homicides and overall homicides. Specifically, during a mayor's three-year term, close PAN victories resulted in an increase of approximately 33 drug trade-related homicides per 100,000 per annum. Similarly, in the one year following the mayor's inauguration, close PAN victories led to an increase of around 27 drug trade-related homicides per 100,000. In this study, the independent variable is the political outcome of municipal elections, specifically the victory of the PAN (National Action Party) candidate, and the dependent variable is drug trade-related homicides.
+
+- Broad Question: What happens to drug-related homicides (> 85 % of the total drug-related violence consists of drug traffickers killing each other) when PAN gains power at the municipal level?
+
+- Broad hypothesis: A diversion hypothesis which argues that when the government cracks down in one place, drug activity and thus homicides are partially diverted elsewhere without being substantially reduced.
+
+
+## My research Question 
+
+- Independent Variables: 
+
+  - The victory of the PAN (National Action Party) candidate.
+
+  - Create an ordinal index of municipal alternation, municipal alternation index, which identifies how many times municipalities experienced a rotation in municipal powers. Municipalities with no alternation in municipal power receive a zero score. Municipalities where incumbent party from 2001 lost in 2004 receive a score of one. 
+    - My election data only goes back to 2000. I am making the assumption that elections held during 2000-2006 represents a period prior to Mexico's federal intervention in drug trafficking. 
+    - Local elections before Mexico's war on drugs: 2001 and 2004 
+    - 2001 will be a base year 
+
+  - Create an index of PAN power stability, PAN power index , which identifies how many mayoral terms the PAN party has stayed in office in a municipality. Each PAN term between 2000-2006 where the PAN was in power represents a score of one. This will be an additive index where municipalities where PAN won municipal elections in both 2001 and 2004 will get a score of 2. 
+
+
+
+- Dependent Variables: 
+
+  - Municipal Homicide rate per 100,000 people (includes everyone, not just intercartel murders) after the 2007 election (i.e. October 2007 (post-inauguration)- July 2010 (election))
+
+
+- Research Question: Does the victory of the PAN (National Action Party) candidate in municipal elections in Mexico after 2007 lead to an increase in the municipal homicide rate per 100,000 people, and how does this relationship vary with the rotation of political parties in mayoral office and the stability of PAN governance in the 2000-2006 period, a context in which national authorities in Mexico did not proactively confront drug cartels? Inspired by Trejo and Ley (2018), my research question challenges the traditional assumption that government authorities and organized crime groups (OCGs) operate in separate spheres. This research aims to explore what Trejo and Ley (2018) call a "gray zone" where government and criminal elements interact in Mexico through a system of informal protection. Understanding how party alternation potentially destabilizes state-criminal arrangements is vital for comprehending the broader dynamics of violence and governance in Mexico. By exploring these linkages at the municipal level, this research contributes to a deeper understanding of how political shifts impacted homicide patterns during the Mexican Drug War from 2006-2012.  
+
+
+
+
+
+# Part 2: State at least one testable hypothesis. Distill your research question into a statement about a specific relationship you expect to see in the world. In most cases, this hypothesis will describe a causal relationship between two variables (i.e. changes in x cause changes in y). Make an argument for why you expect to see this relationship. This should be based on related findings from existing research and/or your own theoretical/logical reasoning. A full-credit response will probably be around 150-200 words. (25%)
+
+## H1: Hypothesis 1 (H1): Municipalities with a PAN (National Action Party) candidate victory in local elections will experience a higher municipal homicide rate per 100,000 people after the 2007 election compared to municipalities where PAN candidates lost.
+
+## Hypothesis 2 (H2): Municipalities that experience a higher rotation of political parties in mayoral office during the 2000-2006 period will observe a higher municipal homicide rate per 100,000 people after the 2007 election compared to municipalities with stable party governance.
+
+## Hypothesis 3 (H3): Municipalities with a higher index of PAN power stability, indicating longer periods of PAN party governance during the 2000-2006 period, will exhibit a lower municipal homicide rate per 100,000 people after the 2007 election compared to municipalities with lower PAN power stability.
+
+## Logical Reasoning: 
+
+- Based on the findings from the Dell (2015) paper, we can expect to see support for Hypothesis 1 (H1).  Dell (2015) indicates that crackdowns initiated by PAN mayors have led to increased drug trade-related homicides at the municipal level. Therefore, it is plausible to expect that municipalities with PAN candidate victories will experience higher **overall i.e. not just drug-related** municipal homicide rates after the 2007 election compared to municipalities where PAN candidates lost.
+
+- Regarding Hypothesis 2 (H2), Trejo and Ley (2018) provide insights that can inform our expectations. Their findings suggest that the rotation of political parties in gubernatorial power contributed to an increase in intercartel violence before the Mexican War on Drugs from 2006-2012. This disruption in governance structures and protection networks could similarly occur at the municipal level with frequent changes in mayoral office. Therefore, we can anticipate that municipalities experiencing a higher rotation of political parties in mayoral office during the 2000-2006 period will observe a higher municipal homicide rate after the 2007 election compared to municipalities with stable party governance.
+
+- Hypothesis 3 (H3) tests the opposite of Trejo and Ley's hypothesis by proposing that longer periods of PAN governance, as indicated by a higher index of PAN power stability, may lead to a decrease in municipal homicide rates after the 2007 election. Trejo and Ley's hypothesis suggests that the rotation of political parties, particularly the loss of PRI (Institutional Revolutionary Party) control, leads to an outbreak of intercartel violence due to the disruption of informal networks of cartel protection previously provided under PRI rule. In contrast, H3 posits that municipalities with longer periods of PAN governance may exhibit lower homicide rates post-2007 election. This hypothesis is based on the assumption that stable PAN governance  during the 2000-2006 period may lead to the implementation of effective crime prevention strategies, establishment of stronger institutional frameworks, and potentially better management of security challenges compared to municipalities with more frequent changes in political leadership. Alternatively, stable PAN governance could also reflect the creation of informal cartel protection which would also lead to lower homicide rates by appeasing OCG's. Therefore, H3 directly tests the opposite direction of Trejo and Ley's hypothesis by examining the impact of PAN power stability, rather than party alternation, on homicide rates. Instead of focusing on the destabilizing effect of party alternation, H3 considers the potential stabilizing effect of prolonged PAN governance, which may lead to lower levels of violence.
+
+# Part 3: Briefly discuss the specific variables you will use to test your hypothesis and the dataset they are drawn from. Be sure to mention the source of the data (the organization or individuals that produced it), the unit of analysis, and the sample. Create a ggplot to visualize the relationship between the variables being used to test your hypothesis. The best method of visualizing this relationship will depend on the scale of your variables. Good methods to consider are scatter plots (for continuous variables), grouped bar charts (for ordinal or binary variables), and line graphs (for continuous variables with time-series). (25%)
+
+# Part 4: Specify the main regression model you will use to test your hypothesis. This regression model should provide a preliminary test for or against the validity of your hypothesis. Use markdown to render the equation neatly to the html file. (10%)
+
+
