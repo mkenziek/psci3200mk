@@ -1,16 +1,19 @@
 
 library(foreign)
-library(tidyverse)
 library(magrittr)
 library(rio)
+library(ggplot2)
+library(tidyverse)
 
 
-
+# load data 
 
 election_returns <- read.csv("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/aymu1970-on.coalSplit.csv")
 
 homicide_rates <- readr::read_delim("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/mexico-muni-month-homicide-rates-2000-2021.csv", delim = "|")
 
+
+# data cleaning 
 
 # have leading zeros so all municipal level identifiers are 5 digits
 
@@ -129,7 +132,7 @@ typeof(election_returns$l01)
 
 
          
-# For Loop to find the winners 
+# For Loop to find the first and second place parties for each election  
 
 # Initialize lists to store results
 highest_col <- vector("list", length = nrow(election_returns))
@@ -162,14 +165,10 @@ second_highest_col <- sapply(second_highest_col, function(x) ifelse(is.null(x), 
 election_returns$highest_col <- highest_col
 election_returns$second_highest_col <- second_highest_col
 
-# Print the updated dataset with the highest and second-highest columns
-print(election_returns)
-
-head(election_returns)
-#
 
 
-# For Loop Raw Votes
+
+# For Loop to Create Raw Votes Columns 
 
 # Initialize a list to store selected columns
 selected_columns <- vector("list", length = nrow(election_returns))
@@ -197,7 +196,7 @@ selected_raw_votes_df <- as.data.frame(do.call(rbind, selected_columns)) %>%
 
 
 
-# For loop Party
+# For loop to create party columns 
 
 # Initialize a list to store selected columns
 selected_columns <- vector("list", length = nrow(election_returns))
@@ -222,14 +221,10 @@ selected_parties_df <- as.data.frame(do.call(rbind, selected_columns))
 
 election_returns_cleaned <- cbind(selected_raw_votes_df, selected_parties_df)
 
-##### 
-
-head(election_returns_cleaned)
 # Create Independent Variables 
 
-# victory of the PAN (National Action Party) candidate
 
-# municipal alternation index
+# municipal alternation index variable 
 
 
 election_returns_cleaned$year <- as.numeric(election_returns_cleaned$year)
@@ -265,7 +260,7 @@ election_returns_cleaned <- election_returns_cleaned %>%
   ungroup()
  
 
-# PAN power index 
+# PAN power index variable 
 
 # Function to count consecutive years in power for the "pan" party for each municipality
 count_years_in_power <- function(data) {
@@ -283,33 +278,131 @@ count_years_in_power <- function(data) {
 }
 
 # Calculate years in power index for the "pan" party for each municipality
+
 election_returns_cleaned <- election_returns_cleaned %>%
   group_by(ent_mun) %>%
   mutate(pan_consec_yrs_in_pwr = count_years_in_power(cur_data())) %>%
   ungroup()
 
 
+# victory of the PAN (National Action Party) candidate variable 
+
+# first filter down to election where pan or pri was first or second place party 
 
 
-test <- full_join(homicide_rates,election_returns, by = c("ent_mun", "month", "year"))
+pri_winners <- election_returns_cleaned %>%
+  filter(first_place_party == "pri") %>%
+  filter(second_place_party == "pan") %>%
+  rename( "pri_raw_votes" = "first_place_raw_votes",
+          "pan_raw_votes" = "second_place_raw_votes") %>%
+  select(-c(first_place_party, second_place_party))
 
-# missing homicide rates 
+# pan winners only 
 
-sum(is.na(test$homicide_rate))
 
-election_returns %<>% 
+pan_winners <- election_returns_cleaned %>%
+  filter(first_place_party == "pan") %>%
+  filter(second_place_party == "pri") %>%
+  rename( "pan_raw_votes" = "first_place_raw_votes",
+          "pri_raw_votes" = "second_place_raw_votes") %>%
+  select(-c(first_place_party, second_place_party))
+
+# close election dataset 
+
+pan_pri_close_elections <- rbind(pri_winners, pan_winners) %>%
+                     mutate( pri_vote_share = pri_raw_votes/efec,
+                             pan_vote_share = pan_raw_votes/efec,
+                             pan_margin_of_victory = pan_vote_share - pri_vote_share) %>%
+                    filter(pan_margin_of_victory >= -0.05 & pan_margin_of_victory <= 0.05)
+
+pan_pri_elections <- rbind(pri_winners, pan_winners) %>%
   mutate( pri_vote_share = pri_raw_votes/efec,
-          pan_vote_share = pan_raw_votes/efec)
+          pan_vote_share = pan_raw_votes/efec,
+          pan_margin_of_victory = pan_vote_share - pri_vote_share) 
 
 
-big_rates <- test %>% 
-  filter (homicide_rate > 1500)
 
+# join elections and homicide data 
+
+elections_hom <- full_join(homicide_rates,election_returns_cleaned, by = c("ent_mun", "month", "year")) %>%
+                  filter( year >= 2001)
+
+elections_hom_pan <- full_join(homicide_rates,pan_pri_elections, by = c("ent_mun", "month", "year"))
+
+elections_hom_close <- full_join(homicide_rates,pan_pri_elections, by = c("ent_mun", "month", "year"))
+
+
+
+
+# Convert 'year' and 'month' to a Date object
+elections_hom$date <- as.Date(paste(elections_hom$year, elections_hom$month, "01", sep = "-"))
+
+elections_hom <- elections_hom %>%
+  filter(date >= as.Date("2001-08-01")) %>%
+  mutate( election_year = ifelse(is.na(pan_consec_yrs_in_pwr), 0, 1)) %>%
+  filter(year < 2020)
+
+
+# Define a function to calculate post-election average homicide rate
+calculate_post_election_avg <- function(data, election_date, next_election_date, municipality) {
+  post_election_data <- data %>%
+    filter(ent_mun == municipality) %>%
+    filter(date < as.Date(next_election_date)) %>%
+    filter(date != as.Date(election_date))
+  post_election_avg_rate <- mean(post_election_data$homicide_rate, na.rm = TRUE)
+  return(post_election_avg_rate)
+}
+
+
+
+
+post_election_avg_rates <- numeric(nrow(elections_hom))
+
+
+for (i in 1:5000) {
+  election_date <- elections_hom$date[i]
+  mun <- elections_hom$ent_mun[i]
+  next_election_date <- election_date + years(3)
+  post_election_avg_rates[i] <- calculate_post_election_avg(elections_hom, election_date, next_election_date, mun)
+}
+
+
+
+# Add the calculated post-election average homicide rates as a new column in the dataset
+elections_hom$post_election_avg_rate <- post_election_avg_rates
+
+elections_hom$post_election_avg_rate[is.na(elections_hom$pan_consec_yrs_in_pwr)] <- NA
+
+
+2004 + 3
+
+# View the updated dataset
+head(elections_hom)
+
+# View the updated dataset
+test <- elections_hom[2:36,] %>%
+        summarize(post_elec_rate = mean(homicide_rate))
+
+# View the updated dataset
+head(elections_hom)
 # example of how homicide rate is calc. 
 
 (3 / ((1852 / 365.25) * 31)) * 100000
 
-test %>%
+# Dell's RDD method 
+
+elections_hom_close %>%
+   mutate(`Party Won` = ifelse(pan_margin_of_victory < 0, "PRI", "PAN")) %>% 
+  filter(!is.na(`Party Won`)) %>% 
+  ggplot(aes(x = pan_margin_of_victory, y = homicide_rate, group=`Party Won`, color=`Party Won`)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  ylim(0,25)
+
+
+# Alternative RDD method 
+
+elections_hom_pan %>%
   mutate(`Party Won` = ifelse(pan_vote_share < .5, "PRI", "PAN")) %>% 
   filter(!is.na(`Party Won`)) %>% 
   filter(pan_vote_share >= .4 & pan_vote_share <= .6) %>% 
@@ -319,20 +412,8 @@ test %>%
   ylim(0,25)
 
 
-# take homicide rates in months after an election occurs 
-# i would expect the main impact to be concentrated in x time after election 
-# how long does it take them to occupy office - 6 months after ? 
-# is there places where this relationship should be strong or weak?
 
-# long-term power base? or entrenched power base 
 
-# split up time so examine power base from 2000-2015 then analyze 2015-present 
-# 
-# I will need to calculate a vote share variable. I will do this in the following steps:
-# Determine the total votes cast for the PAN party (PAN_votes) and the total votes cast for all other parties (other_votes). 
-# Calculate the margin of victory or defeat for each election as the absolute difference between PAN_votes and other_votes.
-# Define a threshold for what constitutes a "closely contested" election.
-# Filter the elections where the margin of victory or defeat is within the defined threshold.
 
 
 

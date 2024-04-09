@@ -80,3 +80,38 @@ editor: source
 # Part 4: Specify the main regression model you will use to test your hypothesis. This regression model should provide a preliminary test for or against the validity of your hypothesis. Use markdown to render the equation neatly to the html file. (10%)
 
 
+### Hypothesis 1 (H1):
+
+The regression model for Hypothesis 1 (H1) can be expressed as:
+
+\[
+\text{Overall Homicide Rate}_i = \beta_0 + \beta_1 \times \text{PAN Candidate Victory}_i + \beta_2 \times \text{Control Variables}_i + \epsilon_i 
+\]
+
+### Hypothesis 2 (H2):
+
+The regression model for Hypothesis 2 (H2) is represented as:
+
+\[
+\text{Overall Homicide Rate}_i = \beta_0 + \beta_1 \times \text{Rotation of Parties}_i + \beta_2 \times \text{Control Variables}_i + \epsilon_i 
+\]
+
+### Hypothesis 3 (H3):
+
+The regression model for Hypothesis 3 (H3) can be written as:
+
+\[
+\text{Overall Homicide Rate}_i = \beta_0 + \beta_1 \times \text{PAN Power Stability Index}_i + \beta_2 \times \text{Control Variables}_i + \epsilon_i 
+\]
+
+
+
+
+
+
+
+
+
+
+
+
