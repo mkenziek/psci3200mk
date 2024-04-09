@@ -128,60 +128,168 @@ typeof(election_returns$l25)
 typeof(election_returns$l01)
 
 
+         
+# For Loop to find the winners 
 
-# drop all candidates and their votes that aren't number 1 or number 2
+# Initialize lists to store results
+highest_col <- vector("list", length = nrow(election_returns))
+second_highest_col <- vector("list", length = nrow(election_returns))
 
-# Selecting only the desired columns
+# Loop through each row
+for (i in 1:nrow(election_returns)) {
+  # Get the row values excluding non-numeric columns
+  row_values <- as.numeric(unlist(election_returns[i, grep("^v", names(election_returns))]))
+  
+  # Find the index of the highest value
+  highest_index <- which.max(row_values)
+  
+  # Set the highest value to -Inf so it's excluded when finding the second highest
+  row_values[highest_index] <- -Inf
+  
+  # Find the index of the second highest value
+  second_highest_index <- which.max(row_values)
+  
+  # Get the column names corresponding to the highest and second-highest values
+  highest_col[[i]] <- names(election_returns)[grep("^v", names(election_returns))][highest_index]
+  second_highest_col[[i]] <- names(election_returns)[grep("^v", names(election_returns))][second_highest_index]
+}
 
-election_returns <- election_returns[, c(1,2,3,4,5,6,55,59,58)]%>% 
-  filter(!is.na(l01) & !is.na(l02)) %>%
-      filter( (l01 == "pri" |l01 == "pan") & (l02 == "pri" | l02 == "pan" )) # 12705 rows
+# Convert lists to character vectors
+highest_col <- sapply(highest_col, function(x) ifelse(is.null(x), NA, x))
+second_highest_col <- sapply(second_highest_col, function(x) ifelse(is.null(x), NA, x))
 
+# Add the results to the original dataset
+election_returns$highest_col <- highest_col
+election_returns$second_highest_col <- second_highest_col
 
-# pri wins only 
+# Print the updated dataset with the highest and second-highest columns
+print(election_returns)
 
-pri_winners <- election_returns %>%
-  filter(l01 == "pri") %>%
-  rename( "pri_raw_votes" = "v01",
-          "pan_raw_votes" = "v02") %>%
-  select(-c(l01, l02))
-
-
-# pan winners only 
-
-pan_winners <- election_returns %>%
-  filter(l01 == "pan") %>%
-  rename( "pan_raw_votes" = "v01",
-          "pri_raw_votes" = "v02") %>%
-  select(-c(l01, l02))
-
-
-election_returns <- rbind(pri_winners, pan_winners)
-
-
-min(election_returns$year)
-
-max(election_returns$year)
-
-election_returns %<>% arrange(year) 
-
-test <- election_returns%>%
-  filter(year == 2013) %>%
-  filter(l01 == "pan")
-
-test_2 <- election_returns%>%
-  filter(year == 2004) %>%
-  filter(is.na(l01 ))
+head(election_returns)
+#
 
 
-test_3 <- election_returns%>%
-  filter(year == 2001)
+# For Loop Raw Votes
+
+# Initialize a list to store selected columns
+selected_columns <- vector("list", length = nrow(election_returns))
+
+# Loop through each row
+for (i in 1:nrow(election_returns)) {
+  # Get the column names for the current row
+  highest_col_name <- election_returns$highest_col[i]
+  second_highest_col_name <- election_returns$second_highest_col[i]
+  
+  # Select columns based on the column names
+  first_place_raw_votes <- election_returns[[highest_col_name]][i]
+  second_place_raw_votes <- election_returns[[second_highest_col_name]][i]
+  
+  
+  # Combine the selected columns into a data frame
+  selected_columns[[i]] <- cbind(first_place_raw_votes, second_place_raw_votes)
+}
+
+# Convert the list to a data frame
+selected_raw_votes_df <- as.data.frame(do.call(rbind, selected_columns)) %>%
+                       cbind(election_returns[,c(1,2,55,59,58)]) %>%
+                       select(3,4,1,2,5,6,7)
 
 
-# calc. vote shares
 
 
-election_returns$year <- as.numeric(election_returns$year)
+# For loop Party
+
+# Initialize a list to store selected columns
+selected_columns <- vector("list", length = nrow(election_returns))
+
+# Loop through each row
+for (i in 1:nrow(election_returns)) {
+  # Get the party names for the current row
+  highest_col_party <- paste0("l", substr(election_returns[i, "highest_col"], 2, 3))
+  second_highest_col_party <- paste0("l", substr(election_returns[i, "second_highest_col"], 2, 3))
+  
+  # Select columns based on the party names
+  first_place_party <- election_returns[i, highest_col_party]
+  second_place_party <- election_returns[i, second_highest_col_party]
+  
+  # Combine the selected columns into a data frame
+  selected_columns[[i]] <- cbind(first_place_party, second_place_party)
+}
+
+# Convert the list to a data frame
+selected_parties_df <- as.data.frame(do.call(rbind, selected_columns))
+
+
+election_returns_cleaned <- cbind(selected_raw_votes_df, selected_parties_df)
+
+##### 
+
+head(election_returns_cleaned)
+# Create Independent Variables 
+
+# victory of the PAN (National Action Party) candidate
+
+# municipal alternation index
+
+
+election_returns_cleaned$year <- as.numeric(election_returns_cleaned$year)
+
+
+# Function to count cumulative alternations in party power for each municipality and year
+count_alternations <- function(data) {
+  # Check if there's only one party or no data
+  if (nrow(unique(data[, c("year", "first_place_party")])) <= 1) {
+    return(rep(0, nrow(data)))
+  }
+  
+  # Initialize alternation score
+  alternation_score <- numeric(nrow(data))
+  
+  # Compute cumulative alternation score
+  for (i in 2:nrow(data)) {
+    if (!is.na(data$first_place_party[i]) && !is.na(data$first_place_party[i - 1]) &&
+        data$first_place_party[i] != data$first_place_party[i - 1]) {
+      alternation_score[i] <- alternation_score[i - 1] + 1
+    } else {
+      alternation_score[i] <- alternation_score[i - 1]
+    }
+  }
+  
+  return(alternation_score)
+}
+
+# Calculate cumulative alternation index for each municipality and year
+election_returns_cleaned <- election_returns_cleaned %>%
+  group_by(ent_mun) %>%
+  mutate(alternation_index = count_alternations(cur_data())) %>%
+  ungroup()
+ 
+
+# PAN power index 
+
+# Function to count consecutive years in power for the "pan" party for each municipality
+count_years_in_power <- function(data) {
+  # Initialize years in power count
+  years_in_power <- rep(0, nrow(data))
+  
+  # Compute consecutive years in power for the "pan" party
+  for (i in 1:nrow(data)) {
+    if (!is.na(data$first_place_party[i]) && data$first_place_party[i] == "pan") {
+      years_in_power[i] <- ifelse(i == 1, 1, years_in_power[i - 1] + 1)
+    }
+  }
+  
+  return(years_in_power)
+}
+
+# Calculate years in power index for the "pan" party for each municipality
+election_returns_cleaned <- election_returns_cleaned %>%
+  group_by(ent_mun) %>%
+  mutate(pan_consec_yrs_in_pwr = count_years_in_power(cur_data())) %>%
+  ungroup()
+
+
+
 
 test <- full_join(homicide_rates,election_returns, by = c("ent_mun", "month", "year"))
 

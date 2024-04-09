@@ -39,7 +39,7 @@ editor: source
 
   - The victory of the PAN (National Action Party) candidate.
 
-  - Create an ordinal index of municipal alternation, municipal alternation index, which identifies how many times municipalities experienced a rotation in municipal powers. Municipalities with no alternation in municipal power receive a zero score. Municipalities where incumbent party from 2001 lost in 2004 receive a score of one. 
+  - Create an ordinal index of municipal alternation, municipal alternation index, which identifies how many times municipalities experienced a rotation in municipal powers. Municipalities with no alternation in municipal power receive a zero score. Municipalities with an alteration in party from one elecction to the next get one point for each time they alternate.
     - My election data only goes back to 2000. I am making the assumption that elections held during 2000-2006 represents a period prior to Mexico's federal intervention in drug trafficking. 
     - Local elections before Mexico's war on drugs: 2001 and 2004 
     - 2001 will be a base year 
