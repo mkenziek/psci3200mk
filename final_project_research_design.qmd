@@ -13,67 +13,66 @@ format:
 editor: source
 ---
 
+# Part 1
 
-# Part 1: Describe your research question and provide some background on why you find it interesting or important. Be sure to incorporate the feedback provided on the first assignment. Include references to at least two pieces of existing research that illustrate what has already been discovered about the relationship you are investigating. This could be articles published in academic journals, policy reports and white papers, articles published by think tanks and other credible organizations (ex. Brookings, the United Nations High Commissioner for Refugees, etc.), or pieces of data journalism. A full-credit response will probably be around 150-200 words. (40%)
+1.  Trejo and Ley Paper: "Why Did Drug Cartels Go to War in Mexico? Subnational Party Alternation, the Breakdown of Criminal Protection, and the Onset of Large-Scale Violence"
 
-## Trejo Paper
+-   According to Trejo and Ley (2018), the rotation of political parties in state gubernatorial power in Mexico between 1991 and 2006 significantly contributed to the outbreak of intercartel violence and large-scale criminal wars. The paper focuses on analyzing the period from 1991 to 2006, prior to Mexico's federal intervention or war on Drugs by PAN president Felipe Calderon. Trejo and Ley highlight the role of top- and mid-level officials' removal from key state-level institutions, such as the state attorney's office and the state judicial police, in disrupting informal protections for drug cartels previously provided under the one-party rule of the PRI. From its founding in 1929 to 1988, PRI had won every gubernatorial election in Mexico’s 31 states and nearly all municipal races. The study's key findings reveal a 55.3% increase in violence in municipalities from states experiencing party alternation at the governor level compared to those under PRI hegemony, indicating a loss of cartel protection. Economic factors and organizational dynamics further strengthen this relationship. Time trend analysis suggests a surge in violence during the initial year of opposition governors, reflecting a disruption in government protection networks. In this study, the dependent variable is the number of inter-cartel murders in Mexican municipalities and the independent variable is sub-national party alternation in gubernatorial power.
 
-- According to Trejo and Ley (2018), the rotation of political parties in state gubernatorial power in Mexico between 1991 and 2006 significantly contributed to the outbreak of intercartel violence and large-scale criminal wars. The paper focuses on analyzing the period from 1991 to 2006, prior to Mexico's federal intervention or war on Drugs by PAN president Felipe Calderon. Trejo and Ley highlight the role of top- and mid-level officials' removal from key state-level institutions, such as the state attorney's office and the state judicial police, in disrupting informal protections for drug cartels previously provided under the one-party rule of the PRI. From its founding in 1929 to 1988, PRI had won every gubernatorial election in Mexico’s 31 states and nearly all municipal races. The study's key findings reveal a 55.3% increase in violence in municipalities from states experiencing party alternation at the governor level compared to those under PRI hegemony, indicating a loss of cartel protection. Economic factors and organizational dynamics further strengthen this relationship. Time trend analysis suggests a surge in violence during the initial year of opposition governors, reflecting a disruption in government protection networks. In this study, the dependent variable is the number of intercartel murders in Mexican municipalities and the independent variable is subnational party alternation in gubernatorial power. 
+-   Broad Question: What happens to inter-cartel violence when PRI loses power at the state level?
 
-- Broad Question: What happens to intercartel violence when PRI loses power at the state level?
+-   Broad Hypothesis: An instability hypothesis which argues that when the PRI party lost power at the state level a informal network of cartel protection was thrown off leading to an outbreak of inter-cartel violence.
 
-- Broad Hypothesis: An instability hypothesis which argues that when the PRI party lost power at the state level a informal network of cartel protection was thrown off leading to an outbreak of intercartel violence. 
+-   Link: <https://journals.sagepub.com/doi/full/10.1177/0010414017720703>
 
-## Dell Paper
+2.  Dell Paper: "Trafficking Networks and the Mexican Drug War"
 
-- Unlike Trejo and Ley (2018), Dell (2015) focuses on the major outbreak of violence that followed the Mexican government’s War on Drugs between 2007 and 2012. Dell argues that drug trade-related violence has escalated in Mexico since 2007 due to rival traffickers' attempts to usurp territories after crackdowns initiated by PAN mayors have weakened the incumbent traffickers. The network model of trafficking routes developed in the study shows that PAN victories divert drug traffic, increasing violence along alternative drug routes. The main finding is that close victories for the PAN party in municipal elections in Mexico led to a significant increase in drug trade-related homicides and overall homicides. Specifically, during a mayor's three-year term, close PAN victories resulted in an increase of approximately 33 drug trade-related homicides per 100,000 per annum. Similarly, in the one year following the mayor's inauguration, close PAN victories led to an increase of around 27 drug trade-related homicides per 100,000. In this study, the independent variable is the political outcome of municipal elections, specifically the victory of the PAN (National Action Party) candidate, and the dependent variable is drug trade-related homicides.
+-   Unlike Trejo and Ley (2018), Dell (2015) focuses on the major outbreak of violence that followed the Mexican government’s War on Drugs between 2007 and 2012. Dell argues that drug trade-related violence has escalated in Mexico since 2007 due to rival traffickers' attempts to usurp territories after crackdowns initiated by PAN mayors have weakened the incumbent traffickers. The network model of trafficking routes developed in the study shows that PAN victories divert drug traffic, increasing violence along alternative drug routes. The main finding is that close victories for the PAN party in municipal elections in Mexico led to a significant increase in drug trade-related homicides and overall homicides. Specifically, during a mayor's three-year term, close PAN victories resulted in an increase of approximately 33 drug trade-related homicides per 100,000 per annum. Similarly, in the one year following the mayor's inauguration, close PAN victories led to an increase of around 27 drug trade-related homicides per 100,000. In this study, the independent variable is the political outcome of municipal elections, specifically the victory of the PAN (National Action Party) candidate, and the dependent variable is drug trade-related homicides.
 
-- Broad Question: What happens to drug-related homicides (> 85 % of the total drug-related violence consists of drug traffickers killing each other) when PAN gains power at the municipal level?
+-   Broad Question: What happens to drug-related homicides (\> 85 % of the total drug-related violence consists of drug traffickers killing each other) when PAN gains power at the municipal level?
 
-- Broad hypothesis: A diversion hypothesis which argues that when the government cracks down in one place, drug activity and thus homicides are partially diverted elsewhere without being substantially reduced.
+-   Broad hypothesis: A diversion hypothesis which argues that when the government cracks down in one place, drug activity and thus homicides are partially diverted elsewhere without being substantially reduced.
 
+-   Link: <https://www.aeaweb.org/articles?id=10.1257/aer.20121637>
 
-## My research Question 
+## My research Question
 
-- Independent Variables: 
+-   Independent Variables:
 
-  - The margin of victory for the PAN (National Action Party) candidate.
+    1.  The margin of victory for the PAN (National Action Party) candidate.
+    2.  Create an ordinal index of municipal alternation, municipal alternation index, which identifies how many times municipalities experienced a rotation in municipal powers. Municipalities with no alternation in municipal power receive a zero score. Municipalities with an alteration in party from one election to the next get one point for each time they alternate.
+        -   My election data ranges from 2001-2020.
+    3.  Create an index of PAN power stability, PAN power index , which identifies how many mayoral terms the PAN party has stayed in office in a municipality. Each PAN term between where the PAN was in power represents a score of one. This will be an additive index.
 
-  - Create an ordinal index of municipal alternation, municipal alternation index, which identifies how many times municipalities experienced a rotation in municipal powers. Municipalities with no alternation in municipal power receive a zero score. Municipalities with an alteration in party from one election to the next get one point for each time they alternate.
-    - My election data ranges from 2001-2020. 
+-   Dependent Variables:
 
-  - Create an index of PAN power stability, PAN power index , which identifies how many mayoral terms the PAN party has stayed in office in a municipality. Each PAN term between where the PAN was in power represents a score of one. This will be an additive index. 
+    1.  Post-election municipal homicide rate per 100,000 people (includes everyone, not just inter-cartel murders).
 
+-   Research Question: Does the victory of the PAN (National Action Party) candidate in municipal elections in Mexico lead to an increase in the post-election municipal homicide rate per 100,000 people, and how does this relationship vary with the rotation of political parties in mayoral office and the stability of PAN mayoral governance? Inspired by Trejo and Ley (2018), my research question challenges the traditional assumption that government authorities and organized crime groups (OCGs) operate in separate spheres. This research aims to explore what Trejo and Ley (2018) call a "gray zone" where government and criminal elements interact in Mexico through a system of informal protection. Understanding how party alternation potentially destabilizes state-criminal arrangements is vital for comprehending the broader dynamics of violence and governance in Mexico. By exploring these linkages at the municipal level, this research contributes to a deeper understanding of how political shifts impacted homicide patterns before, during, and after the Mexican Drug War from 2006-2012.
 
-- Dependent Variables: 
+# Part 2
 
-  - Post-election municipal homicide rate per 100,000 people (includes everyone, not just intercartel murders). 
-
-
-- Research Question: Does the victory of the PAN (National Action Party) candidate in municipal elections in Mexico lead to an increase in the post-election municipal homicide rate per 100,000 people, and how does this relationship vary with the rotation of political parties in mayoral office and the stability of PAN mayoral governance? Inspired by Trejo and Ley (2018), my research question challenges the traditional assumption that government authorities and organized crime groups (OCGs) operate in separate spheres. This research aims to explore what Trejo and Ley (2018) call a "gray zone" where government and criminal elements interact in Mexico through a system of informal protection. Understanding how party alternation potentially destabilizes state-criminal arrangements is vital for comprehending the broader dynamics of violence and governance in Mexico. By exploring these linkages at the municipal level, this research contributes to a deeper understanding of how political shifts impacted homicide patterns before, during, and after the Mexican Drug War from 2006-2012.  
-
-
-
-
-# Part 2: State at least one testable hypothesis. Distill your research question into a statement about a specific relationship you expect to see in the world. In most cases, this hypothesis will describe a causal relationship between two variables (i.e. changes in x cause changes in y). Make an argument for why you expect to see this relationship. This should be based on related findings from existing research and/or your own theoretical/logical reasoning. A full-credit response will probably be around 150-200 words. (25%)
-
-## H1: Hypothesis 1 (H1): Municipalities with a PAN (National Action Party) candidate victory in local elections will experience a higher post-election municipal homicide rate per 100,000 people compared to municipalities where PAN candidates lost.
+## Hypothesis 1 (H1): Municipalities with a PAN (National Action Party) candidate victory in local elections will experience a higher post-election municipal homicide rate per 100,000 people compared to municipalities where PAN candidates lost.
 
 ## Hypothesis 2 (H2): Municipalities that experience a higher rotation of political parties in mayoral office will observe a higher post-election municipal homicide rate per 100,000 people compared to municipalities with stable party governance.
 
 ## Hypothesis 3 (H3): Municipalities with a higher index of PAN power stability, indicating longer periods of PAN party governance, will exhibit a lower municipal homicide rate per 100,000 people compared to municipalities with lower PAN power stability.
 
-## Logical Reasoning: 
+## Logical Reasoning:
 
-- Based on the findings from the Dell (2015) paper, we can expect to see support for Hypothesis 1 (H1).  Dell (2015) indicates that crackdowns initiated by PAN mayors have led to increased drug trade-related homicides at the municipal level. Therefore, it is plausible to expect that municipalities with PAN candidate victories will experience higher **overall i.e. not just drug-related** municipal homicide rates compared to municipalities where PAN candidates lost.
+-   Based on the findings from the Dell (2015) paper, we can expect to see support for Hypothesis 1 (H1). Dell (2015) indicates that crackdowns initiated by PAN mayors have led to increased drug trade-related homicides at the municipal level. Therefore, it is plausible to expect that municipalities with PAN candidate victories will experience higher **overall i.e. not just drug-related** municipal homicide rates compared to municipalities where PAN candidates lost.
 
-- For Hypothesis 2 (H2), Trejo and Ley (2018) provide insights that can inform our expectations. Their findings suggest that the rotation of political parties in gubernatorial power contributed to an increase in intercartel violence before the Mexican War on Drugs from 2006-2012. This disruption in governance structures and protection networks could similarly occur at the municipal level with frequent changes in mayoral office. Therefore, we can anticipate that municipalities experiencing a higher rotation of political parties in mayoral office will observe a higher municipal homicide rate compared to municipalities with stable party governance.
+-   For Hypothesis 2 (H2), Trejo and Ley (2018) provide insights that can inform our expectations. Their findings suggest that the rotation of political parties in gubernatorial power contributed to an increase in intercartel violence before the Mexican War on Drugs from 2006-2012. This disruption in governance structures and protection networks could similarly occur at the municipal level with frequent changes in mayoral office. Therefore, we can anticipate that municipalities experiencing a higher rotation of political parties in mayoral office will observe a higher municipal homicide rate compared to municipalities with stable party governance.
 
-- Hypothesis 3 (H3) tests the opposite of Trejo and Ley's hypothesis by proposing that longer periods of PAN governance, as indicated by a higher index of PAN power stability, may lead to a decrease in municipal homicide rates. Trejo and Ley's hypothesis suggests that the rotation of political parties, particularly the loss of PRI (Institutional Revolutionary Party) control, leads to an outbreak of intercartel violence due to the disruption of informal networks of cartel protection previously provided under PRI rule. In contrast, H3 posits that municipalities with longer periods of PAN governance may exhibit lower homicide rates post-election. This hypothesis is based on the assumption that stable PAN governance  during may lead to the implementation of effective crime prevention strategies, establishment of stronger institutional frameworks, and potentially better management of security challenges compared to municipalities with more frequent changes in political leadership. Alternatively, stable PAN governance could also reflect the creation of informal cartel protection which would also lead to lower homicide rates by appeasing OCG's. Therefore, H3 directly tests the opposite direction of Trejo and Ley's hypothesis by examining the impact of PAN power stability, rather than party alternation, on homicide rates. Instead of focusing on the destabilizing effect of party alternation, H3 considers the potential stabilizing effect of prolonged PAN governance, which may lead to lower levels of violence.
+-   Hypothesis 3 (H3) tests the opposite of Trejo and Ley's hypothesis by proposing that longer periods of PAN governance, as indicated by a higher index of PAN power stability, may lead to a decrease in municipal homicide rates. Trejo and Ley's hypothesis suggests that the rotation of political parties, particularly the loss of PRI (Institutional Revolutionary Party) control, leads to an outbreak of inter-cartel violence due to the disruption of informal networks of cartel protection previously provided under PRI rule. In contrast, H3 posits that municipalities with longer periods of PAN governance may exhibit lower homicide rates post-election. This hypothesis is based on the assumption that stable PAN governance during may lead to the implementation of effective crime prevention strategies, establishment of stronger institutional frameworks, and potentially better management of security challenges compared to municipalities with more frequent changes in political leadership. Alternatively, stable PAN governance could also reflect the creation of informal cartel protection which would also lead to lower homicide rates by appeasing OCG's. Therefore, H3 directly tests the opposite direction of Trejo and Ley's hypothesis by examining the impact of PAN power stability, rather than party alternation, on homicide rates. Instead of focusing on the destabilizing effect of party alternation, H3 considers the potential stabilizing effect of prolonged PAN governance, which may lead to lower levels of violence.
 
-# Part 3: Briefly discuss the specific variables you will use to test your hypothesis and the dataset they are drawn from. Be sure to mention the source of the data (the organization or individuals that produced it), the unit of analysis, and the sample. Create a ggplot to visualize the relationship between the variables being used to test your hypothesis. The best method of visualizing this relationship will depend on the scale of your variables. Good methods to consider are scatter plots (for continuous variables), grouped bar charts (for ordinal or binary variables), and line graphs (for continuous variables with time-series). (25%)
+# Part 3
 
-```{r}
+## Preliminary Data Cleaning:
+
+```{r, message = FALSE}
+
+# load libraries 
 
 library(foreign)
 library(magrittr)
@@ -89,7 +88,7 @@ election_returns <- read.csv("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psc
 homicide_rates <- readr::read_delim("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/mexico-muni-month-homicide-rates-2000-2021.csv", delim = "|")
 
 
-# data cleaning 
+# start data cleaning 
 
 # have leading zeros so all municipal level identifiers are 5 digits
 
@@ -298,7 +297,27 @@ election_returns_cleaned <- cbind(selected_raw_votes_df, selected_parties_df)
 
 ```
 
-```{r}
+## Creating Independent Index Variables and Post-election Homicide Rate Dependent Variable
+
+-   The homicide rate data I will use comes from a github that aggregates data from the National Institute of Statistics and Geography (INEGI). The homicide and election data spans from 2000 to 2021. The election returns data comes from a github made by Eric Magar who compiled official vote returns from Mexico.
+    -   Homicide github: <https://github.com/thegargiulian/mexico-homicide-rates>
+    -   Election Return github: <https://github.com/emagar/elecRetrns?tab=readme-ov-file#orgdc3d940>
+-   Unit of Analysis: Municipalities in Mexico
+-   Sample: Municipalities in Mexico from 2001 to 2020. I drop 2021 data because we don't have a complete election cycle after 2021 since the next elections will be held in June 2024.
+
+Independent Variables:
+
+1)  Municipal Alternation Index (Variable Name: alternation_index): This variable captures the cumulative alternations in party power for each municipality and year. It identifies how many times municipalities experienced a rotation in municipal powers. A score of zero indicates no alternation, while a higher score indicates more frequent alternations between different political parties.
+
+2)  PAN Power Index (Variable Name: pan_consec_yrs_in_pwr): This variable measures the consecutive years in power for the PAN (National Action Party) in each municipality. It identifies how many mayoral terms the PAN party has stayed in office in a municipality. A higher score indicates longer periods of PAN governance at the municipal level.
+
+3)  Victory of the PAN Candidate (Variable Name: votemargin): This variable captures the victory of the PAN candidate in local elections. It calculates the margin of victory for the PAN candidate over the second-place candidate (usually PRI). Elections where the margin of victory falls within a specified range (between -0.05 and 0.05) are considered close elections.
+
+Dependent Variables:
+
+1)  Post-election Homicide Rate (Variable Name: post_election_avg_rate): This variable represents the average homicide rate per 100,000 people in the period following a municipal election. It is calculated for each municipality and election cycle, capturing the level of violence observed in the aftermath of local elections.
+
+```{r, warning = FALSE}
 
 # Create Independent Variables 
 
@@ -364,74 +383,74 @@ election_returns_cleaned <- election_returns_cleaned %>%
   ungroup()
 
 
-# Dependent Variable Creation: Post-election homicide rates 
-
-# This part of the code creates a function named calculate_post_election_avg. This function
-# calculates the average homicide rate for a municipality in the period after an election and # before the next election (usally a 3 year period).
-
-
-# join elections and homicide data 
-
-elections_hom <- full_join(homicide_rates,election_returns_cleaned, by = c("ent_mun", "month", "year")) %>%
-                  filter( year >= 2001)
-
-
-# Convert 'year' and 'month' to a Date object
-
-elections_hom$date <- as.Date(paste(elections_hom$year, elections_hom$month, "01", sep = "-"))
-
-# create election year binary variable 
-
-elections_hom <- elections_hom %>%
-  filter(date >= as.Date("2001-08-01")) %>%
-  mutate( election_year = ifelse(is.na(pan_consec_yrs_in_pwr), 0, 1)) 
-
-
-
-# Define a function to calculate post-election average homicide rate
-calculate_post_election_avg <- function(data, election_date, next_election_date, municipality) {
-  post_election_data <- data %>%
-    filter(ent_mun == municipality) %>%
-    filter(date < as.Date(next_election_date)) %>%
-    filter(date != as.Date(election_date))
-  post_election_avg_rate <- mean(post_election_data$homicide_rate, na.rm = TRUE)
-  return(post_election_avg_rate)
-}
-
-# Initialize homicide rates 
-
-post_election_avg_rates <- numeric(nrow(elections_hom))
-
-
-for (i in 1:nrow(elections_hom)) {
-  if (elections_hom$election_year[i] == 1) {
-    election_date <- elections_hom$date[i]
-    mun <- elections_hom$ent_mun[i]
-    
-    # Find the index of the next row where election_year == 1
-    next_election_index <- which(elections_hom$election_year[(i+1):nrow(elections_hom)] == 1)[1] + i
-    
-    # Check if there's a next election date
-    if (!is.na(next_election_index)) {
-      next_election_date <- elections_hom$date[next_election_index]
-      
-      # Calculate post-election average rates
-      post_election_avg_rates[i] <- calculate_post_election_avg(elections_hom, election_date, next_election_date, mun)
-    }
-  }
-}
-
-
-# Add the calculated post-election average homicide rates as a new column in the dataset
-
-elections_hom$post_election_avg_rate <- post_election_avg_rates
-
-# filter out 2021 since that was the most recent election year
-
-# filter to only election years with post-election homicide rates 
-
-elections_hom  %<>% filter( election_year == 1, 
-                            year < 2021)
+# # Dependent Variable Creation: Post-election homicide rates 
+# 
+# # This part of the code creates a function named calculate_post_election_avg. This function
+# # calculates the average homicide rate for a municipality in the period after an election and # before the next election (usally a 3 year period).
+# 
+# 
+# # join elections and homicide data 
+# 
+# elections_hom <- full_join(homicide_rates,election_returns_cleaned, by = c("ent_mun", "month", "year")) %>%
+#                   filter( year >= 2001)
+# 
+# 
+# # Convert 'year' and 'month' to a Date object
+# 
+# elections_hom$date <- as.Date(paste(elections_hom$year, elections_hom$month, "01", sep = "-"))
+# 
+# # create election year binary variable 
+# 
+# elections_hom <- elections_hom %>%
+#   filter(date >= as.Date("2001-08-01")) %>%
+#   mutate( election_year = ifelse(is.na(pan_consec_yrs_in_pwr), 0, 1)) 
+# 
+# 
+# 
+# # Define a function to calculate post-election average homicide rate
+# calculate_post_election_avg <- function(data, election_date, next_election_date, municipality) {
+#   post_election_data <- data %>%
+#     filter(ent_mun == municipality) %>%
+#     filter(date < as.Date(next_election_date)) %>%
+#     filter(date != as.Date(election_date))
+#   post_election_avg_rate <- mean(post_election_data$homicide_rate, na.rm = TRUE)
+#   return(post_election_avg_rate)
+# }
+# 
+# # Initialize homicide rates 
+# 
+# post_election_avg_rates <- numeric(nrow(elections_hom))
+# 
+# 
+# for (i in 1:nrow(elections_hom)) {
+#   if (elections_hom$election_year[i] == 1) {
+#     election_date <- elections_hom$date[i]
+#     mun <- elections_hom$ent_mun[i]
+#     
+#     # Find the index of the next row where election_year == 1
+#     next_election_index <- which(elections_hom$election_year[(i+1):nrow(elections_hom)] == 1)[1] + i
+#     
+#     # Check if there's a next election date
+#     if (!is.na(next_election_index)) {
+#       next_election_date <- elections_hom$date[next_election_index]
+#       
+#       # Calculate post-election average rates
+#       post_election_avg_rates[i] <- calculate_post_election_avg(elections_hom, election_date, next_election_date, mun)
+#     }
+#   }
+# }
+# 
+# 
+# # Add the calculated post-election average homicide rates as a new column in the dataset
+# 
+# elections_hom$post_election_avg_rate <- post_election_avg_rates
+# 
+# # filter out 2021 since that was the most recent election year
+# 
+# # filter to only election years with post-election homicide rates 
+# 
+# elections_hom  %<>% filter( election_year == 1, 
+#                             year < 2021)
 
 # Writing data to a CSV file
 # write.csv(elections_hom, "/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/post_election_homicide_clean.csv")
@@ -492,31 +511,46 @@ pan_winners <- elections_hom %>%
 
 pan_pri_close_elections <- rbind(pri_winners, pan_winners) %>%
   mutate( pri_vote_share = pri_raw_votes/efec,
-          pan_vote_share = pan_raw_votes/efec,
-          pan_margin_of_victory = pan_vote_share - pri_vote_share) %>%
-  filter(pan_margin_of_victory >= -0.05 & pan_margin_of_victory <= 0.05)
+          pan_vote_share = pan_raw_votes/efec)
 
+
+# create rd variables 
+
+
+pan_pri_close_elections$pan_won <- NA
+
+pan_pri_close_elections$pan_won[pan_pri_close_elections$pan_vote_share > 0.5] <- 1
+
+pan_pri_close_elections$pan_won[pan_pri_close_elections$pan_vote_share < 0.5] <- 0
+
+pan_pri_close_elections$votemargin <- pan_pri_close_elections$pan_vote_share - .5
+
+pan_pri_close_elections$f_x_win <- pan_pri_close_elections$votemargin * pan_pri_close_elections$pan_won
 
 ```
 
+## Data Visualizations
 
+### Figure 1: PAN-PRI Close-Elections by President
 
-```{r}
+```{r, warning = FALSE}
 # Dell Inspired RDD Figure
 
 
 pan_pri_close_elections %>%
-   mutate(`Party Won` = ifelse(pan_margin_of_victory < 0, "PRI", "PAN")) %>% 
-  filter(!is.na(`Party Won`)) %>% 
-  ggplot(aes(x = pan_margin_of_victory, 
+   mutate(`Party Won` = ifelse(votemargin < 0, "PRI", "PAN")) %>% 
+  filter(!is.na(`Party Won`)) %>%
+  filter(votemargin >= -0.05 & votemargin <= 0.05) %>%
+  ggplot(aes(x = votemargin, 
              y = post_election_avg_rate, 
-             group=`Party Won`)) +
+             group= `Party Won`)) +
   geom_point(alpha = 0.25) +
   theme_classic() +
   geom_smooth(method="lm", 
               formula =  y ~ x) +
+   geom_vline(xintercept= 0, linetype="dashed", alpha=.7) +
   facet_wrap(~president) +
-  labs(title = "Figure 3. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2021)",
+  labs(title = "Figure 1. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2020)",
        subtitle = "Sorted by President",
        x = "PAN margin of victory",
        y= "Post-Election Homicide Rate per 100,000 Residents") +
@@ -525,101 +559,116 @@ pan_pri_close_elections %>%
 
 ```
 
-```{r}
+### Figure 2: PAN-PRI Close Elections Overall
+
+```{r, warning = FALSE}
+
 # Overall
 
 pan_pri_close_elections %>%
-  filter(pan_margin_of_victory > -0.05 | pan_margin_of_victory < 0.05) %>%
-  mutate(`Party Won` = ifelse(pan_margin_of_victory < 0, "PRI", "PAN")) %>% 
-  filter(!is.na(`Party Won`)) %>% 
-  ggplot(aes(x = pan_margin_of_victory, 
+   mutate(`Party Won` = ifelse(votemargin < 0, "PRI", "PAN")) %>% 
+  filter(!is.na(`Party Won`)) %>%
+  filter(votemargin >= -0.05 & votemargin <= 0.05) %>%
+  ggplot(aes(x = votemargin, 
              y = post_election_avg_rate, 
-             group=`Party Won`)) +
+             group= `Party Won`)) +
   geom_point(alpha = 0.25) +
+  geom_vline(xintercept= 0, linetype="dashed", alpha=.7) +
   theme_classic() +
   geom_smooth(method="lm", 
               formula =  y ~ x) +
-  labs(title = "Figure 3. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2021)",
+  labs(title = "Figure 2. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2020)",
        x = "PAN margin of victory",
        y= "Post-Election Homicide Rate per 100,000 Residents") +
   theme(plot.title = element_text(hjust = 0.5))
 
 ```
 
-```{r}
+### Figure 3: All Party Homicide Rate by Party Alternation Index Boxplot
 
+```{r, warning = FALSE, fig.width=10, fig.height= 15}
+
+# Set the outer margin to allow more space for the main title
+par(mar = c(5, 6, 4, 2) + 0.1)
+
+# Create the boxplot with adjusted margins
 boxplot(post_election_avg_rate ~ alternation_index,
         data = elections_hom,
-        xlab = "Political Party Alternations",
-        ylab = "Average Post-Election Homicide Rate (Per 100,000 People)")
+        xlab = "Municipal Level Political Party Alternations",
+        ylab = "Average Post-Election Homicide Rate (Per 100,000 People)",
+        main = "Figure 3. Post-Election Municipal Homicide Rates in Mexico (2001-2020) by Political Party Alternations") 
 
 
 ```
 
-```{r}
+### Figure 4: All Party Homicide Rate by PAN Power Index Boxplot
+
+```{r, warning = FALSE, fig.width=10, fig.height= 15}
+
+# Set the outer margin to allow more space for the main title
+par(mar = c(5, 6, 4, 2) + 0.1)
+
+
 boxplot(post_election_avg_rate ~ pan_consec_yrs_in_pwr,
         data = elections_hom,
-        xlab = "Political Party Alternations",
-        ylab = "Average Post-Election Homicide Rate (Per 100,000 People)")
+        xlab = "Municipal Level PAN Power Index",
+        ylab = "Average Post-Election Homicide Rate (Per 100,000 People)",
+        main = "Post-Election Municipal Homicide Rates in Mexico (2001-2020) by PAN Power Stability") 
 
 ```
 
-```{r}
+### Figure 5: Party Alternation Index Histogram
+
+```{r, warning = FALSE, fig.width=10, fig.height= 10}
 ggplot(elections_hom, aes(x = post_election_avg_rate)) +
   geom_histogram(binwidth = 1, color = "black") +
   facet_wrap(~alternation_index) +
   theme_classic() +
-  xlab("Average Post-Election Homicide Rate (Per 100,000 People)") +
-  ylab("Frequency")
+  labs(title = "Figure 5. Distribution of Average Post-Election Homicide Rates by Municipal Party Alternations in Mexico (2001-2020)",
+       x = "Average Post-Election Homicide Rate (Per 100,000 People)",
+       y= "Frequency") +
+  theme(plot.title = element_text(hjust = 0.5))
+
 ```
 
+### Figure 6: PAN Power Index Histogram
 
-```{R}
+```{R, warning = FALSE, fig.width=10, fig.height= 10}
 ggplot(elections_hom, aes(x = post_election_avg_rate)) +
   geom_histogram(binwidth = 1, color = "black") +
   facet_wrap(~pan_consec_yrs_in_pwr) +
   theme_classic() +
-  xlab("Average Post-Election Homicide Rate (Per 100,000 People)") +
-  ylab("Frequency")
+  labs(title = "Figure 6. Distribution of Average Post-Election Homicide Rates by PAN Consecutive Years in Power in Mexico (2001-2020)",
+       x = "Average Post-Election Homicide Rate (Per 100,000 People)",
+       y= "Frequency") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 ```
 
+# Part 4
 
-# Part 4: Specify the main regression model you will use to test your hypothesis. This regression model should provide a preliminary test for or against the validity of your hypothesis. Use markdown to render the equation neatly to the html file. (10%)
-
-
-### Hypothesis 1 (H1):
+## Hypothesis 1 (H1)
 
 The regression model for Hypothesis 1 (H1) can be expressed as:
 
-\[
-\text{Overall Homicide Rate}_i = \beta_0 + \beta_1 \times \text{PAN Candidate Victory}_i + \beta_2 \times \text{Control Variables}_i + \epsilon_i 
-\]
+$$
+\text{Overall Homicide Rate}_i = \beta_0 + \beta_1 \times \text{Vote Margin}_i + \beta_2 \times \text{PAN Win}_i + \beta_3 \times \text{Vote Margin \& PAN Win Interaction}_i + \alpha_y + \alpha_m + \epsilon_i
+$$
 
-### Hypothesis 2 (H2):
+-   This regression model explores the relationship between the overall homicide rate and various predictors, including the margin of victory, PAN (National Action Party) victory, and their interaction. The margin of victory represents the extent to which a candidate or party secures a win in an election, with positive values indicating larger margins. The PAN Win variable is binary, indicating whether the PAN candidate won the election in a municipality. The model also includes an interaction term between the vote margin and PAN victory, capturing whether the effect of the vote margin on homicide rates varies depending on PAN's electoral success. Controlling for year fixed effects, which capture common factors influencing homicide rates across years, and municipal fixed effects, which capture differences across municipalities that persist over time, the model aims to discern how electoral dynamics relate to homicide rates, providing insights into the interplay between political processes and crime at the local level.
+
+## Hypothesis 2 (H2)
 
 The regression model for Hypothesis 2 (H2) is represented as:
 
-\[
-\text{Overall Homicide Rate}_i = \beta_0 + \beta_1 \times \text{Rotation of Parties}_i + \beta_2 \times \text{Control Variables}_i + \epsilon_i 
-\]
+$$
+\text{Overall Homicide Rate}_i = \alpha + \beta_1{Party Alternation Index}_i + \text{Control Variables}_i + \epsilon_i
+$$
 
-### Hypothesis 3 (H3):
+## Hypothesis 3 (H3)
 
 The regression model for Hypothesis 3 (H3) can be written as:
 
-\[
-\text{Overall Homicide Rate}_i = \beta_0 + \beta_1 \times \text{PAN Power Stability Index}_i + \beta_2 \times \text{Control Variables}_i + \epsilon_i 
-\]
-
-
-
-
-
-
-
-
-
-
-
-
+$$
+\text{Overall Homicide Rate}_i = \alpha + \beta_1{PAN Power Stability Index}_i + \text{Control Variables}_i + \epsilon_i
+$$
