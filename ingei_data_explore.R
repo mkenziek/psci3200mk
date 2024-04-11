@@ -343,14 +343,41 @@ for (i in 1:nrow(elections_hom)) {
 
 
 # Add the calculated post-election average homicide rates as a new column in the dataset
+
 elections_hom$post_election_avg_rate <- post_election_avg_rates
 
-elections_hom  %<>%
-                   filter( election_year == 1, 
-                           year < 2021)
+# filter out 2021 since that was the most recent election year
+# filter to only election years with post-election homicide rates 
+
+elections_hom  %<>% filter( election_year == 1, 
+                            year < 2021)
 
 # Writing data to a CSV file
-write.csv(elections_hom, "/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/post_election_homicide_clean.csv")
+# write.csv(elections_hom, "/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/post_election_homicide_clean.csv")
+
+# short cut to load cleaned file 
+
+elections_hom <- read.csv("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/post_election_homicide_clean.csv")
+
+# add variable that shows which presidency the election occurs during 
+
+# Vicente Fox (2000-2006): National Action Party (PAN) to be elected in more than 70 years, ending the long-standing rule of the Institutional Revolutionary Party (PRI).
+
+# Felipe Calderón (2006-2012): National Action Party (PAN), succeeded Vicente Fox as president.
+
+# Enrique Peña Nieto (2012-2018): Institutional Revolutionary Party (PRI)
+
+# Andrés Manuel López Obrador (2018-Present): National Regeneration Movement (MORENA), marking the first time a leftist candidate has been elected president in Mexico's modern history.
+
+
+# presidential elections occurs in june in mexico
+
+elections_hom %<>%
+  mutate( president = ifelse(date < as.Date("2006-06-01"), "Fox",
+                             ifelse(( date > as.Date("2006-06-01") & date < as.Date("2012-06-01")), "Calderón",
+                                    ifelse(( date > as.Date("2012-06-01") & date < as.Date("2018-06-01")), "Nieto",
+                                           "Obrador"))))
+
 
 # victory of the PAN (National Action Party) candidate variable 
 
@@ -382,29 +409,54 @@ pan_pri_close_elections <- rbind(pri_winners, pan_winners) %>%
           pan_margin_of_victory = pan_vote_share - pri_vote_share) %>%
   filter(pan_margin_of_victory >= -0.05 & pan_margin_of_victory <= 0.05)
 
-pan_pri_elections <- rbind(pri_winners, pan_winners) %>%
-  mutate( pri_vote_share = pri_raw_votes/efec,
-          pan_vote_share = pan_raw_votes/efec,
-          pan_margin_of_victory = pan_vote_share - pri_vote_share) 
 
 
 
-# Dell's RDD method 
 
-pan_pri_elections %>%
-  filter(pan_margin_of_victory > -0.5 | pan_margin_of_victory < 0.5) %>%
+# Dell Inspired RDD Figure
+
+
+pan_pri_close_elections %>%
    mutate(`Party Won` = ifelse(pan_margin_of_victory < 0, "PRI", "PAN")) %>% 
   filter(!is.na(`Party Won`)) %>% 
-  ggplot(aes(x = pan_margin_of_victory, y = post_election_avg_rate, group=`Party Won`, color=`Party Won`)) +
-  geom_point() +
-  geom_smooth(method="lm") 
+  ggplot(aes(x = pan_margin_of_victory, 
+             y = post_election_avg_rate, 
+             group=`Party Won`)) +
+  geom_point(alpha = 0.25) +
+  theme_classic() +
+  geom_smooth(method="lm", 
+              formula =  y ~ x) +
+  facet_wrap(~president) +
+  labs(title = "Figure 3. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2021)",
+       subtitle = "Sorted by President",
+       x = "PAN margin of victory",
+       y= "Post-Election Homicide Rate per 100,000 Residents") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+# Overall
+
+pan_pri_close_elections %>%
+  filter(pan_margin_of_victory > -0.05 | pan_margin_of_victory < 0.05) %>%
+  mutate(`Party Won` = ifelse(pan_margin_of_victory < 0, "PRI", "PAN")) %>% 
+  filter(!is.na(`Party Won`)) %>% 
+  ggplot(aes(x = pan_margin_of_victory, 
+             y = post_election_avg_rate, 
+             group=`Party Won`)) +
+  geom_point(alpha = 0.25) +
+  theme_classic() +
+  geom_smooth(method="lm", 
+              formula =  y ~ x) +
+  labs(title = "Figure 3. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2021)",
+       x = "PAN margin of victory",
+       y= "Post-Election Homicide Rate per 100,000 Residents") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 
 
 elections_hom %>%
   ggplot(aes(x = alternation_index, y = post_election_avg_rate)) +
-  geom_point() +
-  geom_smooth(method="lm") 
+  geom_histogram() 
 
 
 boxplot(post_election_avg_rate ~ alternation_index,
@@ -418,5 +470,23 @@ boxplot(post_election_avg_rate ~ pan_consec_yrs_in_pwr,
         data = elections_hom,
         xlab = "Political Party Alternations",
         ylab = "Average Post-Election Homicide Rate (Per 100,000 People)")
+
+
+ggplot(elections_hom, aes(x = post_election_avg_rate)) +
+  geom_histogram(binwidth = 1, color = "black") +
+  facet_wrap(~alternation_index) +
+  theme_classic() +
+  xlab("Average Post-Election Homicide Rate (Per 100,000 People)") +
+  ylab("Frequency")
+
+
+
+ggplot(elections_hom, aes(x = post_election_avg_rate)) +
+  geom_histogram(binwidth = 1, color = "black") +
+  facet_wrap(~pan_consec_yrs_in_pwr) +
+  theme_classic() +
+  xlab("Average Post-Election Homicide Rate (Per 100,000 People)") +
+  ylab("Frequency")
+
 
 

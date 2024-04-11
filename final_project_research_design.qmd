@@ -37,45 +37,553 @@ editor: source
 
 - Independent Variables: 
 
-  - The victory of the PAN (National Action Party) candidate.
+  - The margin of victory for the PAN (National Action Party) candidate.
 
-  - Create an ordinal index of municipal alternation, municipal alternation index, which identifies how many times municipalities experienced a rotation in municipal powers. Municipalities with no alternation in municipal power receive a zero score. Municipalities with an alteration in party from one elecction to the next get one point for each time they alternate.
-    - My election data only goes back to 2000. I am making the assumption that elections held during 2000-2006 represents a period prior to Mexico's federal intervention in drug trafficking. 
-    - Local elections before Mexico's war on drugs: 2001 and 2004 
-    - 2001 will be a base year 
+  - Create an ordinal index of municipal alternation, municipal alternation index, which identifies how many times municipalities experienced a rotation in municipal powers. Municipalities with no alternation in municipal power receive a zero score. Municipalities with an alteration in party from one election to the next get one point for each time they alternate.
+    - My election data ranges from 2001-2020. 
 
-  - Create an index of PAN power stability, PAN power index , which identifies how many mayoral terms the PAN party has stayed in office in a municipality. Each PAN term between 2000-2006 where the PAN was in power represents a score of one. This will be an additive index where municipalities where PAN won municipal elections in both 2001 and 2004 will get a score of 2. 
-
+  - Create an index of PAN power stability, PAN power index , which identifies how many mayoral terms the PAN party has stayed in office in a municipality. Each PAN term between where the PAN was in power represents a score of one. This will be an additive index. 
 
 
 - Dependent Variables: 
 
-  - Municipal Homicide rate per 100,000 people (includes everyone, not just intercartel murders) after the 2007 election (i.e. October 2007 (post-inauguration)- July 2010 (election))
+  - Post-election municipal homicide rate per 100,000 people (includes everyone, not just intercartel murders). 
 
 
-- Research Question: Does the victory of the PAN (National Action Party) candidate in municipal elections in Mexico after 2007 lead to an increase in the municipal homicide rate per 100,000 people, and how does this relationship vary with the rotation of political parties in mayoral office and the stability of PAN governance in the 2000-2006 period, a context in which national authorities in Mexico did not proactively confront drug cartels? Inspired by Trejo and Ley (2018), my research question challenges the traditional assumption that government authorities and organized crime groups (OCGs) operate in separate spheres. This research aims to explore what Trejo and Ley (2018) call a "gray zone" where government and criminal elements interact in Mexico through a system of informal protection. Understanding how party alternation potentially destabilizes state-criminal arrangements is vital for comprehending the broader dynamics of violence and governance in Mexico. By exploring these linkages at the municipal level, this research contributes to a deeper understanding of how political shifts impacted homicide patterns during the Mexican Drug War from 2006-2012.  
-
+- Research Question: Does the victory of the PAN (National Action Party) candidate in municipal elections in Mexico lead to an increase in the post-election municipal homicide rate per 100,000 people, and how does this relationship vary with the rotation of political parties in mayoral office and the stability of PAN mayoral governance? Inspired by Trejo and Ley (2018), my research question challenges the traditional assumption that government authorities and organized crime groups (OCGs) operate in separate spheres. This research aims to explore what Trejo and Ley (2018) call a "gray zone" where government and criminal elements interact in Mexico through a system of informal protection. Understanding how party alternation potentially destabilizes state-criminal arrangements is vital for comprehending the broader dynamics of violence and governance in Mexico. By exploring these linkages at the municipal level, this research contributes to a deeper understanding of how political shifts impacted homicide patterns before, during, and after the Mexican Drug War from 2006-2012.  
 
 
 
 
 # Part 2: State at least one testable hypothesis. Distill your research question into a statement about a specific relationship you expect to see in the world. In most cases, this hypothesis will describe a causal relationship between two variables (i.e. changes in x cause changes in y). Make an argument for why you expect to see this relationship. This should be based on related findings from existing research and/or your own theoretical/logical reasoning. A full-credit response will probably be around 150-200 words. (25%)
 
-## H1: Hypothesis 1 (H1): Municipalities with a PAN (National Action Party) candidate victory in local elections will experience a higher municipal homicide rate per 100,000 people after the 2007 election compared to municipalities where PAN candidates lost.
+## H1: Hypothesis 1 (H1): Municipalities with a PAN (National Action Party) candidate victory in local elections will experience a higher post-election municipal homicide rate per 100,000 people compared to municipalities where PAN candidates lost.
 
-## Hypothesis 2 (H2): Municipalities that experience a higher rotation of political parties in mayoral office during the 2000-2006 period will observe a higher municipal homicide rate per 100,000 people after the 2007 election compared to municipalities with stable party governance.
+## Hypothesis 2 (H2): Municipalities that experience a higher rotation of political parties in mayoral office will observe a higher post-election municipal homicide rate per 100,000 people compared to municipalities with stable party governance.
 
-## Hypothesis 3 (H3): Municipalities with a higher index of PAN power stability, indicating longer periods of PAN party governance during the 2000-2006 period, will exhibit a lower municipal homicide rate per 100,000 people after the 2007 election compared to municipalities with lower PAN power stability.
+## Hypothesis 3 (H3): Municipalities with a higher index of PAN power stability, indicating longer periods of PAN party governance, will exhibit a lower municipal homicide rate per 100,000 people compared to municipalities with lower PAN power stability.
 
 ## Logical Reasoning: 
 
-- Based on the findings from the Dell (2015) paper, we can expect to see support for Hypothesis 1 (H1).  Dell (2015) indicates that crackdowns initiated by PAN mayors have led to increased drug trade-related homicides at the municipal level. Therefore, it is plausible to expect that municipalities with PAN candidate victories will experience higher **overall i.e. not just drug-related** municipal homicide rates after the 2007 election compared to municipalities where PAN candidates lost.
+- Based on the findings from the Dell (2015) paper, we can expect to see support for Hypothesis 1 (H1).  Dell (2015) indicates that crackdowns initiated by PAN mayors have led to increased drug trade-related homicides at the municipal level. Therefore, it is plausible to expect that municipalities with PAN candidate victories will experience higher **overall i.e. not just drug-related** municipal homicide rates compared to municipalities where PAN candidates lost.
 
-- Regarding Hypothesis 2 (H2), Trejo and Ley (2018) provide insights that can inform our expectations. Their findings suggest that the rotation of political parties in gubernatorial power contributed to an increase in intercartel violence before the Mexican War on Drugs from 2006-2012. This disruption in governance structures and protection networks could similarly occur at the municipal level with frequent changes in mayoral office. Therefore, we can anticipate that municipalities experiencing a higher rotation of political parties in mayoral office during the 2000-2006 period will observe a higher municipal homicide rate after the 2007 election compared to municipalities with stable party governance.
+- For Hypothesis 2 (H2), Trejo and Ley (2018) provide insights that can inform our expectations. Their findings suggest that the rotation of political parties in gubernatorial power contributed to an increase in intercartel violence before the Mexican War on Drugs from 2006-2012. This disruption in governance structures and protection networks could similarly occur at the municipal level with frequent changes in mayoral office. Therefore, we can anticipate that municipalities experiencing a higher rotation of political parties in mayoral office will observe a higher municipal homicide rate compared to municipalities with stable party governance.
 
-- Hypothesis 3 (H3) tests the opposite of Trejo and Ley's hypothesis by proposing that longer periods of PAN governance, as indicated by a higher index of PAN power stability, may lead to a decrease in municipal homicide rates after the 2007 election. Trejo and Ley's hypothesis suggests that the rotation of political parties, particularly the loss of PRI (Institutional Revolutionary Party) control, leads to an outbreak of intercartel violence due to the disruption of informal networks of cartel protection previously provided under PRI rule. In contrast, H3 posits that municipalities with longer periods of PAN governance may exhibit lower homicide rates post-2007 election. This hypothesis is based on the assumption that stable PAN governance  during the 2000-2006 period may lead to the implementation of effective crime prevention strategies, establishment of stronger institutional frameworks, and potentially better management of security challenges compared to municipalities with more frequent changes in political leadership. Alternatively, stable PAN governance could also reflect the creation of informal cartel protection which would also lead to lower homicide rates by appeasing OCG's. Therefore, H3 directly tests the opposite direction of Trejo and Ley's hypothesis by examining the impact of PAN power stability, rather than party alternation, on homicide rates. Instead of focusing on the destabilizing effect of party alternation, H3 considers the potential stabilizing effect of prolonged PAN governance, which may lead to lower levels of violence.
+- Hypothesis 3 (H3) tests the opposite of Trejo and Ley's hypothesis by proposing that longer periods of PAN governance, as indicated by a higher index of PAN power stability, may lead to a decrease in municipal homicide rates. Trejo and Ley's hypothesis suggests that the rotation of political parties, particularly the loss of PRI (Institutional Revolutionary Party) control, leads to an outbreak of intercartel violence due to the disruption of informal networks of cartel protection previously provided under PRI rule. In contrast, H3 posits that municipalities with longer periods of PAN governance may exhibit lower homicide rates post-election. This hypothesis is based on the assumption that stable PAN governance  during may lead to the implementation of effective crime prevention strategies, establishment of stronger institutional frameworks, and potentially better management of security challenges compared to municipalities with more frequent changes in political leadership. Alternatively, stable PAN governance could also reflect the creation of informal cartel protection which would also lead to lower homicide rates by appeasing OCG's. Therefore, H3 directly tests the opposite direction of Trejo and Ley's hypothesis by examining the impact of PAN power stability, rather than party alternation, on homicide rates. Instead of focusing on the destabilizing effect of party alternation, H3 considers the potential stabilizing effect of prolonged PAN governance, which may lead to lower levels of violence.
 
 # Part 3: Briefly discuss the specific variables you will use to test your hypothesis and the dataset they are drawn from. Be sure to mention the source of the data (the organization or individuals that produced it), the unit of analysis, and the sample. Create a ggplot to visualize the relationship between the variables being used to test your hypothesis. The best method of visualizing this relationship will depend on the scale of your variables. Good methods to consider are scatter plots (for continuous variables), grouped bar charts (for ordinal or binary variables), and line graphs (for continuous variables with time-series). (25%)
+
+```{r}
+
+library(foreign)
+library(magrittr)
+library(rio)
+library(ggplot2)
+library(tidyverse)
+
+
+# load data 
+
+election_returns <- read.csv("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/aymu1970-on.coalSplit.csv")
+
+homicide_rates <- readr::read_delim("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/mexico-muni-month-homicide-rates-2000-2021.csv", delim = "|")
+
+
+# data cleaning 
+
+# have leading zeros so all municipal level identifiers are 5 digits
+
+head(unique(homicide_rates$ent_mun))
+
+# does not have leading zeros 
+
+head(unique(election_returns$inegi))
+
+# let's add leading zeros to the election_returns data 
+
+# Function to add leading zeros
+
+add_leading_zeros <- function(x) {
+  ifelse(nchar(x) == 4, paste0("0", x), as.character(x))
+}
+
+# Apply the function to the column
+
+election_returns$inegi <- as.numeric(election_returns$inegi)
+
+election_returns$inegi <- sapply(election_returns$inegi, add_leading_zeros) 
+
+
+election_returns %<>% rename( "ent_mun" = "inegi")
+  
+# Check for municipal codes present in df1 but not in df2
+
+# these are missing election returns/ newly created municipalities 
+
+records_only_in_df1 <- anti_join(election_returns, homicide_rates, by = "ent_mun")
+
+# drop these municipalities since they don't have corresponding homicide rates 
+
+ent_mun_drops_er <- records_only_in_df1$ent_mun
+
+# 34,634 rows at start 
+
+election_returns %<>% filter(!is.na(ent_mun)) %>%
+                      filter(! ent_mun %in% ent_mun_drops_er)
+
+# 34,624 after, dropped 10 rows 
+
+
+# Check for municipal codes present in df2 but not in df1
+
+# these are missing homicide rates
+
+records_only_in_df2 <- anti_join(homicide_rates, election_returns, by = "ent_mun")
+
+# drop these municipalities since they don't have corresponding election returns 
+
+ent_mun_drops_hr <- records_only_in_df2$ent_mun
+
+# 651,288 rows at start 
+
+homicide_rates %<>% filter(!is.na(ent_mun)) %>%
+  filter(! ent_mun %in% ent_mun_drops_hr)
+
+# 650,232 after, dropped 1056 rows
+
+ 
+
+# pick rows we need
+
+election_returns %<>% select(-c(1,3,5,8)) 
+
+# break election date into month and year so we can merge on these variables to match monthly homicide rates
+
+election_returns$date<- as.character(election_returns$date)
+  
+election_returns %<>% mutate( date = as.Date(election_returns$date, format = "%Y%m%d"),
+                              year = format(date, "%Y"),
+                              month = format(date, "%m"))
+
+# pick rows we need, again
+
+election_returns %<>% select(-c(1,4))
+
+# filter years bc homicide data starts at 2000
+
+election_returns %<>% filter(year >= 2000)
+
+# add leading zeros to homicide month col.
+
+
+add_leading_zeros_2 <- function(x) {
+  ifelse(nchar(x) == 1, paste0("0", x), as.character(x))
+}
+
+# Apply the function to the column
+
+
+homicide_rates$month <- as.numeric(homicide_rates$month)
+
+homicide_rates$month <- sapply(homicide_rates$month, add_leading_zeros_2) 
+
+
+# v01, v02, … = raw vote for candidate 1, 2, etc.
+
+# l01, l02, … = label of candidate 1's, 2's, … party or coalition.
+
+# i want the data to have a col name pri_vote and show raw vote for pri candidate,
+# right now the raw vote and party are seperate columns 
+
+# Fix candidate columns 
+
+typeof(election_returns$l25)
+typeof(election_returns$l01)
+
+election_returns %<>%
+  mutate_at(vars(starts_with("l")), ~replace(., . == 0, NA)) %>%
+  mutate_at(vars(starts_with("l")), as.character)
+
+
+typeof(election_returns$l25)
+typeof(election_returns$l01)
+
+
+         
+# For Loop to find the first and second place parties for each election  
+
+# Initialize lists to store results
+highest_col <- vector("list", length = nrow(election_returns))
+second_highest_col <- vector("list", length = nrow(election_returns))
+
+# Loop through each row
+for (i in 1:nrow(election_returns)) {
+  # Get the row values excluding non-numeric columns
+  row_values <- as.numeric(unlist(election_returns[i, grep("^v", names(election_returns))]))
+  
+  # Find the index of the highest value
+  highest_index <- which.max(row_values)
+  
+  # Set the highest value to -Inf so it's excluded when finding the second highest
+  row_values[highest_index] <- -Inf
+  
+  # Find the index of the second highest value
+  second_highest_index <- which.max(row_values)
+  
+  # Get the column names corresponding to the highest and second-highest values
+  highest_col[[i]] <- names(election_returns)[grep("^v", names(election_returns))][highest_index]
+  second_highest_col[[i]] <- names(election_returns)[grep("^v", names(election_returns))][second_highest_index]
+}
+
+# Convert lists to character vectors
+highest_col <- sapply(highest_col, function(x) ifelse(is.null(x), NA, x))
+second_highest_col <- sapply(second_highest_col, function(x) ifelse(is.null(x), NA, x))
+
+# Add the results to the original dataset
+election_returns$highest_col <- highest_col
+election_returns$second_highest_col <- second_highest_col
+
+
+# For Loop to Create Raw Votes Columns 
+
+# Initialize a list to store selected columns
+selected_columns <- vector("list", length = nrow(election_returns))
+
+# Loop through each row
+for (i in 1:nrow(election_returns)) {
+  # Get the column names for the current row
+  highest_col_name <- election_returns$highest_col[i]
+  second_highest_col_name <- election_returns$second_highest_col[i]
+  
+  # Select columns based on the column names
+  first_place_raw_votes <- election_returns[[highest_col_name]][i]
+  second_place_raw_votes <- election_returns[[second_highest_col_name]][i]
+  
+  
+  # Combine the selected columns into a data frame
+  selected_columns[[i]] <- cbind(first_place_raw_votes, second_place_raw_votes)
+}
+
+# Convert the list to a data frame
+selected_raw_votes_df <- as.data.frame(do.call(rbind, selected_columns)) %>%
+                       cbind(election_returns[,c(1,2,55,59,58)]) %>%
+                       select(3,4,1,2,5,6,7)
+
+
+# For loop to create party columns 
+
+# Initialize a list to store selected columns
+selected_columns <- vector("list", length = nrow(election_returns))
+
+# Loop through each row
+for (i in 1:nrow(election_returns)) {
+  # Get the party names for the current row
+  highest_col_party <- paste0("l", substr(election_returns[i, "highest_col"], 2, 3))
+  second_highest_col_party <- paste0("l", substr(election_returns[i, "second_highest_col"], 2, 3))
+  
+  # Select columns based on the party names
+  first_place_party <- election_returns[i, highest_col_party]
+  second_place_party <- election_returns[i, second_highest_col_party]
+  
+  # Combine the selected columns into a data frame
+  selected_columns[[i]] <- cbind(first_place_party, second_place_party)
+}
+
+# Convert the list to a data frame
+selected_parties_df <- as.data.frame(do.call(rbind, selected_columns))
+
+
+election_returns_cleaned <- cbind(selected_raw_votes_df, selected_parties_df)
+
+
+```
+
+```{r}
+
+# Create Independent Variables 
+
+
+# Independent Var. #1: municipal alternation index variable 
+
+# convert year column to numeric 
+
+election_returns_cleaned$year <- as.numeric(election_returns_cleaned$year)
+
+
+# Function to count cumulative alternations in party power for each municipality and year
+count_alternations <- function(data) {
+  # Check if there's only one party or no data
+  if (nrow(unique(data[, c("year", "first_place_party")])) <= 1) {
+    return(rep(0, nrow(data)))
+  }
+  
+  # Initialize alternation score
+  alternation_score <- numeric(nrow(data))
+  
+  # Compute cumulative alternation score
+  for (i in 2:nrow(data)) {
+    if (!is.na(data$first_place_party[i]) && !is.na(data$first_place_party[i - 1]) &&
+        data$first_place_party[i] != data$first_place_party[i - 1]) {
+      alternation_score[i] <- alternation_score[i - 1] + 1
+    } else {
+      alternation_score[i] <- alternation_score[i - 1]
+    }
+  }
+  
+  return(alternation_score)
+}
+
+# Calculate cumulative alternation index for each municipality and year
+election_returns_cleaned <- election_returns_cleaned %>%
+  group_by(ent_mun) %>%
+  mutate(alternation_index = count_alternations(cur_data())) %>%
+  ungroup()
+
+# Independent Var. #2: PAN power index
+
+# Function to count consecutive years in power for the pan party for each municipality
+count_years_in_power <- function(data) {
+  # Initialize years in power count
+  years_in_power <- rep(0, nrow(data))
+  
+  # Compute consecutive years in power for the pan party
+  for (i in 1:nrow(data)) {
+    if (!is.na(data$first_place_party[i]) && data$first_place_party[i] == "pan") {
+      years_in_power[i] <- ifelse(i == 1, 1, years_in_power[i - 1] + 1)
+    }
+  }
+  
+  return(years_in_power)
+}
+
+# Calculate years in power index for the pan party for each municipality
+
+election_returns_cleaned <- election_returns_cleaned %>%
+  group_by(ent_mun) %>%
+  mutate(pan_consec_yrs_in_pwr = count_years_in_power(cur_data())) %>%
+  ungroup()
+
+
+# Dependent Variable Creation: Post-election homicide rates 
+
+# This part of the code creates a function named calculate_post_election_avg. This function
+# calculates the average homicide rate for a municipality in the period after an election and # before the next election (usally a 3 year period).
+
+
+# join elections and homicide data 
+
+elections_hom <- full_join(homicide_rates,election_returns_cleaned, by = c("ent_mun", "month", "year")) %>%
+                  filter( year >= 2001)
+
+
+# Convert 'year' and 'month' to a Date object
+
+elections_hom$date <- as.Date(paste(elections_hom$year, elections_hom$month, "01", sep = "-"))
+
+# create election year binary variable 
+
+elections_hom <- elections_hom %>%
+  filter(date >= as.Date("2001-08-01")) %>%
+  mutate( election_year = ifelse(is.na(pan_consec_yrs_in_pwr), 0, 1)) 
+
+
+
+# Define a function to calculate post-election average homicide rate
+calculate_post_election_avg <- function(data, election_date, next_election_date, municipality) {
+  post_election_data <- data %>%
+    filter(ent_mun == municipality) %>%
+    filter(date < as.Date(next_election_date)) %>%
+    filter(date != as.Date(election_date))
+  post_election_avg_rate <- mean(post_election_data$homicide_rate, na.rm = TRUE)
+  return(post_election_avg_rate)
+}
+
+# Initialize homicide rates 
+
+post_election_avg_rates <- numeric(nrow(elections_hom))
+
+
+for (i in 1:nrow(elections_hom)) {
+  if (elections_hom$election_year[i] == 1) {
+    election_date <- elections_hom$date[i]
+    mun <- elections_hom$ent_mun[i]
+    
+    # Find the index of the next row where election_year == 1
+    next_election_index <- which(elections_hom$election_year[(i+1):nrow(elections_hom)] == 1)[1] + i
+    
+    # Check if there's a next election date
+    if (!is.na(next_election_index)) {
+      next_election_date <- elections_hom$date[next_election_index]
+      
+      # Calculate post-election average rates
+      post_election_avg_rates[i] <- calculate_post_election_avg(elections_hom, election_date, next_election_date, mun)
+    }
+  }
+}
+
+
+# Add the calculated post-election average homicide rates as a new column in the dataset
+
+elections_hom$post_election_avg_rate <- post_election_avg_rates
+
+# filter out 2021 since that was the most recent election year
+
+# filter to only election years with post-election homicide rates 
+
+elections_hom  %<>% filter( election_year == 1, 
+                            year < 2021)
+
+# Writing data to a CSV file
+# write.csv(elections_hom, "/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/post_election_homicide_clean.csv")
+
+# short cut to load cleaned file 
+
+elections_hom <- read.csv("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci3200mk/Data/post_election_homicide_clean.csv")
+
+# Potential Covariate: add variable that shows which presidency the election occurs during 
+
+# Vicente Fox (2000-2006): National Action Party (PAN) to be elected in more than 70 years, ending the long-standing rule of the Institutional Revolutionary Party (PRI).
+
+# Felipe Calderón (2006-2012): National Action Party (PAN), succeeded Vicente Fox as president.
+
+# Enrique Peña Nieto (2012-2018): Institutional Revolutionary Party (PRI)
+
+# Andrés Manuel López Obrador (2018-Present): National Regeneration Movement (MORENA), marking the first time a leftist candidate has been elected president in Mexico's modern history.
+
+# presidential elections occurs in june in mexico
+
+elections_hom %<>%
+  mutate( president = ifelse(date < as.Date("2006-06-01"), "Fox",
+                      ifelse(( date > as.Date("2006-06-01") & 
+                      date < as.Date("2012-06-01")), "Calderón",
+                      ifelse(( date > as.Date("2012-06-01") & 
+                      date < as.Date("2018-06-01")), "Nieto",
+                                           "Obrador"))))
+
+
+# Independent Var. #3: Victory of the PAN (National Action Party) candidate variable 
+
+
+# Filter rows where the first-place party is "pri" and the second-place party is "pan",
+# rename columns for clarity, and remove unnecessary columns
+
+pri_winners <- elections_hom %>%
+  filter(first_place_party == "pri") %>%
+  filter(second_place_party == "pan") %>%
+  rename( "pri_raw_votes" = "first_place_raw_votes",
+          "pan_raw_votes" = "second_place_raw_votes") %>%
+  select(-c(first_place_party, second_place_party))
+
+
+
+# Filter rows where the first-place party is "pan" and the second-place party is "pri",
+# rename columns for clarity, and remove unnecessary columns
+
+pan_winners <- elections_hom %>%
+  filter(first_place_party == "pan") %>%
+  filter(second_place_party == "pri") %>%
+  rename( "pan_raw_votes" = "first_place_raw_votes",
+          "pri_raw_votes" = "second_place_raw_votes") %>%
+  select(-c(first_place_party, second_place_party))
+
+# Combine datasets of PRI and PAN winners, calculate vote shares, margin of victory,
+# and filter for close elections (margin of victory within -0.05 and 0.05)
+# inspired by Dell 2015
+
+pan_pri_close_elections <- rbind(pri_winners, pan_winners) %>%
+  mutate( pri_vote_share = pri_raw_votes/efec,
+          pan_vote_share = pan_raw_votes/efec,
+          pan_margin_of_victory = pan_vote_share - pri_vote_share) %>%
+  filter(pan_margin_of_victory >= -0.05 & pan_margin_of_victory <= 0.05)
+
+
+```
+
+
+
+```{r}
+# Dell Inspired RDD Figure
+
+
+pan_pri_close_elections %>%
+   mutate(`Party Won` = ifelse(pan_margin_of_victory < 0, "PRI", "PAN")) %>% 
+  filter(!is.na(`Party Won`)) %>% 
+  ggplot(aes(x = pan_margin_of_victory, 
+             y = post_election_avg_rate, 
+             group=`Party Won`)) +
+  geom_point(alpha = 0.25) +
+  theme_classic() +
+  geom_smooth(method="lm", 
+              formula =  y ~ x) +
+  facet_wrap(~president) +
+  labs(title = "Figure 3. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2021)",
+       subtitle = "Sorted by President",
+       x = "PAN margin of victory",
+       y= "Post-Election Homicide Rate per 100,000 Residents") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+```
+
+```{r}
+# Overall
+
+pan_pri_close_elections %>%
+  filter(pan_margin_of_victory > -0.05 | pan_margin_of_victory < 0.05) %>%
+  mutate(`Party Won` = ifelse(pan_margin_of_victory < 0, "PRI", "PAN")) %>% 
+  filter(!is.na(`Party Won`)) %>% 
+  ggplot(aes(x = pan_margin_of_victory, 
+             y = post_election_avg_rate, 
+             group=`Party Won`)) +
+  geom_point(alpha = 0.25) +
+  theme_classic() +
+  geom_smooth(method="lm", 
+              formula =  y ~ x) +
+  labs(title = "Figure 3. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2021)",
+       x = "PAN margin of victory",
+       y= "Post-Election Homicide Rate per 100,000 Residents") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+```{r}
+
+boxplot(post_election_avg_rate ~ alternation_index,
+        data = elections_hom,
+        xlab = "Political Party Alternations",
+        ylab = "Average Post-Election Homicide Rate (Per 100,000 People)")
+
+
+```
+
+```{r}
+boxplot(post_election_avg_rate ~ pan_consec_yrs_in_pwr,
+        data = elections_hom,
+        xlab = "Political Party Alternations",
+        ylab = "Average Post-Election Homicide Rate (Per 100,000 People)")
+
+```
+
+```{r}
+ggplot(elections_hom, aes(x = post_election_avg_rate)) +
+  geom_histogram(binwidth = 1, color = "black") +
+  facet_wrap(~alternation_index) +
+  theme_classic() +
+  xlab("Average Post-Election Homicide Rate (Per 100,000 People)") +
+  ylab("Frequency")
+```
+
+
+```{R}
+ggplot(elections_hom, aes(x = post_election_avg_rate)) +
+  geom_histogram(binwidth = 1, color = "black") +
+  facet_wrap(~pan_consec_yrs_in_pwr) +
+  theme_classic() +
+  xlab("Average Post-Election Homicide Rate (Per 100,000 People)") +
+  ylab("Frequency")
+
+```
+
 
 # Part 4: Specify the main regression model you will use to test your hypothesis. This regression model should provide a preliminary test for or against the validity of your hypothesis. Use markdown to render the equation neatly to the html file. (10%)
 
