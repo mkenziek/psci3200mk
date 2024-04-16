@@ -23,7 +23,7 @@ library(modelsummary)
 
 ```
 
-## Confounders 
+## Confoundersss 
 
 - A confounder variable is something that affects both the probability of recieving treatment and the value of the outcome variable. 
 - To account for confounders we must control for the in our model! 
