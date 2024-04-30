@@ -6,6 +6,8 @@ institute: "University of Pennsylvania"
 date: last-modified
 toc: true
 
+bibliography: references.bib
+
 format: 
   html:
     self-contained: true
@@ -13,23 +15,19 @@ format:
 editor: source
 ---
 
-
 # I. Introduction
 
-  Turf wars for the control of drug trafficking corridors in Mexico have been associated with a lethal crisis of criminal violence in the country since the 1990s. After peaceful coexistence in the 1980s, six turf wars broke out between Mexico’s five major cartels (Tijuana, Juárez, Sinaloa, Gulf, and La Familia Michoacana) on the Pacific Coast between 1990 and 2006. Annual turf war deaths reached 1,400 in 2006 (trejo and ley). In 2006, the Felipe Calderón administration (2006-2012) began the first large-scale deployment of federal troops against the drug cartels, marking the beginning of the “Mexican War on Drugs.” To implement large-scale efforts to combat drug trafficking, the Calderón administration worked with PAN mayors and municipal police. The crackdowns on drug cartels under Calderón ushered in a dramatic spiral of violence. Between 2007 and 2012, more than 70,000 people were murdered in intercartel conflicts (Trejo and Ley). For political context, Calderón was Mexico’s second National Action Party (PAN) president, continuing PAN’s control of the office after Vicente Fox’s electoral victory for PAN in 2000. Fox’s election as president represented the first opposition candidate to win the presidency of Mexico in recent history, ending the Institutional Revolutionary Party’s (PRI) hegemonic, 71-year-long rule. The Institutional Revolutionary Party (PRI) has historically represented a center-right platform with a broad base of support, while the National Action Party (PAN) emerged as a conservative opposition advocating for free-market economics and social conservatism. Subsequently, President Enrique Peña Nieto (PRI) initiated reform efforts in 2012, which, although initially yielding decreases in homicides, ultimately fell short in tackling deep-rooted corruption and crime-related violence, culminating in a peak of 33,341 homicides in 2018. In response to widespread criticism of militarized approaches, President Andrés Manuel López Obrador a left-wing candidate of the Morena party, upon assuming office in 2018, vowed to shift towards civilian-led policing; however, despite the implementation of initiatives like the creation of a new National Guard, violence levels have persistently remained high, amplifying the challenges in governance, security, and anti-corruption endeavors.
-  Scholars have focused on identifying why intercartel violence in Mexico broke out in the early 2000s and estimating the causal effects of military interventions under Calderón on homicide rates in Mexico. According to Trejo and Ley (2018), the rotation of political parties in state gubernatorial power in Mexico between 1991 and 2006 significantly contributed to the outbreak of intercartel violence and large-scale criminal wars. Their paper focused on analyzing the period from 1991 to 2006, prior to Calderón’s federal intervention. Trejo and Ley highlight the role of top- and mid-level officials’ removal from key state-level institutions, such as the state attorney’s office and the state judicial police, in disrupting informal protections for drug cartels previously provided under the one-party rule of the PRI. From its founding in 1929 to 1988, PRI had won every gubernatorial election in Mexico’s 31 states and nearly all municipal races. The study’s key finding reveals a 55.3% increase in violence in municipalities from states experiencing party alternation at the governor level compared to those under PRI hegemony, indicating a loss of cartel protection. Economic factors and organizational dynamics further strengthened this relationship. Further, time trend analysis suggests a surge in violence during the initial year of opposition governors, reflecting a disruption in government protection networks. Ultimately, Trejo and Ley’s “instability hypothesis” argues that when PRI lost power at the state level an informal network of cartel protection was thrown off leading to an outbreak of inter-cartel violence. Contrary to Trejo and Ley (2018), Dell (2015) concentrates on the surge in violence following the Mexican government’s War on Drugs between 2007 and 2012, attributing the escalation to rival traffickers vying for territories after crackdowns initiated by PAN mayors, which diverted drug traffic and intensified violence along alternative routes. Dell’s “diversion hypothesis” posits that crackdowns in one area (i.e. PAN municipalities) lead to the diversion of drug activity and homicides to other regions without substantial reduction. The key finding indicates that close PAN victories at the municipal level led to approximately 33 more drug trade-related homicides per 100,000 people annually during a mayor's three-year term. 
-  This analysis examines whether the success of the PAN candidate in Mexican municipal elections correlates with an increase in the post-election municipal homicide rate per 100,000 people, examining variations influenced by the rotation of political parties in mayoral office and the stability of PAN mayoral governance. Drawing inspiration from Trejo and Ley (2018), the study challenges the conventional notion of a separation between government authorities and organized crime groups (OCGs), aiming to explore the "gray zone" where these entities intersect through informal protection systems. Understanding how party alternation potentially disrupts state-criminal arrangements is crucial for grasping the broader dynamics of violence and governance in Mexico. Independent variables include the margin of victory for the PAN candidate, a municipal alternation index measuring party rotation, and a PAN power index gauging the stability of PAN mayoral terms. The dependent variable is the post-election municipal homicide rate per 100,000 people, encompassing all homicides, not just those related to inter-cartel conflicts. 
-  While prior research has provided valuable insights into the drivers of drug-related violence in Mexico, there remains a gap in understanding how political governance factors, particularly related to PAN governance stability and mayoral turnover, influence homicide rates at the municipal level after the war on drugs began in 2006 extending to 2020. There are two specific gaps that this paper seeks to address. First, earlier contributions, like Dell (2015), have focused exclusively on drug-related homicides which are defined as “any instance in which a civilian kills another civilian, with at least one of the parties involved in the drug trade.” This paper uses general homicide rates to include deaths beyond the drug-related homicide definition. For example, instances of those killed in armed clashes between police and organized criminals and the deaths of undocumented immigrants who were targeted by drug cartels for profit during the war on drugs. This paper sees overall homicide rates as a better measure of the intensity of violence that emerged following the declaration of the Mexican War on Drugs. Second, while Trejo and Ley (2018) focus on the impact of party alternation in gubernatorial power on violence between cartels, this paper focuses on the impact of party alternation in mayoral power on municipal homicide rates zooming in on a smaller unit of analysis. Lastly, this analysis aims to make an original contribution to the research base by exploring whether the length that the PAN party held a mayoral office impacted municipal homicide rates. 
-
+Turf wars for the control of drug trafficking corridors in Mexico have been associated with a lethal crisis of criminal violence in the country since the 1990s. After peaceful coexistence in the 1980s, six turf wars broke out between Mexico’s five major cartels (Tijuana, Juárez, Sinaloa, Gulf, and La Familia Michoacana) on the Pacific Coast between 1990 and 2006. Annual turf war deaths reached 1,400 in 2006 [@trejo2018did]. In 2006, the Felipe Calderón administration (2006-2012) began the first large-scale deployment of federal troops against the drug cartels, marking the beginning of the “Mexican War on Drugs.” To implement large-scale efforts to combat drug trafficking, the Calderón administration worked with PAN mayors and municipal police. The crackdowns on drug cartels under Calderón ushered in a dramatic spiral of violence. Between 2007 and 2012, more than 70,000 people were murdered in intercartel conflicts (Trejo and Ley). For political context, Calderón was Mexico’s second National Action Party (PAN) president, continuing PAN’s control of the office after Vicente Fox’s electoral victory for PAN in 2000. Fox’s election as president represented the first opposition candidate to win the presidency of Mexico in recent history, ending the Institutional Revolutionary Party’s (PRI) hegemonic, 71-year-long rule. The Institutional Revolutionary Party (PRI) has historically represented a center-right platform with a broad base of support, while the National Action Party (PAN) emerged as a conservative opposition advocating for free-market economics and social conservatism. Subsequently, President Enrique Peña Nieto (PRI) initiated reform efforts in 2012, which, although initially yielding decreases in homicides, ultimately fell short in tackling deep-rooted corruption and crime-related violence, culminating in a peak of 33,341 homicides in 2018. In response to widespread criticism of militarized approaches, President Andrés Manuel López Obrador a left-wing candidate of the Morena party, upon assuming office in 2018, vowed to shift towards civilian-led policing; however, despite the implementation of initiatives like the creation of a new National Guard, violence levels have persistently remained high, amplifying the challenges in governance, security, and anti-corruption endeavors. Scholars have focused on identifying why intercartel violence in Mexico broke out in the early 2000s and estimating the causal effects of military interventions under Calderón on homicide rates in Mexico. According to Trejo and Ley (2018), the rotation of political parties in state gubernatorial power in Mexico between 1991 and 2006 significantly contributed to the outbreak of intercartel violence and large-scale criminal wars. Their paper focused on analyzing the period from 1991 to 2006, prior to Calderón’s federal intervention. Trejo and Ley highlight the role of top- and mid-level officials’ removal from key state-level institutions, such as the state attorney’s office and the state judicial police, in disrupting informal protections for drug cartels previously provided under the one-party rule of the PRI. From its founding in 1929 to 1988, PRI had won every gubernatorial election in Mexico’s 31 states and nearly all municipal races. The study’s key finding reveals a 55.3% increase in violence in municipalities from states experiencing party alternation at the governor level compared to those under PRI hegemony, indicating a loss of cartel protection. Economic factors and organizational dynamics further strengthened this relationship. Further, time trend analysis suggests a surge in violence during the initial year of opposition governors, reflecting a disruption in government protection networks. Ultimately, Trejo and Ley’s “instability hypothesis” argues that when PRI lost power at the state level an informal network of cartel protection was thrown off leading to an outbreak of inter-cartel violence. Contrary to Trejo and Ley (2018), Dell (2015) concentrates on the surge in violence following the Mexican government’s War on Drugs between 2007 and 2012, attributing the escalation to rival traffickers vying for territories after crackdowns initiated by PAN mayors, which diverted drug traffic and intensified violence along alternative routes. Dell’s “diversion hypothesis” posits that crackdowns in one area (i.e. PAN municipalities) lead to the diversion of drug activity and homicides to other regions without substantial reduction. The key finding indicates that close PAN victories at the municipal level led to approximately 33 more drug trade-related homicides per 100,000 people annually during a mayor's three-year term. This analysis examines whether the success of the PAN candidate in Mexican municipal elections correlates with an increase in the post-election municipal homicide rate per 100,000 people, examining variations influenced by the rotation of political parties in mayoral office and the stability of PAN mayoral governance. Drawing inspiration from Trejo and Ley (2018), the study challenges the conventional notion of a separation between government authorities and organized crime groups (OCGs), aiming to explore the "gray zone" where these entities intersect through informal protection systems. Understanding how party alternation potentially disrupts state-criminal arrangements is crucial for grasping the broader dynamics of violence and governance in Mexico. Independent variables include the margin of victory for the PAN candidate, a municipal alternation index measuring party rotation, and a PAN power index gauging the stability of PAN mayoral terms. The dependent variable is the post-election municipal homicide rate per 100,000 people, encompassing all homicides, not just those related to inter-cartel conflicts. While prior research has provided valuable insights into the drivers of drug-related violence in Mexico, there remains a gap in understanding how political governance factors, particularly related to PAN governance stability and mayoral turnover, influence homicide rates at the municipal level after the war on drugs began in 2006 extending to 2020. There are two specific gaps that this paper seeks to address. First, earlier contributions, like Dell (2015), have focused exclusively on drug-related homicides which are defined as “any instance in which a civilian kills another civilian, with at least one of the parties involved in the drug trade.” This paper uses general homicide rates to include deaths beyond the drug-related homicide definition. For example, instances of those killed in armed clashes between police and organized criminals and the deaths of undocumented immigrants who were targeted by drug cartels for profit during the war on drugs. This paper sees overall homicide rates as a better measure of the intensity of violence that emerged following the declaration of the Mexican War on Drugs. Second, while Trejo and Ley (2018) focus on the impact of party alternation in gubernatorial power on violence between cartels, this paper focuses on the impact of party alternation in mayoral power on municipal homicide rates zooming in on a smaller unit of analysis. Lastly, this analysis aims to make an original contribution to the research base by exploring whether the length that the PAN party held a mayoral office impacted municipal homicide rates.
 
 # II. Data
 
-Describe the dataset(s) you are using to conduct your analysis. Discuss the specific variables you will use. Create a table or figures that communicate the mean and the range of your key variables. Add an informative caption to the ggplot figure that you created in the previous assignment. For guidance, see the captions in the academic papers we have been reading this semester. Interpret the plot; what does it tell us about your hypothesis? (30%)
+The dataset utilized in this study comprises publicly available data from the National Institute of Statistics and Geography (INEGI), sourced from two GitHub repositories. The first repository aggregates homicide rate data spanning from 2000 to 2021, while the second repository provides election returns data compiled by Eric Magar, a professor of political science at Instituto Tecnológico Autónomo de México, covering the same period of time. Municipalities in Mexico serve as the unit of analysis for this research, encompassing the period from 2001 to 2020, with 2021 data omitted due to incomplete election cycles (i.e. the next election is not being held until June 2024). The independent variables selected for analysis include a Municipal Alternation Index, measuring the cumulative alternations in party power within municipalities over time; the PAN Power Index, quantifying the consecutive years of PAN governance at the municipal level; and Vote Margin, reflecting the margin of victory for PAN candidates in mayoral elections. Elections where the margin of victory falls between -0.05 and 0.05 are considered close elections. The dependent variable in this analysis is the Post-election Homicide Rate, denoting the average homicide rate per 100,000 people in the period following a municipal election. It is calculated for each municipality and election cycle, capturing the level of violence observed in the aftermath of local elections.
 
+       
+-   Homicide github: <https://github.com/thegargiulian/mexico-homicide-rates>
+-   Election Return github: <https://github.com/emagar/elecRetrns?tab=readme-ov-file#orgdc3d940>
 
-## Preliminary Data Cleaning:
-
-```{r, message = FALSE, eval=FALSE}
+```{r, message = FALSE, echo=FALSE, warning= FALSE}
 
 # load libraries 
 
@@ -37,7 +35,10 @@ library(foreign)
 library(magrittr)
 library(rio)
 library(ggplot2)
+library(kableExtra)
+library(dplyr)
 library(tidyverse)
+
 
 
 # load data 
@@ -155,16 +156,11 @@ homicide_rates$month <- sapply(homicide_rates$month, add_leading_zeros_2)
 
 # Fix candidate columns 
 
-typeof(election_returns$l25)
-typeof(election_returns$l01)
-
 election_returns %<>%
   mutate_at(vars(starts_with("l")), ~replace(., . == 0, NA)) %>%
   mutate_at(vars(starts_with("l")), as.character)
 
 
-typeof(election_returns$l25)
-typeof(election_returns$l01)
 
 
          
@@ -276,7 +272,7 @@ Dependent Variables:
 
 1)  Post-election Homicide Rate (Variable Name: post_election_avg_rate): This variable represents the average homicide rate per 100,000 people in the period following a municipal election. It is calculated for each municipality and election cycle, capturing the level of violence observed in the aftermath of local elections.
 
-```{r, warning = FALSE, eval = FALSE}
+```{r, warning = FALSE, echo=FALSE}
 
 # Create Independent Variables 
 
@@ -488,20 +484,17 @@ pan_pri_close_elections$f_x_win <- pan_pri_close_elections$votemargin * pan_pri_
 
 ```
 
-
-
-```{r, eval=FALSE}
+```{r, echo=FALSE}
 
 
 # Calculate mean and range for key variables
 summary_stats <- elections_hom %>%
-  summarise(mean_alternation = mean(alternation_index, na.rm = TRUE),
-            range_alternation = paste0(round(min(alternation_index, na.rm = TRUE), 3), "-", round(max(alternation_index, na.rm = TRUE), 3)),
+                  summarise(mean_alternation = mean(alternation_index, na.rm = TRUE),
+                           range_alternation = paste0(round(min(alternation_index, na.rm = TRUE), 3), "-", round(max(alternation_index, na.rm = TRUE), 3)),
             mean_pan_power = mean(pan_consec_yrs_in_pwr, na.rm = TRUE),
             range_pan_power = paste0(round(min(pan_consec_yrs_in_pwr, na.rm = TRUE), 3), "-", round(max(pan_consec_yrs_in_pwr, na.rm = TRUE), 3)),
             mean_homicide_rate = mean(post_election_avg_rate, na.rm = TRUE),
-            range_homicide_rate = paste0(round(min(post_election_avg_rate, na.rm = TRUE), 3), "-", round(max(post_election_avg_rate, na.rm = TRUE), 3))
-  )
+            range_homicide_rate = paste0(round(min(post_election_avg_rate, na.rm = TRUE), 3), "-", round(max(post_election_avg_rate, na.rm = TRUE), 3)))
 
 # Calculate mean and range for key variables in pan_pri_close_elections
 summary_stats_2 <- pan_pri_close_elections %>%
@@ -517,7 +510,6 @@ summary_table <- data.frame(
 )
 # Print the table
 
-library(kableExtra)
 # Create a nice table using kableExtra
 summary_table %>%
   kable("html", align = c("l", "c", "c"), caption = "Summary of Key Variables") %>%
@@ -529,10 +521,9 @@ summary_table %>%
 
 ```
 
-
 ### Figure 1: PAN-PRI Close-Elections by President
 
-```{r, warning = FALSE, eval = FALSE}
+```{r, warning = FALSE, echo=FALSE}
 # Dell Inspired RDD Figure
 
 
@@ -553,16 +544,16 @@ pan_pri_close_elections %>%
        subtitle = "Sorted by President",
        x = "PAN margin of victory",
        y= "Post-Election Homicide Rate per 100,000 Residents",
-       caption = "Figure 1. Relationship between PAN margin of victory and post-election homicide rate per 100,000 residents in Mexican municipalities (2001-2020). Each point represents a municipality. The dashed line indicates the point of zero margin, separating elections won by the PRI and PAN. The figure is sorted by president.") +
+       caption = "") +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         plot.caption = element_text(hjust = 0))
 
 ```
 
-### Figure 2: PAN-PRI Close Elections Overall
+Figure 1. Relationship between PAN margin of victory and post-election homicide rate per 100,000 residents in Mexican municipalities (2001-2020). Each point represents a municipality. The dashed line indicates the point of zero margin, separating elections won by the PRI and PAN. The figure is sorted by president.
 
-```{r, warning = FALSE, eval = FALSE}
+```{r, warning = FALSE, echo=FALSE}
 
 # Overall
 
@@ -581,15 +572,15 @@ pan_pri_close_elections %>%
   labs(title = "Figure 2. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2020)",
        x = "PAN margin of victory",
        y= "Post-Election Homicide Rate per 100,000 Residents",
-       caption = "Figure 1. Relationship between PAN margin of victory and post-election homicide rate per 100,000 residents in Mexican municipalities (2001-2020). Each point represents a municipality. The dashed line indicates the point of zero margin, separating elections won by the PRI and PAN.") +
+       caption = "") +
   theme(plot.title = element_text(hjust = 0.5),
         plot.caption = element_text(hjust = 0))
 
 ```
 
+Figure 2. Relationship between PAN margin of victory and post-election homicide rate per 100,000 residents in Mexican municipalities (2001-2020). Each point represents a municipality. The dashed line indicates the point of zero margin, separating elections won by the PRI and PAN.
 
-
-# Research Design 
+# Research Design
 
 ## Hypothesis 1 (H1): Municipalities with a PAN (National Action Party) candidate victory in local elections will experience a higher post-election municipal homicide rate per 100,000 people compared to municipalities where PAN candidates lost.
 
