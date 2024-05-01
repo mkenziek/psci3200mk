@@ -51,11 +51,11 @@ homicide_rates <- readr::read_delim("/Users/kenziekmac/Dropbox/Mac/Documents/Git
 
 # have leading zeros so all municipal level identifiers are 5 digits
 
-head(unique(homicide_rates$ent_mun))
+#head(unique(homicide_rates$ent_mun))
 
 # does not have leading zeros 
 
-head(unique(election_returns$inegi))
+#head(unique(election_returns$inegi))
 
 # let's add leading zeros to the election_returns data 
 
@@ -251,25 +251,6 @@ election_returns_cleaned <- cbind(selected_raw_votes_df, selected_parties_df)
 
 ```
 
-## Creating Independent Index Variables and Post-election Homicide Rate Dependent Variable
-
--   The homicide rate data I will use comes from a github that aggregates data from the National Institute of Statistics and Geography (INEGI). The homicide and election data spans from 2000 to 2021. The election returns data comes from a github made by Eric Magar who compiled official vote returns from Mexico.
-    -   Homicide github: <https://github.com/thegargiulian/mexico-homicide-rates>
-    -   Election Return github: <https://github.com/emagar/elecRetrns?tab=readme-ov-file#orgdc3d940>
--   Unit of Analysis: Municipalities in Mexico
--   Sample: Municipalities in Mexico from 2001 to 2020. I drop 2021 data because we don't have a complete election cycle after 2021 since the next elections will be held in June 2024.
-
-Independent Variables:
-
-1)  Municipal Alternation Index (Variable Name: alternation_index): This variable captures the cumulative alternations in party power for each municipality and year. It identifies how many times municipalities experienced a rotation in municipal powers. A score of zero indicates no alternation, while a higher score indicates more frequent alternations between different political parties.
-
-2)  PAN Power Index (Variable Name: pan_consec_yrs_in_pwr): This variable measures the consecutive years in power for the PAN (National Action Party) in each municipality. It identifies how many mayoral terms the PAN party has stayed in office in a municipality. A higher score indicates longer periods of PAN governance at the municipal level.
-
-3)  Victory of the PAN Candidate (Variable Name: votemargin): This variable captures the victory of the PAN candidate in local elections. It calculates the margin of victory for the PAN candidate over the second-place candidate (usually PRI). Elections where the margin of victory falls within a specified range (between -0.05 and 0.05) are considered close elections.
-
-Dependent Variables:
-
-1)  Post-election Homicide Rate (Variable Name: post_election_avg_rate): This variable represents the average homicide rate per 100,000 people in the period following a municipal election. It is calculated for each municipality and election cycle, capturing the level of violence observed in the aftermath of local elections.
 
 ```{r, warning = FALSE, echo=FALSE}
 
@@ -426,12 +407,12 @@ elections_hom <- read.csv("/Users/kenziekmac/Dropbox/Mac/Documents/GitHub/psci32
 # presidential elections occurs in june in mexico
 
 elections_hom %<>%
-  mutate( president = ifelse(date < as.Date("2006-06-01"), "Fox",
+  mutate( president = ifelse(date < as.Date("2006-06-01"), "Fox (2000-2006, PAN)",
                       ifelse(( date > as.Date("2006-06-01") & 
-                      date < as.Date("2012-06-01")), "Calderón",
+                      date < as.Date("2012-06-01")), "Calderón (2006-2012, PAN)",
                       ifelse(( date > as.Date("2012-06-01") & 
-                      date < as.Date("2018-06-01")), "Nieto",
-                                           "Obrador"))))
+                      date < as.Date("2018-06-01")), "Nieto (2012-2018, PRI)",
+                                           "Obrador (2018-Present, MORENA)"))))
 
 
 # Independent Var. #3: Victory of the PAN (National Action Party) candidate variable 
@@ -520,40 +501,8 @@ summary_table %>%
 
 ```
 
-### Figure 1: PAN-PRI Close-Elections by President
 
-```{r, warning = FALSE, echo=FALSE}
-# Dell Inspired RDD Figure
-
-
-pan_pri_close_elections %>%
-  filter(post_election_avg_rate < 20) %>%
-   mutate(`Party Won` = ifelse(votemargin < 0, "PRI", "PAN")) %>% 
-  filter(!is.na(`Party Won`)) %>%
-  filter(votemargin >= -0.05 & votemargin <= 0.05) %>%
-  ggplot(aes(x = votemargin, 
-             y = post_election_avg_rate, 
-             group= `Party Won`)) +
-  geom_point(alpha = 0.25) +
-  theme_classic() +
-  geom_smooth(method="lm", 
-              formula =  y ~ x) +
-   geom_vline(xintercept= 0, linetype="dashed", alpha=.7) +
-  facet_wrap(~president) +
-  labs(title = "Figure 1. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2020)",
-       subtitle = "Sorted by President",
-       x = "PAN margin of victory",
-       y= "Post-Election Homicide Rate per 100,000 Residents",
-       caption = "") +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        plot.caption = element_text(hjust = 0))
-
-```
-
-Figure 1. Relationship between PAN margin of victory and post-election homicide rate per 100,000 residents in Mexican municipalities (2001-2020). Each point represents a municipality. The dashed line indicates the point of zero margin, separating elections won by the PRI and PAN. The figure is sorted by president.
-
-```{r}
+```{r, warning=FALSE,echo=FALSE, message = FALSE}
 # Dell Inspired RDD Figure
 average_homicide_rate<- pan_pri_close_elections %>%
   mutate(`Party Won` = ifelse(votemargin < 0, "PRI", "PAN")) %>% 
@@ -587,57 +536,99 @@ average_homicide_rate$x <- bin_midpoint
 ggplot() +
   geom_smooth(data = pan_pri_close_elections %>% filter(votemargin < 0) %>% filter(votemargin >= -0.05 & votemargin <= 0.05) , 
               aes(x = votemargin, y = homicide_rate), 
-              
+              color = "black",
                method = "lm" ) +
   geom_smooth(data = pan_pri_close_elections %>% filter(votemargin >= 0)%>% filter(votemargin >= -0.05 & votemargin <= 0.05) , 
               aes(x = votemargin, y = homicide_rate), 
-              
+              color = "black",
                method = "lm") +
   geom_point(data = average_homicide_rate, 
              aes(x = x, y = mean_rate), 
              alpha = 0.5) +
-  labs(title = "Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2020)",
-       x = "PAN Margin of Victory",
-       y = "Post-Election Homicide Rate per 100,000 Residents",
-       caption = "Each point represents the average value of the homicide rate in vote spread bins of width one-half of a percentage point.") +
-  theme_classic()
-
-
-```
-
-```{r, warning = FALSE, echo=FALSE}
-
-# Overall
-
-pan_pri_close_elections %>%
-  filter(post_election_avg_rate < 20) %>%
-   mutate(`Party Won` = ifelse(votemargin < 0, "PRI", "PAN")) %>% 
-  filter(!is.na(`Party Won`)) %>%
-  filter(votemargin >= -0.05 & votemargin <= 0.05) %>%
-  ggplot(aes(x = votemargin, 
-             y = post_election_avg_rate, 
-             group= `Party Won`)) +
-  geom_point(alpha = 0.25) +
-  geom_vline(xintercept= 0, linetype="dashed", alpha=.7) +
-  theme_classic() +
-  geom_smooth(method="lm", 
-              formula =  y ~ x) +
-  labs(title = "Figure 2. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2020)",
+    labs(title = "Figure 1. Post-Election Municipal Homicide Rates in Mexico RD Figure (2001-2020)",
        x = "PAN margin of victory",
        y= "Post-Election Homicide Rate per 100,000 Residents",
        caption = "") +
+   geom_vline(xintercept= 0, linetype="dashed", alpha=.7, color = "red") +
+  theme_classic() +
   theme(plot.title = element_text(hjust = 0.5),
         plot.caption = element_text(hjust = 0))
 
-```
 
-Figure 2. Relationship between PAN margin of victory and post-election homicide rate per 100,000 residents in Mexican municipalities (2001-2020). Each point represents a municipality. The dashed line indicates the point of zero margin, separating elections won by the PRI and PAN.
+
+```
+Figure 1. This figure plots homicide rates against the PAN margin of victory for 2001-2020, with a negative margin indicating a PAN loss. Each point represents the average value of the outcome in vote spread bins of width one-half of a percent-age point. The solid line plots predicted values, with separate quadratic vote spread trends estimated on either side of the PAN win-loss threshold.
+
+
+```{r, warning=FALSE,echo=FALSE, message = FALSE}
+
+# Dell Inspired RDD Figure
+average_homicide_rate_pres<- pan_pri_close_elections %>%
+  mutate(`Party Won` = ifelse(votemargin < 0, "PRI", "PAN")) %>% 
+  filter(!is.na(`Party Won`)) %>%
+  filter(votemargin >= -0.05 & votemargin <= 0.05) %>%
+  mutate(votemargin_bin = cut(votemargin, breaks = seq(-0.05, 0.05, by = 0.005))) %>%
+  group_by(votemargin_bin,president) %>%
+  summarise(mean_rate = mean(post_election_avg_rate, na.rm = TRUE)) %>%
+  arrange(president)
+
+# Define the starting and ending points for the bins
+start_point <- -0.05
+end_point <- 0.05
+
+# Define bin width
+bin_width <- 0.005
+
+# Calculate the lower boundary of each bin
+bin_lower <- seq(start_point, end_point - bin_width, by = bin_width)
+
+# Calculate the upper boundary of each bin
+bin_upper <- bin_lower + bin_width
+
+# Calculate the midpoint for each bin
+bin_midpoint <- (bin_lower + bin_upper) / 2
+
+ 
+repeated_list <- rep(bin_midpoint, times = 4)
+
+
+average_homicide_rate_pres$x <- repeated_list
+
+# Plot
+
+ggplot() +
+  geom_smooth(data = pan_pri_close_elections %>% filter(votemargin < 0) %>% filter(votemargin >= -0.05 & votemargin <= 0.05) , 
+              aes(x = votemargin, y = homicide_rate), 
+              color = "black",
+               method = "lm" ) +
+  geom_smooth(data = pan_pri_close_elections %>% filter(votemargin >= 0)%>% filter(votemargin >= -0.05 & votemargin <= 0.05) , 
+              aes(x = votemargin, y = homicide_rate), 
+              color = "black",
+               method = "lm") +
+  geom_point(data = average_homicide_rate_pres, 
+             aes(x = x, y = mean_rate), 
+             alpha = 0.5) +
+  facet_wrap(~president)+
+    labs(title = "Figure 2. Post-Election Municipal Homicide Rates in Mexico RD Figure",
+       x = "PAN margin of victory",
+       y= "Post-Election Homicide Rate per 100,000 Residents",
+       subtitle = "By President") +
+   geom_vline(xintercept= 0, linetype="dashed", alpha=.7, color = "red") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+```
+Figure 2. This figure plots homicide rates against the PAN margin of victory for 2001-2020 by president, with a negative margin indicating a PAN loss. Each point represents the average value of the outcome in vote spread bins of width one-half of a percent-age point. The solid line plots predicted values, with separate quadratic vote spread trends estimated on either side of the PAN win-loss threshold.
+
+Interpret the plot; what does it tell us about your hypothesis? (30%)
+
 
 # III. Research Design
 
-Employing a regression discontinuity (RD) approach, this analysis leverages the abrupt change in party affiliation at the threshold between PAN victories and losses to estimate the impact on violence for the first and main hypothesis. This strategy capitalizes on close election outcomes to isolate idiosyncratic factors, ensuring robust analysis of the relationship between PAN victories and violence levels. Dell (2015) indicates that crackdowns initiated by PAN mayors have led to increased drug trade-related homicides at the municipal level. Therefore, it is plausible to expect that municipalities with PAN candidate victories will experience higher **overall i.e. not just drug-related** municipal homicide rates compared to municipalities where PAN candidates lost. We would expect overall homicides to increase due to the interconnected nature of criminal activities and the spillover effects of anti-drug efforts. When crackdowns occur, there is often an escalation of violence as criminal organizations resist these measures, potentially leading to higher levels of violence beyond just drug-related homicides. Moreover, as criminal groups involved in the drug trade diversify their activities to evade enforcement, they may engage in other forms of criminal behavior such as extortion and human trafficking, specifically of undocumented immigrants as previously mentioned, contributing to increased overall homicide rates. Therefore, it is plausible to expect that municipalities with PAN candidate victories, which may implement stricter anti-drug policies, could experience higher overall municipal homicide rates due to the ripple effects of anti-drug efforts on broader violence within communities.
+Employing a regression discontinuity (RD) approach, this analysis leverages the abrupt change in party affiliation at the threshold between PAN victories and losses to estimate the impact on violence for the first and main hypothesis. This strategy capitalizes on close election outcomes to isolate idiosyncratic factors, ensuring robust analysis of the relationship between PAN victories and violence levels. Dell (2015) indicates that crackdowns initiated by PAN mayors have led to increased drug trade-related homicides at the municipal level. Therefore, it is plausible to expect that municipalities with PAN candidate victories will experience higher overall municipal homicide rates compared to municipalities where PAN candidates lost. We would expect overall homicides to increase due to the interconnected nature of criminal activities and the spillover effects of anti-drug efforts. When crackdowns occur, there is often an escalation of violence as criminal organizations resist these measures, potentially leading to higher levels of violence beyond just drug-related homicides. Moreover, as criminal groups involved in the drug trade diversify their activities to evade enforcement, they may engage in other forms of criminal behavior such as extortion and human trafficking, specifically of undocumented immigrants as previously mentioned, contributing to increased overall homicide rates. Therefore, it is plausible to expect that municipalities with PAN candidate victories, which may implement stricter anti-drug policies, could experience higher overall municipal homicide rates due to the ripple effects of anti-drug efforts on broader violence within communities.
 
-| *Hypothesis 1 (H1): Municipalities with a PAN (National Action Party) candidate victory in local elections will experience a higher post-election municipal homicide rate per 100,000 people compared to municipalities where PAN candidates lost.*
+*Hypothesis 1 (H1): Municipalities with a PAN (National Action Party) candidate victory in local elections will experience a higher post-election municipal homicide rate per 100,000 people compared to municipalities where PAN candidates lost.*
 
 The baseline regression model within a narrow window around the PAN win-loss threshold is outlined as:
 
@@ -653,18 +644,22 @@ When hypothesizing a causal relationship between the PAN party winning the elect
 
 Additionally, endogeneity threatens causal inference due to bidirectional relationships between the PAN party winning and increases in municipal homicide rates. In this case, the stability of the PAN party itself could be endogenous to homicide rates within municipalities. For example, if high homicide rates persist over time, voters may continue to support the PAN party due to its perceived stance on law and order, leading to a spurious correlation between PAN victories and higher homicide rates. Moreover, political party stability can also affect policy decisions related to crime and violence. If the PAN party has a stable grip on power within a municipality, it may be better positioned to implement long-term policies and allocate resources towards crackdowns on drug cartels. However, if the party’s tenure in a municipality is uncertain, anti-cartel policy continuity may be disrupted, leading to inconsistencies in crime-fighting strategies, potentially influencing homicide rates.
 
-## Hypothesis 2 (H2)
+## Empirical Extensions
 
-The regression model for Hypothesis 2 (H2) is represented as:
+*Hypothesis 2 (H2): Municipalities that experience a higher rotation of political parties in mayoral office will observe a higher post-election municipal homicide rate per 100,000 people compared to municipalities with stable party governance.*
+
+The regression model for Hypothesis 2 (H2) is written as:
 
 $$
 \text{Overall Homicide Rate}_i = \alpha + \beta_1{Party Alternation Index}_i + \text{Control Variables}_i + \epsilon_i
 $$
 
-## Hypothesis 3 (H3)
+Hypothesis 3 (H3): Municipalities with a higher index of PAN power stability, indicating longer periods of PAN party governance, will exhibit a lower municipal homicide rate per 100,000 people compared to municipalities with lower PAN power stability.
 
 The regression model for Hypothesis 3 (H3) can be written as:
 
 $$
 \text{Overall Homicide Rate}_i = \alpha + \beta_1{PAN Power Stability Index}_i + \text{Control Variables}_i + \epsilon_i
 $$
+
+Hypotheses 2 (H2) and 3 (H3) provide empirical extensions that can help to rule out potential confounders of Hypothesis 1 regarding the causal relationship between PAN party victories and municipal homicide rates. H2 focuses on the rotation of political parties in mayoral office, drawing insights from Trejo and Ley (2018), who found that such rotations contributed to increased inter-cartel violence before the Mexican War on Drugs. By examining the impact of party rotation on homicide rates, H2 aims to differentiate between stable and unstable party governance at the municipal level. In contrast, H3 tests the opposite direction of Trejo and Ley's hypothesis by exploring the impact of PAN power stability, specifically examining longer periods of PAN governance, on homicide rates. H3 considers the potential stabilizing effect of prolonged PAN governance, which may lead to lower levels of violence due to the implementation of effective crime prevention strategies and establishment of stronger institutional frameworks. Therefore, while H2 focuses on the destabilizing effect of party alternation, H3 considers the potential stabilizing effect of prolonged PAN governance. Although they approach the concept of political stability from different angles, both hypotheses contribute to understanding how political party dynamics affect municipal homicide rates, offering complementary insights into the relationship between stability and violence and helping to mitigate potential confounding factors like political stability and instability.
