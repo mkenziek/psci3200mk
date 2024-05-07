@@ -666,3 +666,66 @@ $$
 $$
 
 Hypotheses 2 (H2) and 3 (H3) provide empirical extensions that can help to rule out potential confounders of Hypothesis 1 regarding the causal relationship between PAN party victories and municipal homicide rates. H2 focuses on the rotation of political parties in mayoral office, drawing insights from Trejo and Ley (2018), who found that such rotations contributed to increased inter-cartel violence before the Mexican War on Drugs. By examining the impact of party rotation on homicide rates, H2 aims to differentiate between stable and unstable party governance at the municipal level. In contrast, H3 tests the opposite direction of Trejo and Ley's hypothesis by exploring the impact of PAN power stability, specifically examining longer periods of PAN governance, on homicide rates. H3 considers the potential stabilizing effect of prolonged PAN governance, which may lead to lower levels of violence due to the implementation of effective crime prevention strategies and establishment of stronger institutional frameworks. Therefore, while H2 focuses on the destabilizing effect of party alternation, H3 considers the potential stabilizing effect of prolonged PAN governance. Although they approach the concept of political stability from different angles, both hypotheses contribute to understanding how political party dynamics affect municipal homicide rates, offering complementary insights into the relationship between stability and violence and helping to mitigate potential confounding factors like political stability and instability.
+
+# Regression Tables
+
+```{r}
+ 
+library(modelsummary)
+# H1
+h1_model <- list()
+h1_model[['Bivariate']] = lm(post_election_avg_rate ~ pan_won + pan_won * votemargin + (1 - pan_won) * votemargin + efec, data = pan_pri_close_elections)
+
+
+# Print the summary of the model
+summary(h1_model)
+
+modelsummary(
+  h1_model,
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+
+```
+
+
+```{r}
+# H2
+h2_model <- list()
+h2_model[['Bivariate']] = lm(post_election_avg_rate ~ alternation_index + efec, data = elections_hom)
+
+
+# Print the summary of the model
+summary(h2_model)
+
+modelsummary(
+  h2_model,
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+
+```
+
+
+```{r}
+# H3
+h3_model <- list()
+h3_model[['Bivariate']] = lm(post_election_avg_rate ~ pan_consec_yrs_in_pwr + efec, data = elections_hom)
+
+
+# Print the summary of the model
+summary(h3_model)
+
+modelsummary(
+  h3_model,
+  estimate  = "{estimate}{stars} ({std.error})",
+             statistic = NULL,
+  gof_omit = 'IC|RMSE|Log|F|R2$|Std.')
+
+```
+
+
+
+
